@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="Software_Innocation_for_Dual_Screen_Notebook.BlankPage1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Software_Innocation_for_Dual_Screen_Notebook"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBox Text="Name" PlaceholderText="Type shortcut name here" Margin="29,43,1175,881" TextChanged="TextBox_TextChanged_1"/>
+        <TextBox Text="Application" PlaceholderText="Link to application" Margin="29,143,1175,781" TextChanged="TextBox_TextChanged_2"/>
+        <TextBox Text="Keyboard Inputs" PlaceholderText="Type keyboard shortcuts now" Margin="29,244,1175,680" TextChanged="TextBox_TextChanged_3"/>
+        <TextBox Text="png for button" PlaceholderText="Enter a png file" Margin="29,357,1175,567" TextChanged="TextBox_TextChanged_4"/>
+        <Button Content="Cancel" Height="36" Margin="58,500,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.462,3.417"/>
+        <Button Content="Confirm" Height="36" Margin="206,500,0,0" VerticalAlignment="Top" Width="80"/>
+
+
+    </Grid>
+</Page>

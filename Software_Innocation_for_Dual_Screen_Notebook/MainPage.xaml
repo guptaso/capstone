@@ -9,8 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Visibility="Visible">
 
     <Grid>
-        <Button />
-        <Button Content="Button" Margin="706,284,0,0" VerticalAlignment="Top" Visibility="Visible" RequestedTheme="Light" RenderTransformOrigin="14.5,10.531" Width="101" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="94" CornerRadius="40,40,40,40" Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" Click="Button_Click">
-        </Button>
+        <Button Content="+" Margin="36,35,0,0" VerticalAlignment="Top" Visibility="Visible" RequestedTheme="Light" RenderTransformOrigin="14.5,10.531" Width="330" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="204" CornerRadius="40,40,40,40" Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" Click="Button_Click" FontSize="100"/>
+
+        <Button Content=". . ." Margin="459,35,0,0" VerticalAlignment="Top" Visibility="Visible" RequestedTheme="Light" RenderTransformOrigin="14.5,10.531" Width="330" Height="204" CornerRadius="40,40,40,40" Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" Click="Button_Click" FontSize="100"/>
+    
     </Grid>
 </Page>
