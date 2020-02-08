@@ -9,38 +9,43 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <!--
-        <TextBox Text="Name" PlaceholderText="Type shortcut name here" Margin="29,43,1175,881" TextChanged="TextBox_TextChanged_1"/>
-
-        <TextBox Text="Application" PlaceholderText="Link to application" Margin="29,143,1175,781" TextChanged="TextBox_TextChanged_2"/>
-        <TextBox Text="Keyboard Inputs" PlaceholderText="Type keyboard shortcuts now" Margin="29,244,1175,680" TextChanged="TextBox_TextChanged_3"/>
-        <TextBox Text="png for button" PlaceholderText="Enter a png file" Margin="29,357,1175,567" TextChanged="TextBox_TextChanged_4"/>
-        <Button Content="Cancel" Height="36" Margin="58,500,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.462,3.417"/>
-        <Button Content="Confirm" Height="36" Margin="206,500,0,0" VerticalAlignment="Top" Width="80"/>
-        
-        <TextBlock Text="TextBlock" TextWrapping="Wrap"/>-->
         <StackPanel>
-            <!--<TextBlock Text="What's your name?"/>-->
             <StackPanel Orientation="Vertical" Margin="20,40,0,20">
 
                 <TextBox x:Name="nameInput"
-                     Header="Shortcut Name:" 
-                     Width="300" HorizontalAlignment="Left"/>
+                     Header="Shortcut Name:"
+                     PlaceholderText="Enter a name for your shortcut"
+                     Width="300" 
+                     HorizontalAlignment="Left"/>
+                
                 <TextBox x:Name="appInput"
-                         Header="Application:" PlaceholderText="Enter application to link to"
-                         Width="300" HorizontalAlignment="Left" TextChanged="appInput_TextChanged" 
+                         Header="Application:" 
+                         PlaceholderText="Enter application to link to"
+                         Width="300" 
+                         HorizontalAlignment="Left" 
                          Margin="0,20,0,0"/>
-                <TextBlock Text="OR" Margin="150,20,0,0" SelectionChanged="TextBlock_SelectionChanged"/>
+                
+                <TextBlock Text="OR" 
+                           Margin="150,20,0,0" />
+                
                 <TextBox x:Name="keyboardInput"
                          Header="Keyboard Input"
-                         Width="300" HorizontalAlignment="Left"
+                         PlaceholderText="Enter keyboard shortcut"
+                         Width="300" 
+                         HorizontalAlignment="Left"
                          Margin="0,20,0,0"/>
+                
                 <TextBox x:Name="pngInput"
-                           Header="Image:" PlaceholderText="Enter path to the image"
-                           Width="300" HorizontalAlignment="Left"
-                           Margin="0,20,0,0"/>
-                <Button Content="Cancel" Margin="20,40,0,0"/>
-                <Button Content="Confirm" Margin="200,-30,0,0"/>
+                         Header="Image:" 
+                         PlaceholderText="Enter path to the image"
+                         Width="300" 
+                         HorizontalAlignment="Left"
+                         Margin="0,20,0,0" />
+                             
+                <Button x:Name="cancel_btn" Content="Cancel" Margin="20,40,0,0" Click="CancelClick"/>
+                <Button x:Name="confirm_btn" Content="Confirm" Margin="200,-30,0,0" Click="ConfirmClick"/>
+                
+                <!--<Button x:Name="goToMainPage" Content="Confirm" Margin="200,-30,0,0" Click="ConfirmClick"/>-->
             </StackPanel>
         </StackPanel>
     </Grid>
