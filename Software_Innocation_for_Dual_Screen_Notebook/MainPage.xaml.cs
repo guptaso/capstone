@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Diagnostics;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using System.Collections;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -43,9 +45,9 @@ namespace Software_Innocation_for_Dual_Screen_Notebook
 
         }
         private async void btnLaunchMap_Click(object sender, RoutedEventArgs e)
-            
+
         {
-            String[] spearator = { ","};
+            String[] spearator = { "," };
             String[] strlist = appInput.Text.Split(spearator, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (String s in strlist)
@@ -57,8 +59,8 @@ namespace Software_Innocation_for_Dual_Screen_Notebook
 
             //Uri uri = new Uri("bingmaps:?rtp=adr.Washington,%20DC~adr.New%20York,% 20NY & amp; mode = d & amp; trfc = 1");
             //Uri uri = new Uri("spotify:");
-           // Uri uri = new Uri(appInput.Text);
-           // await Launcher.LaunchUriAsync(uri);
+            // Uri uri = new Uri(appInput.Text);
+            // await Launcher.LaunchUriAsync(uri);
 
         }
 
@@ -80,36 +82,60 @@ namespace Software_Innocation_for_Dual_Screen_Notebook
             newButton.Margin = btn_add.Margin;
             /* adds the input information */
             newButton.Content = this.nameInput.Text;
-            //newButton.KeyDown = "";
-            
-            
 
-           if (!String.IsNullOrEmpty(appInput.Text))
-            {
-                //var success = await Windows.System.Launcher.LaunchUriAsync(new Uri(@appInput.Text));
-                //newButton.Click += btnLaunchMap_Click;
-                newButton.Click += async (s, en) => {
-                    String[] spearator = { "," };
-                    String[] strlist = appInput.Text.Split(spearator, StringSplitOptions.RemoveEmptyEntries);
+            newButton.Tag = appInput.Text; //use tag to store the uri location, then can be accessed in the calling function
+            newButton.Click += (se, ev) => this.launchApp(se, ev);
 
-                    foreach (String st in strlist)
-                    {
-                        Uri uri = new Uri(st);
-                        await Launcher.LaunchUriAsync(uri);
-                        //System.Diagnostics.Process.Start(st);
-                    }
-                };
-            }
+            KeyboardAccelerator item = createHotkey();
+            item.Invoked += (se, ev) => System.Diagnostics.Trace.WriteLine("cntrl-b");
+            newButton.KeyboardAccelerators.Add(item);
             myGrid.Children.Add(newButton);
             myFlyout.Hide();
+        }
 
+        protected KeyboardAccelerator createHotkey()
+        {
+            Hashtable ht = new Hashtable();
+            ht.Add("Control", 1);
+            var keyVals = Enum.GetValues(typeof(VirtualKey));
+            string[] hotkeystring = this.hotkeyControl.Text.Split("+");
 
-            /* Emptys out the textboxes *//*
-            this.nameInput.Text = "";
-            this.appInput.Text = "";
-            this.keyboardInput.Text = "";
-            this.pngInput.Text = "";*/
+            VirtualKey key = (VirtualKey)Enum.Parse(typeof(VirtualKey), hotkeystring[1]);
+            VirtualKeyModifiers keymod = (VirtualKeyModifiers)Enum.Parse(typeof(VirtualKeyModifiers), hotkeystring[0]);
+            var item = new KeyboardAccelerator()
+            {
+                Modifiers = keymod,
+                Key = key  
+            };
+            return item;
+        }
 
+        protected void launchApp(object se, RoutedEventArgs ev)
+        {
+            Button clicked_button = (Button)se;
+            string uriString = (string)clicked_button.Tag;
+            try
+            {
+                var uri = new Uri(@uriString);
+                DefaultLaunch(uri);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Trace.WriteLine("Bad uri, alert user");
+            }
+        }
+
+        async void DefaultLaunch(Uri uri)
+        {
+            var success = await Windows.System.Launcher.LaunchUriAsync(uri);
+            if (success)
+            {
+                System.Diagnostics.Trace.WriteLine("successful Launch");
+            }
+            else
+            {
+                System.Diagnostics.Trace.WriteLine("failed launch");
+            }
         }
 
         void sendUrl(string s)

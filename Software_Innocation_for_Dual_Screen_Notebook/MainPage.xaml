@@ -50,7 +50,15 @@
                             HorizontalAlignment="Left"
                             Margin="0,20,0,0" />
 
-                        <Button x:Name="cancel_btn" Content="Cancel" Margin="20,40,0,0" Click="Click_Cancel"/>
+                            <TextBox x:Name="hotkeyControl"
+                             Header="hotkey Control:" 
+                            PlaceholderText="Enter hotkey as [modifier]+[key]"
+                            Width="300" 
+                            HorizontalAlignment="Left"
+                            Margin="0,20,0,0" />
+
+
+                            <Button x:Name="cancel_btn" Content="Cancel" Margin="20,40,0,0" Click="Click_Cancel"/>
                         <Button x:Name="confirm_btn" Content="Confirm" Margin="200,-30,0,0" Click="Click_Confirm" />
 
                     </StackPanel>
