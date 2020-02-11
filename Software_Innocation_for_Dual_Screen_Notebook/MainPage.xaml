@@ -16,10 +16,10 @@
 
     <ScrollViewer 
               HorizontalScrollMode="Enabled" 
-               HorizontalScrollBarVisibility="Visible"
+              HorizontalScrollBarVisibility="Visible"
               >
         <StackPanel  x:Name="myGrid" Orientation="Horizontal" VerticalAlignment="Top" Margin="35,35,35,0"  Padding="10,10,10,10" >
-        <Button x:Name="btn_add" Content="+" Width="283" Visibility="Visible" Height="204" CornerRadius="40,40,40,40" Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" FontSize="100" Click="btn_add_Click" Padding="10,4,8,5" Margin="0,0,80,0">
+        <Button x:Name="btn_add" Content="+" Width="283" Visibility="Visible" Height="204" CornerRadius="40,40,40,40" Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" FontSize="100" Padding="10,4,8,5" Margin="0,0,80,0">
             <Button.Flyout>
                 <Flyout x:Name="myFlyout">
                     <StackPanel>
@@ -29,21 +29,14 @@
                             Width="300" 
                             HorizontalAlignment="Left"/>
 
-                        <TextBox x:Name="appInput"
+                            <TextBox x:Name="appInput"
                             Header="Application:" 
                             PlaceholderText="Enter application(s) seperated by ,"
                             Width="300" 
                             HorizontalAlignment="Left" 
                             Margin="0,20,0,0"/>
 
-                        <TextBox x:Name="keyboardInput"
-                            Header="Keyboard Input"
-                            PlaceholderText="Enter keyboard shortcut"
-                            Width="300" 
-                            HorizontalAlignment="Left"
-                            Margin="0,20,0,0"/>
-
-                        <TextBox x:Name="pngInput"
+                            <TextBox x:Name="pngInput"
                              Header="Image:" 
                             PlaceholderText="Enter path to the image"
                             Width="300" 
@@ -65,46 +58,9 @@
                 </Flyout>
             </Button.Flyout>
         </Button>
+        <Button x:Name="btn_map" Click="test_button" Content="Test Button" Width="283" Visibility="Visible" Height="204" CornerRadius="40,40,40,40" Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" FontSize="100" Padding="10,4,8,5" Margin="0,0,80,0"/>
 
-    </StackPanel>
+        </StackPanel>
     </ScrollViewer>
-
-    <!-- <Grid> -->
-
-    <!--
-        <Button x:Name="btn_add" Content="+" Margin="40,35,0,0" VerticalAlignment="Top" Visibility="Visible" RequestedTheme="Light" RenderTransformOrigin="14.5,10.531" Width="330" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="204" CornerRadius="40,40,40,40" Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" Click="Button_Click" FontSize="100"/>
-        <Button Content=". . ." Margin="459,35,0,0" VerticalAlignment="Top" Visibility="Visible" RequestedTheme="Light" RenderTransformOrigin="14.5,10.531" Width="330" Height="204" CornerRadius="40,40,40,40" Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" Click="Button_Click" FontSize="100"/>
-        -->
-    <!-- Text that is sent from the BlankPage 1-->
-    <!--TextBlock x:Name="fromSecondPage"  Margin="400,300,0,400"/
-
-        <RelativePanel x:Name="myPanel" Margin="300">
-            <Button Content="StartBtn" Click="Button_Click"/>
-        </RelativePanel>-->
-    <!--
-        <RelativePanel x:Name="MyStack" Margin="40,300,200,0">
-            <Button x:Name="fromSecondPage" VerticalAlignment="Top" Visibility="Visible" RequestedTheme="Light" RenderTransformOrigin="14.5,10.531" Width="330" Height="204" CornerRadius="40,40,40,40" Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" Click="Button_Click" FontSize="100">
-                <StackPanel>
-                    <Button Content="{Binding}" Background="#00000000" Margin="20,-70,20,0" FontSize="25" FontWeight="Bold"/>
-                    <Image x:Name="newImg" Source="/Assets/download.jpg"  Height="100" Width="100"/>
-                </StackPanel>
-            </Button>
-        </RelativePanel> -->
-    <!--
-        <ListView x:Name="myList">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsStackPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding}" Click="ListButton_Click"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <x:String>StartBtn</x:String>
-        </ListView> -->
-    <!-- </Grid>-->
-
 
 </Page>

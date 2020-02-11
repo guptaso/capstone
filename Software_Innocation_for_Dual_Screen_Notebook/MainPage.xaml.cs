@@ -38,32 +38,12 @@ namespace Software_Innocation_for_Dual_Screen_Notebook
             /* Emptys out the textboxes */
             this.nameInput.Text = "";
             this.appInput.Text = "";
-            this.keyboardInput.Text = "";
+            this.hotkeyControl.Text = "";
             this.pngInput.Text = "";
 
-            //this.Frame.Navigate(typeof(MainPage), "");
 
+            myFlyout.Hide();
         }
-        private async void btnLaunchMap_Click(object sender, RoutedEventArgs e)
-
-        {
-            String[] spearator = { "," };
-            String[] strlist = appInput.Text.Split(spearator, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (String s in strlist)
-            {
-                Uri uri = new Uri(s);
-                await Launcher.LaunchUriAsync(uri);
-
-            }
-
-            //Uri uri = new Uri("bingmaps:?rtp=adr.Washington,%20DC~adr.New%20York,% 20NY & amp; mode = d & amp; trfc = 1");
-            //Uri uri = new Uri("spotify:");
-            // Uri uri = new Uri(appInput.Text);
-            // await Launcher.LaunchUriAsync(uri);
-
-        }
-
 
         private async void Click_Confirm(Object sender, RoutedEventArgs e)
         {
@@ -76,20 +56,51 @@ namespace Software_Innocation_for_Dual_Screen_Notebook
             newButton.Opacity = btn_add.Opacity;
             newButton.Background = btn_add.Background;
             newButton.BorderBrush = btn_add.BorderBrush;
-            //newButton.FontSize = btn_add.FontSize;
             newButton.FontSize = 30;
             newButton.Padding = btn_add.Padding;
             newButton.Margin = btn_add.Margin;
-            /* adds the input information */
-            newButton.Content = this.nameInput.Text;
 
-            newButton.Tag = appInput.Text; //use tag to store the uri location, then can be accessed in the calling function
-            newButton.Click += (se, ev) => this.launchApp(se, ev);
+            // option to remove the button
+            newButton.RightTapped += async (s, en) =>
+            {
+                myGrid.Children.Remove(newButton);
+            };
 
-            KeyboardAccelerator item = createHotkey();
-            item.Invoked += (se, ev) => System.Diagnostics.Trace.WriteLine("cntrl-b");
-            newButton.KeyboardAccelerators.Add(item);
+            // assigns the app name 
+            if (String.IsNullOrEmpty(nameInput.Text))
+            {
+                newButton.Content = "Unnamed App";
+            } else
+            {
+                newButton.Content = this.nameInput.Text;    // name of the app 
+            }
+
+            // assigns the application to launch:
+            if (!(String.IsNullOrEmpty(appInput.Text)))
+            {
+                newButton.Tag = appInput.Text; //use tag to store the uri location, then can be accessed in the calling function
+                newButton.Click += (se, ev) => this.launchApp(se, ev);
+            }
+
+
+            // assigns the keyboard shortcuts to launch
+            if (!(String.IsNullOrEmpty(hotkeyControl.Text)))
+            {
+                KeyboardAccelerator item = createHotkey();
+                item.Invoked += (se, ev) => System.Diagnostics.Trace.WriteLine("cntrl-b");
+                newButton.KeyboardAccelerators.Add(item);
+            }
+
+            // adds the button to the grid
             myGrid.Children.Add(newButton);
+
+            // clears out the flyout fields 
+            nameInput.Text = "";
+            hotkeyControl.Text = "";
+            appInput.Text = "";
+            pngInput.Text = "";
+
+            // hides the flyout
             myFlyout.Hide();
         }
 
@@ -114,15 +125,20 @@ namespace Software_Innocation_for_Dual_Screen_Notebook
         {
             Button clicked_button = (Button)se;
             string uriString = (string)clicked_button.Tag;
-            try
-            {
-                var uri = new Uri(@uriString);
-                DefaultLaunch(uri);
+            String[] spearator = { "," };
+            String[] strlist = uriString.Split(spearator, StringSplitOptions.RemoveEmptyEntries);
+            foreach(String st in strlist) {
+                try
+                {
+                    var uri = new Uri(@st);
+                    DefaultLaunch(uri);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Trace.WriteLine("Bad uri, alert user");
+                }
             }
-            catch (Exception e)
-            {
-                System.Diagnostics.Trace.WriteLine("Bad uri, alert user");
-            }
+
         }
 
         async void DefaultLaunch(Uri uri)
@@ -138,31 +154,31 @@ namespace Software_Innocation_for_Dual_Screen_Notebook
             }
         }
 
-        void sendUrl(string s)
-        {
-            //launchURI_Click(s);
-        }
-        private async void launchURI_Click(object sender, EventArgs e)
-        {
-            // The URI to launch
-            var uriBing = new Uri(@"http://www.bing.com");
 
-            // Launch the URI
-            var success = await Windows.System.Launcher.LaunchUriAsync(uriBing);
-
-            if (success)
-            {
-                // URI launched
-            }
-            else
-            {
-                // URI launch failed
-            }
-        }
-
-        private void btn_add_Click(object sender, RoutedEventArgs e)
+        private async void test_button(object sender, RoutedEventArgs e)
         {
 
+            /* Access is Denied 
+            Process process = new Process();
+            process.StartInfo.FileName = @"C:\Users\sonic\AppData\Roaming\Spotify\Spotify.exe";
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+            process.Start();
+            process.WaitForExit();// Waits here for the process to exit.
+            */
+
+            /* inappropriate permissions */
+            Process cmd = new Process();
+            cmd.StartInfo.FileName = "cmd.exe";
+            cmd.StartInfo.RedirectStandardInput = true;
+            cmd.StartInfo.RedirectStandardOutput = true;
+            cmd.StartInfo.CreateNoWindow = false;   // true hides cmd prompt
+            cmd.StartInfo.UseShellExecute = false;
+            cmd.Start();
+            cmd.StandardInput.WriteLine(@"start C:\Users\sonic\AppData\Roaming\Spotify\Spotify.exe");
+            cmd.StandardInput.Flush();
+            cmd.StandardInput.Close();
+            cmd.WaitForExit();
+            Console.WriteLine(cmd.StandardOutput.ReadToEnd());
         }
     }
 }
