@@ -1,0 +1,16 @@
+D:\Capstone_Redo\Capstone\KeyStrokes\bin\Debug\KeyStrokes.exe.config
+D:\Capstone_Redo\Capstone\KeyStrokes\bin\Debug\KeyStrokes.exe
+D:\Capstone_Redo\Capstone\KeyStrokes\bin\Debug\KeyStrokes.pdb
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.csprojAssemblyReference.cache
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\MainWindow.g.cs
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\App.g.cs
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes_MarkupCompile.cache
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes_MarkupCompile.lref
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\App.baml
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\MainWindow.baml
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.g.resources
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.Form1.resources
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.Properties.Resources.resources
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.csproj.GenerateResource.cache
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.exe
+D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.pdb
