@@ -9,7 +9,7 @@
         KeyDown="KeyInteractor"
         Background="White">
 
-        <ScrollViewer PanningMode="Both" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-0.5,-85.5" >
+        <ScrollViewer PanningMode="HorizontalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" >
         <StackPanel x:Name="myGrid" RenderTransformOrigin="0.23,2.0" Orientation="Horizontal" Height="205" VerticalAlignment="Top">
             <Button x:Name="addButton" Content="+" Height="80" Width="125" Margin="11,10"  Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" KeyDown="Add_KeyDown" Click="Add_Click"/>
             <Popup Name="Popup1" Placement="Bottom"  HorizontalOffset="-100" HorizontalAlignment="Left" VerticalAlignment="Top" IsOpen="False" >
