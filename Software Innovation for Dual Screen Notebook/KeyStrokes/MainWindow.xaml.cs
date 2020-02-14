@@ -14,7 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace KeyStrokes
 {
@@ -23,9 +24,45 @@ namespace KeyStrokes
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private const int WM_MOUSEACTIVATE = 0x0021;
+        private const int MA_NOACTIVATE = 3;
+        private const int WS_EX_NOACTIVE = 0x08000000;
+        private const int GWL_EXSTYLE = -20;
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            WindowInteropHelper helper = new WindowInteropHelper(this);
+            SetWindowLong(helper.Handle, GWL_EXSTYLE, GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVE);
+
+            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            source.AddHook(WndProc);
+        }
+
+        IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            // Handle messages...
+            switch (msg)
+            {
+                case WM_MOUSEACTIVATE:
+                    return (IntPtr)MA_NOACTIVATE;
+                default:
+                    break;
+            }
+
+            return IntPtr.Zero;
         }
 
 
