@@ -44,13 +44,18 @@ namespace KeyStrokes
         {
             base.OnSourceInitialized(e);
 
+            // sets the window so that a click does not bring it into focus
             WindowInteropHelper helper = new WindowInteropHelper(this);
             SetWindowLong(helper.Handle, GWL_EXSTYLE, GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVE);
 
+            // this lets WndProc be overriden so that we can get the click massage
             HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
             source.AddHook(WndProc);
         }
 
+        // this gets the click message so that 
+        // it can still sends the click to the app
+        // even though it is out of focus
         IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             // Handle messages...
@@ -109,7 +114,8 @@ namespace KeyStrokes
             }
         }
 
-        
+
+                
 
 
         private void Button1_Click(object sender, RoutedEventArgs e)
