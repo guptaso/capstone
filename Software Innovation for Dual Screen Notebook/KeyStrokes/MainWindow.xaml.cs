@@ -3,6 +3,12 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace KeyStrokes
 {
@@ -11,9 +17,67 @@ namespace KeyStrokes
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private const int WM_MOUSEACTIVATE = 0x0021;
+        private const int MA_NOACTIVATE = 3;
+        private const int WS_EX_NOACTIVE = 0x08000000;
+        private const int GWL_EXSTYLE = -20;
+
+        // this is used to get the hWnd for imported functions
+        // hWnd is a way to identify windows used in win32 framework
+        private WindowInteropHelper helper;
+        private bool focus;
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hwnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            // this is used to set the window to focus in the times we need it to be
+            focus = false;
+
+            // sets the window so that a click does not bring it into focus
+            helper = new WindowInteropHelper(this);
+            SetWindowLong(helper.Handle, GWL_EXSTYLE, GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVE);
+
+            // this lets WndProc be overriden so that we can get the click massage
+            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            source.AddHook(WndProc);
+        }
+
+        // this gets the click message so that 
+        // it can still sends the click to the app
+        // even though it is out of focus
+        IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            // Handle messages...
+            switch (msg)
+            {
+
+                case WM_MOUSEACTIVATE:
+                    if (!focus)
+                    {
+                        return (IntPtr)MA_NOACTIVATE;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+           // this does not work!!! YO
+            return SendMessage(hwnd, Convert.ToUInt32(msg), wParam, lParam);
         }
 
 
@@ -49,6 +113,12 @@ namespace KeyStrokes
             //MessageBox.Show("Button was clicked, time to create a new button", "Button + Click");
             //Form1 createButton = new Form1();
             //createButton.Show();
+
+            // this puts the window into focus when we open the form to add
+            // new buttons, otherwise we cant type anything because our 
+            // window wont be the focused window
+            focus = true;
+
             Popup1.IsOpen = true;
         }
 
@@ -59,6 +129,7 @@ namespace KeyStrokes
             pngInput.Text = "";
             hotkeyControl.Text = "";
             Popup1.IsOpen = false;
+            focus = false;
         }
 
         private void Click_Confirm(object sender, RoutedEventArgs e)
@@ -75,6 +146,7 @@ namespace KeyStrokes
             newButton.FontSize = 30;
             newButton.Padding = addButton.Padding;
             newButton.Margin = addButton.Margin;
+            focus = false;
 
             // option to remove the button
             //newButton.RightTapped += async (s, en) =>
@@ -144,15 +216,20 @@ namespace KeyStrokes
             }
 
             */
-            /*
+
             // assigns the keyboard shortcuts to launch
             if (!(String.IsNullOrEmpty(hotkeyControl.Text)))
             {
-                KeyboardAccelerator item = createHotkey();
-                item.Invoked += (se, ev) => System.Diagnostics.Trace.WriteLine("cntrl-b");
-                newButton.KeyboardAccelerators.Add(item);
+                newButton.Click += (se, ev) =>
+                {
+                    VirtualKeyShort[] keys = new VirtualKeyShort[2];
+
+                    keys[0] = VirtualKeyShort.CONTROL;
+                    keys[1] = VirtualKeyShort.KEY_C;
+
+                    Shortcut.send(keys);
+                };
             }
-            */
 
             // adds the button to the grid
             myGrid.Children.Add(newButton);
@@ -227,7 +304,7 @@ namespace KeyStrokes
                 createButton.Show();
             }
         }
-             
+
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Button was clicked, opening Legends of Runeterra", "Button 1 Click");

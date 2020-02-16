@@ -20,7 +20,7 @@
                              Height="40"
                              HorizontalAlignment="Left">
                     </TextBox>
-                    
+
                     <TextBlock Text="Application(s) seperated by a comma:" Margin="0,10,0,0"/>
                     <TextBox x:Name="appInput"
                              Width="300"
@@ -28,6 +28,7 @@
                              HorizontalAlignment="Left"
                              >
                     </TextBox>
+
                     
                     <TextBlock Text="Image: " Margin="0,10,0,0"/>
                     <TextBox x:Name="pngInput"
