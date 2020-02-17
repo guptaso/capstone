@@ -9,6 +9,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Collections.Generic;
 
 namespace KeyStrokes
 {
@@ -25,7 +26,7 @@ namespace KeyStrokes
         // this is used to get the hWnd for imported functions
         // hWnd is a way to identify windows used in win32 framework
         private WindowInteropHelper helper;
-        private bool focus;
+        private List<VirtualKeyShort.Key> shortcut; 
 
         [DllImport("user32.dll")]
         public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
@@ -45,8 +46,7 @@ namespace KeyStrokes
         {
             base.OnSourceInitialized(e);
 
-            // this is used to set the window to focus in the times we need it to be
-            focus = false;
+            shortcut = new List<VirtualKeyShort.Key>();
 
             // sets the window so that a click does not bring it into focus
             helper = new WindowInteropHelper(this);
@@ -67,17 +67,12 @@ namespace KeyStrokes
             {
 
                 case WM_MOUSEACTIVATE:
-                    if (!focus)
-                    {
-                        return (IntPtr)MA_NOACTIVATE;
-                    }
-                    break;
+                    return (IntPtr)MA_NOACTIVATE;
                 default:
                     break;
             }
 
-           // this does not work!!! YO
-            return SendMessage(hwnd, Convert.ToUInt32(msg), wParam, lParam);
+            return IntPtr.Zero;
         }
 
 
@@ -114,12 +109,35 @@ namespace KeyStrokes
             //Form1 createButton = new Form1();
             //createButton.Show();
 
-            // this puts the window into focus when we open the form to add
-            // new buttons, otherwise we cant type anything because our 
-            // window wont be the focused window
-            focus = true;
+
+            ///////////////////////////////////////////////////////////////
+            //  SOMETHING NEEDS TO GO HERE BUT I DON"T KNOW WHAT YET...  //
+            ///////////////////////////////////////////////////////////////
+            // this puts the window into focus when we open the form to  //
+            // add new buttons, otherwise we cant type anything because  //  
+            // our window wont be the focused window                     //
+            ///////////////////////////////////////////////////////////////
+            //  SOMETHING NEEDS TO GO HERE BUT I DON"T KNOW WHAT YET...  //
+            ///////////////////////////////////////////////////////////////
+
 
             Popup1.IsOpen = true;
+        }
+
+        private void Click_Addkey(object sender, RoutedEventArgs e)
+        {
+
+            if (shortcut.Count != 0)
+            {
+                hotkeyDisplay.Children.Add(new TextBlock { Text = " + " });
+            }
+            shortcut.Add((VirtualKeyShort.Key)keyEnum.SelectedItem);
+            var newKey = new TextBlock {
+                Name = keyEnum.SelectedItem.ToString(),
+                Text = keyEnum.SelectedItem.ToString()
+            };
+            hotkeyDisplay.Children.Add(newKey);
+           
         }
 
         private void Click_Cancel(object sender, RoutedEventArgs e)
@@ -127,9 +145,8 @@ namespace KeyStrokes
             appInput.Text = "";
             nameInput.Text = "";
             pngInput.Text = "";
-            hotkeyControl.Text = "";
+            //hotkeyControl.Text = "";
             Popup1.IsOpen = false;
-            focus = false;
         }
 
         private void Click_Confirm(object sender, RoutedEventArgs e)
@@ -146,7 +163,6 @@ namespace KeyStrokes
             newButton.FontSize = 30;
             newButton.Padding = addButton.Padding;
             newButton.Margin = addButton.Margin;
-            focus = false;
 
             // option to remove the button
             //newButton.RightTapped += async (s, en) =>
@@ -218,17 +234,20 @@ namespace KeyStrokes
             */
 
             // assigns the keyboard shortcuts to launch
-            if (!(String.IsNullOrEmpty(hotkeyControl.Text)))
+            if (shortcut.Count != 0)
             {
                 newButton.Click += (se, ev) =>
                 {
-                    VirtualKeyShort[] keys = new VirtualKeyShort[2];
-
-                    keys[0] = VirtualKeyShort.CONTROL;
-                    keys[1] = VirtualKeyShort.KEY_C;
-
-                    Shortcut.send(keys);
+                    Shortcut.send(shortcut.ToArray());
                 };
+                // this is needed to clear the form for next shortcut
+                // to be added but it causes the shortcut to not work
+                //shortcut.Clear();
+                //int sizeAtStart = hotkeyDisplay.Children.Count;
+                //for (int i = 1; i < sizeAtStart; i++)
+                //{
+                //    hotkeyDisplay.Children.RemoveAt(1);
+                //}
             }
 
             // adds the button to the grid
@@ -236,7 +255,7 @@ namespace KeyStrokes
 
             // clears out the flyout fields 
             nameInput.Text = "";
-            hotkeyControl.Text = "";
+            //hotkeyControl.Text = "";
             appInput.Text = "";
             pngInput.Text = "";
 

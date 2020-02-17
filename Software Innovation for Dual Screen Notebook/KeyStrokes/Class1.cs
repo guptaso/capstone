@@ -14,7 +14,7 @@ namespace KeyStrokes
         [DllImport("user32.dll")]
         internal static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
 
-        public static void send(VirtualKeyShort[] keys)
+        public static void send(VirtualKeyShort.Key[] keys)
         {
             INPUT[] inputKeys = new INPUT[keys.Length];
 
@@ -106,7 +106,7 @@ namespace KeyStrokes
         [StructLayout(LayoutKind.Sequential)]
         internal struct KEYBDINPUT
         {
-            internal VirtualKeyShort wVk;
+            internal VirtualKeyShort.Key wVk;
             internal ScanCodeShort wScan;
             internal KEYEVENTF dwFlags;
             internal int time;
