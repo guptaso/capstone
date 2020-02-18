@@ -5,61 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyStrokes"
         mc:Ignorable="d"
-        Height="200" Width="1016.495"
+        Height="454" Width="1016.495"
         KeyDown="KeyInteractor"
         Background="White">
 
     <ScrollViewer PanningMode="HorizontalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" >
-        <StackPanel x:Name="myGrid" RenderTransformOrigin="0.23,2.0" Orientation="Horizontal" Height="205" VerticalAlignment="Top">
+        <StackPanel x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Orientation="Horizontal" Height="205" VerticalAlignment="Top">
             <Button x:Name="addButton" Content="+" Height="80" Width="125" Margin="11,10"  Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" KeyDown="Add_KeyDown" Click="Add_Click"/>
-            <Popup Name="Popup1" Placement="Bottom"  HorizontalOffset="-100" HorizontalAlignment="Left" VerticalAlignment="Top" IsOpen="False" >
-                <StackPanel Background="GhostWhite" Margin="10" Width="337">
-                    <TextBlock Text="Shortcut Name: "/>
-                    <TextBox x:Name="nameInput"
-                            Width="338"
-                            Height="25"
-                            HorizontalAlignment="Left">
-                    </TextBox>
-
-                    <TextBlock Text="Application(s) seperated by a comma:" Margin="0,10,0,0"/>
-                    <TextBox x:Name="appInput"
-                            Width="338"
-                            Height="20"
-                            HorizontalAlignment="Left"
-                            >
-                    </TextBox>
 
 
-                    <TextBlock Text="Image: " Margin="0,10,0,0"/>
-                    <TextBox x:Name="pngInput"
-                            Width="338"
-                            Height="22"
-                            HorizontalAlignment="Left"
-                            >
-                    </TextBox>
-
-                    <TextBlock Text="hotkey Control:" Margin="0,10,0,0"/>
-
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="keyEnum" ItemsSource="{Binding Source={StaticResource enmKey}}" Width="299" Height="22" ></ComboBox>
-                        <Button x:Name="addKey" Content="+" Background="GhostWhite" Click="Click_Addkey" Width="29" Height="22"/>
-                    </StackPanel>
-                    <StackPanel x:Name="hotkeyDisplay" Orientation="Horizontal">
-                        <TextBlock Text="HotKey = "></TextBlock>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                        <Button x:Name="cancel_btn" Content="Cancel" Click="Click_Cancel" Background="PaleVioletRed"/>
-                        <Button x:Name="confirm_btn" Content="Confirm" Click="Click_Confirm" Background="ForestGreen"/>
-                    </StackPanel>
-
-
-                </StackPanel>
-
-            </Popup>
             <Button Content="1" Height="75" Width="125" Margin="11,10" KeyDown="Button1_KeyDown" Click="Button1_Click"/>
             <Button Content="2" Height="75" Width="125" Margin="14,10,13,10" KeyDown="Button2_KeyDown" Click="Button2_Click"/>
             <Button Content="3" Height="75" Width="125" Margin="11,1" KeyDown="Button3_KeyDown" Click="Button3_Click"/>
         </StackPanel>
+
     </ScrollViewer>
 </Window>

@@ -1,0 +1,53 @@
+﻿<Window x:Class="KeyStrokes.AddButtonWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KeyStrokes"
+        mc:Ignorable="d"
+        Height="331.249" Width="399.127"
+        Background="GhostWhite">
+
+    <StackPanel Background="GhostWhite" Margin="26,10,21,10">
+        <TextBlock Text="Shortcut Name: "/>
+        <TextBox x:Name="nameInput"
+                    Width="338"
+                    Height="25"
+                    HorizontalAlignment="Left">
+        </TextBox>
+
+        <TextBlock Text="Application(s) seperated by a comma:" Margin="0,10,0,0"/>
+        <TextBox x:Name="appInput"
+                    Width="338"
+                    Height="20"
+                    HorizontalAlignment="Left"
+                    >
+        </TextBox>
+
+
+        <TextBlock Text="Image: " Margin="0,10,0,0"/>
+        <TextBox x:Name="pngInput"
+                    Width="338"
+                    Height="22"
+                    HorizontalAlignment="Left"
+                    >
+        </TextBox>
+
+        <TextBlock Text="hotkey Control:" Margin="0,10,0,0"/>
+
+        <StackPanel Orientation="Horizontal">
+            <ComboBox x:Name="keyEnum" ItemsSource="{Binding Source={StaticResource enmKey}}" Width="299" Height="22" ></ComboBox>
+            <Button x:Name="addKey" Content="+" Background="GhostWhite" Click="Click_Addkey" Width="29" Height="22"/>
+        </StackPanel>
+        <StackPanel x:Name="hotkeyDisplay" Orientation="Horizontal">
+            <TextBlock Text="HotKey = "></TextBlock>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button x:Name="cancel_btn" Content="Cancel" Click="Click_Cancel" Background="PaleVioletRed"/>
+            <Button x:Name="confirm_btn" Content="Confirm" Click="Click_Confirm" Background="ForestGreen"/>
+        </StackPanel>
+
+
+    </StackPanel>
+</Window>
