@@ -41,11 +41,58 @@ namespace KeyStrokes
                 hotkeyDisplay.Children.Add(new TextBlock { Text = " + " });
             }
             shortcut.Add((VirtualKeyShort.Key)keyEnum.SelectedItem);
-            var newKey = new TextBlock {
+            var newKey = new StackPanel
+            {
+              
+            };
+
+            var newKeyBorder = new Border
+            {
+                Background = Brushes.GhostWhite,
+                BorderBrush = Brushes.Silver,
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(8,8,3,3),
+                Child = newKey
+            };
+
+            var newKeyText = new TextBlock
+            {
                 Name = keyEnum.SelectedItem.ToString(),
                 Text = keyEnum.SelectedItem.ToString()
             };
-            hotkeyDisplay.Children.Add(newKey);
+
+            var newKeyClose = new Button
+            {
+                Uid = shortcut.Count.ToString(),
+                Content = "x"
+            };
+
+            //// this needs a lot of work...
+            //newKeyClose.Click += (se, ev) =>
+            //{
+            //    int count;
+            //    Int32.TryParse(this.Uid, out count);
+            //    count += 1;
+            //    if (count != 1)
+            //    {
+            //        hotkeyDisplay.Children.RemoveAt(count);
+            //        hotkeyDisplay.Children.RemoveAt(count - 1);
+            //    }
+            //    else
+            //    {
+            //        hotkeyDisplay.Children.RemoveAt(count);
+            //    }
+            //    shortcut.RemoveAt(count/2);
+            //};
+
+            newKey.Children.Add(newKeyText);
+            newKey.Children.Add(newKeyClose);
+                
+            //    new TextBlock {
+            //    Name = keyEnum.SelectedItem.ToString(),
+            //    Text = keyEnum.SelectedItem.ToString()
+            //};
+            hotkeyDisplay.Children.Add(newKeyBorder);
            
         }
 
