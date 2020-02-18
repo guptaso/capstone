@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -16,6 +9,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Collections.Generic;
 
 namespace KeyStrokes
 {
@@ -29,11 +23,19 @@ namespace KeyStrokes
         private const int WS_EX_NOACTIVE = 0x08000000;
         private const int GWL_EXSTYLE = -20;
 
+        // this is used to get the hWnd for imported functions
+        // hWnd is a way to identify windows used in win32 framework
+        private WindowInteropHelper helper;
+        private List<VirtualKeyShort.Key> shortcut; 
+
         [DllImport("user32.dll")]
         public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
         [DllImport("user32.dll")]
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hwnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         public MainWindow()
         {
@@ -44,8 +46,10 @@ namespace KeyStrokes
         {
             base.OnSourceInitialized(e);
 
+            shortcut = new List<VirtualKeyShort.Key>();
+
             // sets the window so that a click does not bring it into focus
-            WindowInteropHelper helper = new WindowInteropHelper(this);
+            helper = new WindowInteropHelper(this);
             SetWindowLong(helper.Handle, GWL_EXSTYLE, GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVE);
 
             // this lets WndProc be overriden so that we can get the click massage
@@ -61,6 +65,7 @@ namespace KeyStrokes
             // Handle messages...
             switch (msg)
             {
+
                 case WM_MOUSEACTIVATE:
                     return (IntPtr)MA_NOACTIVATE;
                 default:
@@ -98,12 +103,14 @@ namespace KeyStrokes
         }
 
 
+        // this opens the new window for adding new buttons
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Button was clicked, time to create a new button", "Button + Click");
-            Form1 createButton = new Form1();
-            createButton.Show();
+            AddButtonWindow addButton = new AddButtonWindow();
+            addButton.InitializeComponent();
+            addButton.Show();
         }
+
 
         private void Add_KeyDown(object sender, KeyEventArgs e)
         {
@@ -113,10 +120,6 @@ namespace KeyStrokes
                 createButton.Show();
             }
         }
-
-
-                
-
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {

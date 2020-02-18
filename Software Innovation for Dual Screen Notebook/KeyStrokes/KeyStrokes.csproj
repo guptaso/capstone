@@ -57,6 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AddButtonWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,8 +69,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Class2.cs" />
+    <Compile Include="AddButtonWindow.xaml.cs">
+      <DependentUpon>AddButtonWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shortcut.cs" />
+    <Compile Include="VirtualKeyShort.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
