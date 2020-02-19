@@ -8,12 +8,12 @@
         Height="331.249" Width="399.127"
         Background="GhostWhite">
 
-    <StackPanel Background="GhostWhite" Margin="26,10,21,10">
+    <StackPanel x:Name="content" Background="GhostWhite" Margin="26,10,21,10">
         <TextBlock Text="Shortcut Name: "/>
         <TextBox x:Name="nameInput"
                     Width="338"
                     Height="25"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Left"> 
         </TextBox>
 
         <TextBlock Text="Application(s) seperated by a comma:" Margin="0,10,0,0"/>

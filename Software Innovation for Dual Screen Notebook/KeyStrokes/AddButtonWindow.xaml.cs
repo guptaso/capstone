@@ -37,13 +37,14 @@ namespace KeyStrokes
         {
 
             if (shortcut.Count != 0)
-            {
+            {   
                 hotkeyDisplay.Children.Add(new TextBlock { Text = " + " });
             }
             shortcut.Add((VirtualKeyShort.Key)keyEnum.SelectedItem);
             var newKey = new StackPanel
             {
-              
+                Orientation = Orientation.Horizontal,
+                Margin = new Thickness(0)          
             };
 
             var newKeyBorder = new Border
@@ -51,43 +52,56 @@ namespace KeyStrokes
                 Background = Brushes.GhostWhite,
                 BorderBrush = Brushes.Silver,
                 BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(8,8,3,3),
+                CornerRadius = new CornerRadius(3),
                 Child = newKey
             };
 
             var newKeyText = new TextBlock
             {
                 Name = keyEnum.SelectedItem.ToString(),
-                Text = keyEnum.SelectedItem.ToString()
+                Text = keyEnum.SelectedItem.ToString(),
             };
 
             var newKeyClose = new Button
             {
-                Uid = shortcut.Count.ToString(),
+                Width = 15,
+                Height = 15,
                 Content = "x"
             };
 
-            //// this needs a lot of work...
+            // this needs a lot of work...
             //newKeyClose.Click += (se, ev) =>
             //{
-            //    int count;
-            //    Int32.TryParse(this.Uid, out count);
-            //    count += 1;
-            //    if (count != 1)
+
+            //    hotkeyDisplay.Children.Add(new TextBox
             //    {
-            //        hotkeyDisplay.Children.RemoveAt(count);
-            //        hotkeyDisplay.Children.RemoveAt(count - 1);
-            //    }
-            //    else
-            //    {
-            //        hotkeyDisplay.Children.RemoveAt(count);
-            //    }
-            //    shortcut.RemoveAt(count/2);
+            //        Text = ev.Source.ToString()
+            //    });
+
+            //    //int count;
+            //    //Int32.TryParse(this.Uid, out count);
+            //    //hotkeyDisplay.Children.
+            //    //count += 1;
+            //    //if (count != 1)
+            //    //{
+            //    //    hotkeyDisplay.Children.RemoveAt(count);
+            //    //    hotkeyDisplay.Children.RemoveAt(count - 1);
+            //    //}
+            //    //else
+            //    //{
+            //    //    hotkeyDisplay.Children.RemoveAt(count);
+            //    //    if (shortcut.Count > 1)
+            //    //    {
+            //    //        hotkeyDisplay.Children.RemoveAt(count);
+            //    //    }
+            //    //}
+
+            //    //shortcut.RemoveAt((count-1) / 2);
             //};
 
             newKey.Children.Add(newKeyText);
             newKey.Children.Add(newKeyClose);
-                
+
             //    new TextBlock {
             //    Name = keyEnum.SelectedItem.ToString(),
             //    Text = keyEnum.SelectedItem.ToString()

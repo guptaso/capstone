@@ -157,5 +157,45 @@ namespace KeyStrokes
             if(e.Key == Key.D3)
                 Process.Start("https://www.youtube.com");
         }
+
+        private void media_back_Click(object sender, RoutedEventArgs e)
+        {
+            //VirtualKeyShort.Key[] shortcut = [VirtualKeyShort.Key.MEDIA_PREV_TRACK];
+            Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PREV_TRACK});
+        }
+
+        private void media_play_pause_Click(object sender, RoutedEventArgs e)
+        {
+            // this needs to be changed to accomidate actually checking if the 
+            // music is playing to be correct all the time
+            if (media_play_pause.Content == "Play")
+            {
+                media_play_pause.Content = "Pause";
+
+            } else
+            {
+                media_play_pause.Content = "Play";
+            }
+            Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PLAY_PAUSE });
+        }
+
+        private void media_forward_Click(object sender, RoutedEventArgs e)
+        {
+            Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_NEXT_TRACK });
+        }
+
+        private void undo_Click(object sender, RoutedEventArgs e)
+        {
+            Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.CONTROL, VirtualKeyShort.Key.KEY_C });
+        }
+
+        private void redo_Click(object sender, RoutedEventArgs e)
+        {
+            Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.CONTROL, VirtualKeyShort.Key.KEY_Y });
+        }
+
+        // bottom bar   
+
+
     }
 }
