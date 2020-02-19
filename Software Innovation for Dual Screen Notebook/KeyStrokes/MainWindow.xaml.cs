@@ -55,6 +55,10 @@ namespace KeyStrokes
             // this lets WndProc be overriden so that we can get the click massage
             HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
             source.AddHook(WndProc);
+
+            // this activates the window so that when we start it 
+            // it does not jump to the back of all windows
+            this.Activate();
         }
 
         // this gets the click message so that 
