@@ -153,7 +153,8 @@ namespace KeyStrokes
             }
             else
             {
-                newButton.Content = this.nameInput.Text;    // name of the app 
+                newButton.Content = this.nameInput.Text; // name of the app 
+                newButton.Name = this.nameInput.Text;
             }
 
 
@@ -208,7 +209,7 @@ namespace KeyStrokes
             }
 
             //// adds the button to the grid
-            main.myGrid.Children.Add(newButton);
+            main.newMyGrid.Children.Add(newButton);
 
             this.Close();
         }
