@@ -172,21 +172,21 @@ namespace KeyStrokes
             Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PREV_TRACK });
         }
 
-        private void media_play_pause_Click(object sender, RoutedEventArgs e)
-        {
-            // this needs to be changed to accomidate actually checking if the 
-            // music is playing to be correct all the time
-            if (media_play_pause.Content.Equals("Play"))
-            {
-                media_play_pause.Content = "Pause";
+        //private void media_play_pause_Click(object sender, RoutedEventArgs e)
+        //{
+        //    // this needs to be changed to accomidate actually checking if the 
+        //    // music is playing to be correct all the time
+        //    if (media_play_pause.Content.Equals("Play"))
+        //    {
+        //        media_play_pause.Content = "Pause";
 
-            }
-            else
-            {
-                media_play_pause.Content = "Play";
-            }
-            Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PLAY_PAUSE });
-        }
+        //    }
+        //    else
+        //    {
+        //        media_play_pause.Content = "Play";
+        //    }
+        //    Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PLAY_PAUSE });
+        //}
 
         private void media_forward_Click(object sender, RoutedEventArgs e)
         {
@@ -210,71 +210,78 @@ namespace KeyStrokes
 
         private void MenuClick(object sender, RoutedEventArgs e)
         {
-            if (layoutBtn.IsVisible)
+            if (menu_control.IsVisible)
             {
-                layoutBtn.Visibility = Visibility.Hidden;
-                newBtn.Visibility = Visibility.Hidden;
-                movementStack.Visibility = Visibility.Hidden;
-            }
-            else
+                menu_control.Visibility = Visibility.Hidden;
+            } else
             {
-                layoutBtn.Visibility = Visibility.Visible;
-                newBtn.Visibility = Visibility.Visible;
-                movementStack.Visibility = Visibility.Visible;
+                menu_control.Visibility = Visibility.Visible;
             }
+            //if (layoutBtn.IsVisible)
+            //{
+            //    layoutBtn.Visibility = Visibility.Hidden;
+            //    newBtn.Visibility = Visibility.Hidden;
+            //    movementStack.Visibility = Visibility.Hidden;
+            //}
+            //else
+            //{
+            //    layoutBtn.Visibility = Visibility.Visible;
+            //    newBtn.Visibility = Visibility.Visible;
+            //    movementStack.Visibility = Visibility.Visible;
+            //}
         }
 
-        private void addLayout(object sender, RoutedEventArgs e)
-        {
-            inputBox.Visibility = Visibility.Hidden;
-            okInput.Visibility = Visibility.Hidden;
+        //private void addLayout(object sender, RoutedEventArgs e)
+        //{
+        //    inputBox.Visibility = Visibility.Hidden;
+        //    okInput.Visibility = Visibility.Hidden;
             
-            //layoutBtn.Visibility = Visibility.Hidden;
-            ComboBoxItem comboBoxItem = new ComboBoxItem();
-            string inputText = inputBox.Text;
-            comboBoxItem.Content = inputText;
-            myComboBox.Items.Add(comboBoxItem);
-            inputBox.Text = "";
+        //    //layoutBtn.Visibility = Visibility.Hidden;
+        //    ComboBoxItem comboBoxItem = new ComboBoxItem();
+        //    string inputText = inputBox.Text;
+        //    comboBoxItem.Content = inputText;
+        //    myComboBox.Items.Add(comboBoxItem);
+        //    inputBox.Text = "";
 
-        }
+        //}
 
-        private void getInput(object sender, RoutedEventArgs e)
-        {
-            inputBox.Visibility = Visibility.Visible;
-            okInput.Visibility = Visibility.Visible;
-            layoutBtn.Visibility = Visibility.Visible;
+        //private void getInput(object sender, RoutedEventArgs e)
+        //{
+        //    inputBox.Visibility = Visibility.Visible;
+        //    okInput.Visibility = Visibility.Visible;
+        //    layoutBtn.Visibility = Visibility.Visible;
             
 
-        }
+        //}
 
-        private void LayoutClick(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBoxItem ComboItem = (ComboBoxItem)myComboBox.SelectedItem;
-            string name = myComboBox.SelectedItem.ToString();
-            Trace.WriteLine(name.ToString());
-            //Trace.WriteLine(name.ToString().Substring(35,38));
-            string[] x = name.ToString().Split('x');
-            string a = x[1];
-            string b = "";
-            if (x.Length > 2)
-            {
-                b = x[2];
-                a = a.ToString().Split(' ')[1];
-                newMyGrid.Rows = Int16.Parse(a);
-                newMyGrid.Columns = Int16.Parse(b);
-            }
-            // a is rows b is cols
+        //private void LayoutClick(object sender, SelectionChangedEventArgs e)
+        //{
+        //    ComboBoxItem ComboItem = (ComboBoxItem)myComboBox.SelectedItem;
+        //    string name = myComboBox.SelectedItem.ToString();
+        //    Trace.WriteLine(name.ToString());
+        //    //Trace.WriteLine(name.ToString().Substring(35,38));
+        //    string[] x = name.ToString().Split('x');
+        //    string a = x[1];
+        //    string b = "";
+        //    if (x.Length > 2)
+        //    {
+        //        b = x[2];
+        //        a = a.ToString().Split(' ')[1];
+        //        newMyGrid.Rows = Int16.Parse(a);
+        //        newMyGrid.Columns = Int16.Parse(b);
+        //    }
+        //    // a is rows b is cols
 
-        }
+        //}
 
-        private void mvClick(object sender, RoutedEventArgs e)
-        {
-            moveBox.Visibility = Visibility.Visible;
-        }
+        //private void mvClick(object sender, RoutedEventArgs e)
+        //{
+        //    moveBox.Visibility = Visibility.Visible;
+        //}
 
         // Ignore this function.... working on basically just copying everything over to move the buttons.... 
-        private void mvRCSubmit(object sender, RoutedEventArgs e)
-        {
+        //private void mvRCSubmit(object sender, RoutedEventArgs e)
+        //{
             /*
             string btnName = moveBox.Text;
             int rowNum = Int16.Parse(rowInput.Text);
@@ -355,6 +362,6 @@ namespace KeyStrokes
                     }
                 }
             }*/
-        }
+     //   }
     }
 }

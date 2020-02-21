@@ -16,14 +16,44 @@ namespace KeyStrokes
     public partial class MenuControl : UserControl
     {
 
+        private MainWindow main;
+
         public MenuControl()
         {
-            InitializeComponent();          
+            InitializeComponent();    
+            main = ((MainWindow)App.Current.MainWindow);
+
         }
 
-        private void RCSubmit_Click(object sender, RoutedEventArgs e)
+        private void Close_Click(object sender, RoutedEventArgs e)
         {
-
+            titleBar.Visibility = Visibility.Hidden;
         }
+
+        private void add_button_Click(object sender, RoutedEventArgs e)
+        {
+            AddButtonWindow addButton = new AddButtonWindow();
+            addButton.InitializeComponent();
+            addButton.Show();
+            titleBar.Visibility = Visibility.Hidden;
+        }
+
+        private void layout_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem ComboItem = (ComboBoxItem)layout_box.SelectedItem;
+            string name = layout_box.SelectedItem.ToString();
+            Trace.WriteLine(name.ToString());
+            //Trace.WriteLine(name.ToString().Substring(35,38));
+            string[] x = name.ToString().Split('x');
+            string a = x[1];
+            string b = "";
+            if (x.Length > 2)
+            {
+                b = x[2];
+                a = a.ToString().Split(' ')[1];
+                main.grid.set_grid(Int16.Parse(a), Int16.Parse(b));
+            }
+        }
+        
     }
 }

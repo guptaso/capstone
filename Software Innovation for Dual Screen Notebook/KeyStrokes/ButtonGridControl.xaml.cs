@@ -25,7 +25,7 @@ namespace KeyStrokes
 
             buttonList = new List<Button>();
 
-            addButton("+", Add_Click);
+            //addButton("+", Add_Click);
         }
 
         public void addButton(String content, Action<object, RoutedEventArgs> click)
@@ -54,8 +54,8 @@ namespace KeyStrokes
 
 
             // change this to actaully set the col and row
-            Grid.SetColumn(b, col++);
-            Grid.SetRow(b, row);
+            //Grid.SetColumn(b, col++);
+            //Grid.SetRow(b, row);
             buttonList.Add(b);
             grid.Children.Add(b);
         }
@@ -66,6 +66,33 @@ namespace KeyStrokes
             AddButtonWindow addButton = new AddButtonWindow();
             addButton.InitializeComponent();
             addButton.Show();
+        }
+
+
+        public void set_grid(int row, int col)
+        {
+                grid.Rows = row;
+                grid.Columns = col;
+        }
+
+        private void Button_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

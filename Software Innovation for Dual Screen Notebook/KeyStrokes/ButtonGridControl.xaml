@@ -1,42 +1,34 @@
-﻿<wpf:UserControl
+﻿<UserControl
     x:Class="KeyStrokes.ButtonGridControl"
     x:Name="buttonGrid"
-    xmlns:wpf="http://schemas.microsoft.com/netfx/2009/xaml/presentation" 
+    xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Width="941">
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation" Width="941" Height="345">
 
     <!-- this is the theme for the button change this and all the buttons do this! -->
-    <wpf:UserControl.Resources>
-        <wpf:ControlTemplate x:Key="button" TargetType="wpf:Button">
-            <wpf:Border Name="border"
+    <UserControl.Resources>
+        <ControlTemplate x:Key="button" TargetType="Button">
+            <Border Name="border"
                BorderThickness="1"
                Padding="4,2"
                CornerRadius="3"
                Background="SlateGray">
-                <wpf:Grid >
-                    <wpf:ContentPresenter HorizontalAlignment="Center"
+                <Grid >
+                    <ContentPresenter HorizontalAlignment="Center"
                            VerticalAlignment="Center" Name="content"/>
-                </wpf:Grid>
-            </wpf:Border>
-        </wpf:ControlTemplate>
+                </Grid>
+            </Border>
+        </ControlTemplate>
 
-    </wpf:UserControl.Resources>
+    </UserControl.Resources>
 
-    <wpf:Grid x:Name="grid" Background="GhostWhite"  Height="448" Width="948" >
-        <wpf:Grid.ColumnDefinitions>
-            <wpf:ColumnDefinition Width="1*" />
-            <wpf:ColumnDefinition Width="1*" />
-            <wpf:ColumnDefinition Width="1*" />
-            <wpf:ColumnDefinition Width="1*" />
-        </wpf:Grid.ColumnDefinitions>
-        <wpf:Grid.RowDefinitions>
-            <wpf:RowDefinition Height="1*" />
-            <wpf:RowDefinition Height="1*" />
-            <wpf:RowDefinition Height="1*" />
-        </wpf:Grid.RowDefinitions>
-
-        <!--<wpf:Button Content="yeet" Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="0" wpf:Grid.Row="0"  />
+    <controls:UniformGrid x:Name="grid" Margin="10" Rows="3" Columns="4" Height="303" ClipToBounds="True">
+        <!--<Button Template="{StaticResource button}"  Content="1" Width="auto" Margin="11,10" KeyDown="Button_KeyDown" Click="Button_Click"/>
+        <Button Template="{StaticResource button}" Content="2" Width="auto" Margin="14,10,13,10" KeyDown="Button_KeyDown" Click="Button_Click_1"/>
+        <Button Template="{StaticResource button}" Content="3" Width="auto" Margin="11,1" KeyDown="Button_KeyDown" Click="Button_Click_2"/>
+        <wpf:Button Content="yeet" Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="0" wpf:Grid.Row="0"  />
         <wpf:Button  Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="1" wpf:Grid.Row="0"  />
-    --></wpf:Grid>
-</wpf:UserControl>
+    --></controls:UniformGrid>
+</UserControl>

@@ -115,7 +115,7 @@ namespace KeyStrokes
         private void Click_Confirm(object sender, RoutedEventArgs e)
         {
             // assigns the app name
-            String ButtonText = "";
+            String ButtonText = "ShortCut";
             if (!String.IsNullOrEmpty(nameInput.Text))
             {
                 ButtonText = this.nameInput.Text;    // name of the app 
@@ -176,11 +176,17 @@ namespace KeyStrokes
                 };
             }
 
-            //main.grid.addButton(ButtonText, click);
+            // don't let the user add an empty button...
+            if (click != null)
+            {
+                main.grid.addButton(ButtonText, click);
+                this.Close();
+
+            }
+
             //// adds the button to the grid
             //main.newMyGrid.Children.Add(newButton);
 
-            this.Close();
         }
     }
 }

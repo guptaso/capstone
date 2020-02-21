@@ -22,3 +22,4 @@ C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation 
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes.csprojAssemblyReference.cache
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\MenuControl.g.cs
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\MenuControl.baml
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\GeneratedInternalTypeHelper.g.cs
