@@ -31,4 +31,4 @@
         <wpf:Button Content="yeet" Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="0" wpf:Grid.Row="0"  />
         <wpf:Button  Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="1" wpf:Grid.Row="0"  />
     --></controls:UniformGrid>
-</UserControl>
+</UserControl> 

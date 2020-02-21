@@ -195,7 +195,7 @@ namespace KeyStrokes
 
         private void undo_Click(object sender, RoutedEventArgs e)
         {
-            Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.CONTROL, VirtualKeyShort.Key.KEY_C });
+            Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.CONTROL, VirtualKeyShort.Key.KEY_Z });
         }
 
         private void redo_Click(object sender, RoutedEventArgs e)
