@@ -1,0 +1,42 @@
+﻿<wpf:UserControl
+    x:Class="KeyStrokes.ButtonGridControl"
+    x:Name="buttonGrid"
+    xmlns:wpf="http://schemas.microsoft.com/netfx/2009/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Width="941">
+
+    <!-- this is the theme for the button change this and all the buttons do this! -->
+    <wpf:UserControl.Resources>
+        <wpf:ControlTemplate x:Key="button" TargetType="wpf:Button">
+            <wpf:Border Name="border"
+               BorderThickness="1"
+               Padding="4,2"
+               CornerRadius="3"
+               Background="SlateGray">
+                <wpf:Grid >
+                    <wpf:ContentPresenter HorizontalAlignment="Center"
+                           VerticalAlignment="Center" Name="content"/>
+                </wpf:Grid>
+            </wpf:Border>
+        </wpf:ControlTemplate>
+
+    </wpf:UserControl.Resources>
+
+    <wpf:Grid x:Name="grid" Background="GhostWhite"  Height="448" Width="948" >
+        <wpf:Grid.ColumnDefinitions>
+            <wpf:ColumnDefinition Width="1*" />
+            <wpf:ColumnDefinition Width="1*" />
+            <wpf:ColumnDefinition Width="1*" />
+            <wpf:ColumnDefinition Width="1*" />
+        </wpf:Grid.ColumnDefinitions>
+        <wpf:Grid.RowDefinitions>
+            <wpf:RowDefinition Height="1*" />
+            <wpf:RowDefinition Height="1*" />
+            <wpf:RowDefinition Height="1*" />
+        </wpf:Grid.RowDefinitions>
+
+        <!--<wpf:Button Content="yeet" Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="0" wpf:Grid.Row="0"  />
+        <wpf:Button  Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="1" wpf:Grid.Row="0"  />
+    --></wpf:Grid>
+</wpf:UserControl>

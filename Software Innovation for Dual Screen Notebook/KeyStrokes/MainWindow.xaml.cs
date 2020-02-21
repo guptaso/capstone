@@ -26,7 +26,8 @@ namespace KeyStrokes
         // this is used to get the hWnd for imported functions
         // hWnd is a way to identify windows used in win32 framework
         private WindowInteropHelper helper;
-        private List<VirtualKeyShort.Key> shortcut; 
+        private List<VirtualKeyShort.Key> shortcut;
+        private List<List<int>> buttonLoc;
 
         [DllImport("user32.dll")]
         public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
@@ -47,6 +48,20 @@ namespace KeyStrokes
             base.OnSourceInitialized(e);
 
             shortcut = new List<VirtualKeyShort.Key>();
+
+            buttonLoc = new List<List<int>>();
+            for (int i = 0; i < 10; i++)
+            {
+                buttonLoc.Add(new List<int>()); 
+                for (int j = 0; j < 10; j++)
+                {
+                    buttonLoc[i].Add(0);
+                }
+            }
+            buttonLoc[0][0] = 2;
+            buttonLoc[0][2] = 2;
+            buttonLoc[0][3] = 2;
+            buttonLoc[0][4] = 2;
 
             // sets the window so that a click does not bring it into focus
             helper = new WindowInteropHelper(this);
@@ -69,7 +84,6 @@ namespace KeyStrokes
             // Handle messages...
             switch (msg)
             {
-
                 case WM_MOUSEACTIVATE:
                     return (IntPtr)MA_NOACTIVATE;
                 default:
@@ -162,9 +176,10 @@ namespace KeyStrokes
                 Process.Start("https://www.youtube.com");
         }
 
+
+        // Bottom bar, all the words should be changed to icons and made to look much much better
         private void media_back_Click(object sender, RoutedEventArgs e)
         {
-            //VirtualKeyShort.Key[] shortcut = [VirtualKeyShort.Key.MEDIA_PREV_TRACK];
             Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PREV_TRACK});
         }
 
@@ -172,7 +187,7 @@ namespace KeyStrokes
         {
             // this needs to be changed to accomidate actually checking if the 
             // music is playing to be correct all the time
-            if (media_play_pause.Content == "Play")
+            if (media_play_pause.Content.Equals("Play"))
             {
                 media_play_pause.Content = "Pause";
 
@@ -198,8 +213,37 @@ namespace KeyStrokes
             Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.CONTROL, VirtualKeyShort.Key.KEY_Y });
         }
 
-        // bottom bar   
 
+         public int getNextCol()
+        {
+            for(int i = 0; i < buttonLoc.Count; i++)
+            {
+                for(int j = 0; j < buttonLoc[i].Count; j++)
+                {
+                    if (buttonLoc[i][j] < 2)
+                    {
+                        buttonLoc[i][j]++;
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
 
+        public int getNextRow()
+        {
+            for (int i = 0; i < buttonLoc.Count; i++)
+            {
+                for (int j = 0; j < buttonLoc[i].Count; j++)
+                {
+                    if (buttonLoc[i][j] < 2)
+                    {
+                        buttonLoc[i][j]++;
+                        return j;
+                    }
+                }
+            }
+            return -1;
+        }
     }
-}
+}   

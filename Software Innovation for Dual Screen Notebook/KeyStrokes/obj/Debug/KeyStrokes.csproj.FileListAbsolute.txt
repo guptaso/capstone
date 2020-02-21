@@ -32,3 +32,6 @@ C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation 
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes.pdb
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\AddButtonWindow.g.cs
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\AddButtonWindow.baml
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\ButtonGridControl.baml
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\ButtonGridControl.g.cs
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\GeneratedInternalTypeHelper.g.cs
