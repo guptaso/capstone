@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyStrokes"
         mc:Ignorable="d"
-        WindowStyle="None"
         Height="540" Width="960"
         KeyDown="KeyInteractor"
         Background="GhostWhite">
+        <!--WindowStyle="None"-->
 
     <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >
         <StackPanel x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Orientation="Vertical" Height="509" VerticalAlignment="Top" Width="auto">
-            <local:TitleBar x:Name="titleBar" VerticalAlignment="Top"/>
+            <!--<local:TitleBar x:Name="titleBar" VerticalAlignment="Top"/>-->
             <local:ButtonGridControl x:Name="grid" />
             <StackPanel x:Name="bottomBar" Orientation="Horizontal" VerticalAlignment="Bottom" Height="62" Background="Gainsboro" HorizontalAlignment="Right" Width="948" Margin="0,0,10,0">
                 <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Background="GhostWhite" Click="media_back_Click"/>
