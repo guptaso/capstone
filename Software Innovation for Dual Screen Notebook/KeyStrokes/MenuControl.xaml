@@ -1,0 +1,19 @@
+﻿<UserControl
+    x:Class="KeyStrokes.MenuControl"
+    x:Name="titleBar"
+    xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Width="941"
+    xmlns:local="clr-namespace:KeyStrokes">
+    
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="GhostWhite" Margin="0,0,-180,0" x:Name="movementStack">
+        <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Button Name:</TextBlock>
+        <TextBox Width="39" Height="20" x:Name="moveBox" />
+        <TextBlock VerticalAlignment="Center"  Margin="10,0,0,0">Row:</TextBlock>
+        <TextBox Width="39" Height="20" Margin="10,0,10,0" x:Name="rowInput"></TextBox>
+        <TextBlock VerticalAlignment="Center">Column:</TextBlock>
+        <TextBox Width="39" Height="20" Margin="10,0,0,0" x:Name="colInput"></TextBox>
+        <Button Width="20" Height="20" Background="GhostWhite" Click="RCSubmit_Click"  x:Name="RCSubmit" >OK</Button>
+    </StackPanel>
+</UserControl>

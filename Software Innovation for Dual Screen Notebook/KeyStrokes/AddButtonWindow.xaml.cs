@@ -119,6 +119,7 @@ namespace KeyStrokes
             if (!String.IsNullOrEmpty(nameInput.Text))
             {
                 ButtonText = this.nameInput.Text;    // name of the app 
+                //newButton.Name = this.nameInput.Text; add this to addbutton thing
             }
 
             // will hold the click handler
@@ -175,7 +176,10 @@ namespace KeyStrokes
                 };
             }
 
-            main.grid.addButton(ButtonText, click);
+            //main.grid.addButton(ButtonText, click);
+            //// adds the button to the grid
+            //main.newMyGrid.Children.Add(newButton);
+
             this.Close();
         }
     }

@@ -1,28 +1,17 @@
-D:\Capstone_Redo\Capstone\KeyStrokes\bin\Debug\KeyStrokes.exe.config
-D:\Capstone_Redo\Capstone\KeyStrokes\bin\Debug\KeyStrokes.exe
-D:\Capstone_Redo\Capstone\KeyStrokes\bin\Debug\KeyStrokes.pdb
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.csprojAssemblyReference.cache
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\MainWindow.g.cs
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\App.g.cs
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes_MarkupCompile.cache
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes_MarkupCompile.lref
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\App.baml
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\MainWindow.baml
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.g.resources
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.Form1.resources
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.Properties.Resources.resources
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.csproj.GenerateResource.cache
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.exe
-D:\Capstone_Redo\Capstone\KeyStrokes\obj\Debug\KeyStrokes.pdb
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\bin\Debug\KeyStrokes.exe.config
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\bin\Debug\KeyStrokes.exe
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\bin\Debug\KeyStrokes.pdb
-C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes.csprojAssemblyReference.cache
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\TitleBar.baml
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\ButtonGridControl.baml
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\TitleBar.g.cs
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\ButtonGridControl.g.cs
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\AddButtonWindow.g.cs
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\MainWindow.g.cs
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\App.g.cs
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes_MarkupCompile.cache
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes_MarkupCompile.lref
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\App.baml
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\AddButtonWindow.baml
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\MainWindow.baml
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes.g.resources
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes.Form1.resources
@@ -30,10 +19,6 @@ C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation 
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes.csproj.GenerateResource.cache
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes.exe
 C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes.pdb
-C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\AddButtonWindow.g.cs
-C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\AddButtonWindow.baml
-C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\ButtonGridControl.baml
-C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\ButtonGridControl.g.cs
-C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\TitleBar.baml
-C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\TitleBar.g.cs
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\KeyStrokes.csprojAssemblyReference.cache
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\MenuControl.g.cs
+C:\Users\austi\OneDrive\Documents\Classes\CAPSTONE\capstone\Software Innovation for Dual Screen Notebook\KeyStrokes\obj\Debug\MenuControl.baml
