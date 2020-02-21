@@ -5,24 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyStrokes"
         mc:Ignorable="d"
+        WindowStyle="None"
         Height="540" Width="960"
         KeyDown="KeyInteractor"
         Background="GhostWhite">
 
     <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >
         <StackPanel x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Orientation="Vertical" Height="509" VerticalAlignment="Top" Width="auto">
-            <local:ButtonGridControl x:Name="grid" >
-
-            </local:ButtonGridControl>
+            <local:TitleBar x:Name="titleBar" VerticalAlignment="Top"/>
+            <local:ButtonGridControl x:Name="grid" />
             <StackPanel x:Name="bottomBar" Orientation="Horizontal" VerticalAlignment="Bottom" Height="62" Background="Gainsboro" HorizontalAlignment="Right" Width="948" Margin="0,0,10,0">
-                <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Click="media_back_Click"/>
-                <Button x:Name="media_play_pause" Content="Play" Width="67" Click="media_play_pause_Click"/>
-                <Button x:Name="media_forward" Content="&gt;&gt;" Width="51" Click="media_forward_Click"/>
+                <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Background="GhostWhite" Click="media_back_Click"/>
+                <Button x:Name="media_play_pause" Content="Play" Width="67" Background="GhostWhite" Click="media_play_pause_Click"/>
+                <Button x:Name="media_forward" Content="&gt;&gt;" Width="51" Background="GhostWhite" Click="media_forward_Click"/>
                 <GridSplitter Width="573" Background="Gainsboro"/>
-                <Button x:Name="undo" Content="Undo" Width="51" Click="undo_Click"/>
-                <Button x:Name="redo" Content="Redo" Width="51" Click="redo_Click"/>
+                <Button x:Name="undo" Content="Undo" Width="51" Background="GhostWhite" Click="undo_Click"/>
+                <Button x:Name="redo" Content="Redo" Width="51" Background="GhostWhite" Click="redo_Click"/>
             </StackPanel>
-            <Grid x:Name="buttonGrid" Margin="0,0,10,61" Height="0" Width="0">
+         <!--   <Grid x:Name="buttonGrid" Margin="0,0,10,61" Height="0" Width="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
@@ -40,7 +40,7 @@
                 <Button Grid.Column="2" Content="2" Width="Auto" Margin="40,14" KeyDown="Button2_KeyDown" Click="Button2_Click"/>
                 <Button Grid.Column="3" Content="3" Width="Auto" Margin="40,12" KeyDown="Button3_KeyDown" Click="Button3_Click"/>
             </Grid>
-
+-->
         </StackPanel>
 
     </ScrollViewer>

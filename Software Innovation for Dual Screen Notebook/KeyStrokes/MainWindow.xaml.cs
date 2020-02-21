@@ -245,5 +245,10 @@ namespace KeyStrokes
             }
             return -1;
         }
+
+        private void titleBar_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }   
