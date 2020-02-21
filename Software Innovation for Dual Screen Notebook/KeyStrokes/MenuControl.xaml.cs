@@ -54,6 +54,17 @@ namespace KeyStrokes
                 main.grid.set_grid(Int16.Parse(a), Int16.Parse(b));
             }
         }
-        
+
+        private void bottom_bar_Click(object sender, RoutedEventArgs e)
+        {
+            if (main.bottomBar.Visibility == Visibility.Hidden)
+            {
+                main.bottomBar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                main.bottomBar.Visibility = Visibility.Hidden;
+            }
+        }
     }
 }

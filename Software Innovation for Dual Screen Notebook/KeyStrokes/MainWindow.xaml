@@ -9,7 +9,7 @@
         Height="540" Width="960"
         KeyDown="KeyInteractor"
         Background="GhostWhite">
-        <!--WindowStyle="None"-->
+    <!--WindowStyle="None"-->
 
     <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >
         <StackPanel x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Orientation="Vertical" Height="509" VerticalAlignment="Top" Width="auto">
@@ -18,7 +18,7 @@
 -->
             <Grid Height="70">
                 <Grid VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Height="50">
-                    <Button VerticalAlignment="Center" Width="40" Height="30" BorderBrush="#FF020202" Content="--" Click="MenuClick">
+                    <Button VerticalAlignment="Center" Width="40" Height="30" BorderBrush="#FF020202" Content="☰" Click="MenuClick">
                         <Button.Background>
                             <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
                                 <GradientStop Color="White" Offset="1"/>
@@ -28,7 +28,7 @@
                         </Button.Background>
                     </Button>
                 </Grid>
-                <local:MenuControl x:Name="menu_control" Visibility="Hidden" Margin="0,10,821,-64" />
+                <local:MenuControl Canvas.ZIndex="3" x:Name="menu_control" Visibility="Hidden" Margin="4,-6,818,-99" />
                 <local:ButtonGridControl x:Name="grid" Margin="10,0,10,-422" Height="442" VerticalAlignment="Bottom" />
 
 
@@ -87,25 +87,27 @@
                     </StackPanel>
                 </Grid> -->
             </Grid>
-<!--
+            <Canvas Height="369">
+                <StackPanel x:Name="bottomBar" Visibility="Hidden" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="62" Background="Gainsboro" HorizontalAlignment="Right" Width="948" Canvas.Left="3" Canvas.Top="367">
+                    <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Background="GhostWhite" Click="media_back_Click"/>
+                    <Button x:Name="media_play_pause" Content="Play" Width="67" Background="GhostWhite" Click="media_play_pause_Click"/>
+                    <Button x:Name="media_forward" Content="&gt;&gt;" Width="51" Background="GhostWhite" Click="media_forward_Click"/>
+                    <GridSplitter Width="573" Background="Gainsboro"/>
+                    <Button x:Name="undo" Content="Undo" Width="51" Background="GhostWhite" Click="undo_Click"/>
+                    <Button x:Name="redo" Content="Redo" Width="51" Background="GhostWhite" Click="redo_Click"/>
+                </StackPanel>
+            </Canvas>
+            <!--
             <controls:UniformGrid x:Name="newMyGrid" Margin="10" Rows="1" Columns="4" Height="303" ClipToBounds="True">
                 <Button  x:Name="addButton" Content="+" Height="30" Width="50" Margin="11,10"  Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" KeyDown="Add_KeyDown" Click="Add_Click"/>
                 <Button Content="1" Height="30" Width="50" Margin="11,10" KeyDown="Button1_KeyDown" Click="Button1_Click"/>
                 <Button Content="2" Height="30" Width="50" Margin="14,10,13,10" KeyDown="Button2_KeyDown" Click="Button2_Click"/>
                 <Button Content="3" Height="30" Width="50" Margin="11,1" KeyDown="Button3_KeyDown" Click="Button3_Click"/>
             </controls:UniformGrid>
--->            
-       <!--     <StackPanel x:Name="bottomBar" Orientation="Horizontal" VerticalAlignment="Bottom" Height="62" Background="Gainsboro" HorizontalAlignment="Right" Width="948" Margin="0,0,10,0">
-                <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Background="GhostWhite" Click="media_back_Click"/>
-                <Button x:Name="media_play_pause" Content="Play" Width="67" Background="GhostWhite" Click="media_play_pause_Click"/>
-                <Button x:Name="media_forward" Content="&gt;&gt;" Width="51" Background="GhostWhite" Click="media_forward_Click"/>
-                <GridSplitter Width="573" Background="Gainsboro"/>
-                <Button x:Name="undo" Content="Undo" Width="51" Background="GhostWhite" Click="undo_Click"/>
-                <Button x:Name="redo" Content="Redo" Width="51" Background="GhostWhite" Click="redo_Click"/>
-            </StackPanel>
 -->
+
         </StackPanel>
-         <!--   <Grid x:Name="buttonGrid" Margin="0,0,10,61" Height="0" Width="0">
+        <!--   <Grid x:Name="buttonGrid" Margin="0,0,10,61" Height="0" Width="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />

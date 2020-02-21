@@ -6,8 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Width="139"
     xmlns:local="clr-namespace:KeyStrokes">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Background="GhostWhite" x:Name="movementStack" Height="150" Width="140">
-        <Button Width="46" Height="20" HorizontalAlignment="Left" Background="GhostWhite" Click="Close_Click"  x:Name="Close" Content="Close" />
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Background="GhostWhite" x:Name="movementStack" Height="164" Width="140" Margin="-1,0,0,0">
+        <Button  Width="40" Height="30" HorizontalAlignment="Left" Background="GhostWhite" Click="Close_Click"  x:Name="Close" Content="❮" />
         <TextBlock Text="Grid Size" Margin="10,0,0,0" />
         <ComboBox x:Name="layout_box" SelectionChanged="layout_SelectionChanged" SelectedValuePath="Content" VerticalAlignment="Center" Margin="10,0">
             <ComboBoxItem IsSelected="False" Content="1x4" />
@@ -18,6 +18,7 @@
             <ComboBoxItem IsSelected="False" Content="5x5" />
         </ComboBox>
         <Button Width="auto" Height="20" Background="GhostWhite" Click="add_button_Click"  x:Name="add_button" Content="Add Button" />
+        <Button Width="auto" Height="20" Background="GhostWhite" Click="bottom_bar_Click"  x:Name="bottom_bar" Content="Bottom Bar" />
         <!-- <StackPanel Orientation="Vertical" Margin="10,0,0,0" >
             <Button Content="Enter your own" Width="100" Click="getInput" Margin="0,10,0,0" >
                 <Button.Background>

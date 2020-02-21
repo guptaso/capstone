@@ -172,21 +172,21 @@ namespace KeyStrokes
             Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PREV_TRACK });
         }
 
-        //private void media_play_pause_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // this needs to be changed to accomidate actually checking if the 
-        //    // music is playing to be correct all the time
-        //    if (media_play_pause.Content.Equals("Play"))
-        //    {
-        //        media_play_pause.Content = "Pause";
+        private void media_play_pause_Click(object sender, RoutedEventArgs e)
+        {
+            // this needs to be changed to accomidate actually checking if the 
+            // music is playing to be correct all the time
+            if (media_play_pause.Content.Equals("Play"))
+            {
+                media_play_pause.Content = "Pause";
 
-        //    }
-        //    else
-        //    {
-        //        media_play_pause.Content = "Play";
-        //    }
-        //    Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PLAY_PAUSE });
-        //}
+            }
+            else
+            {
+                media_play_pause.Content = "Play";
+            }
+            Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PLAY_PAUSE });
+        }
 
         private void media_forward_Click(object sender, RoutedEventArgs e)
         {
