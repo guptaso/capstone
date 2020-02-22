@@ -1,0 +1,18 @@
+﻿<wpf:UserControl
+    x:Class="KeyStrokes.TitleBar"
+    x:Name="titleBar"
+    xmlns:wpf="http://schemas.microsoft.com/netfx/2009/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Width="941">
+
+    <wpf:DockPanel x:Name="titleBarDock" VerticalAlignment="Top" Height="844">
+
+        <wpf:DockPanel x:Name="bar" wpf:DockPanel.Dock="Top" Background="GhostWhite" Height="24">
+            <wpf:TextBlock Text="Our App Name"/>
+            <wpf:Button Content="X" Margin="10,0" Width="30" HorizontalAlignment="right" BorderThickness="0" Background="GhostWhite" Click="Button_Click"/>
+        </wpf:DockPanel>
+
+    </wpf:DockPanel>
+
+</wpf:UserControl>

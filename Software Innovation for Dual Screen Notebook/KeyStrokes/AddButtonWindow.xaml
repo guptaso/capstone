@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyStrokes"
         mc:Ignorable="d"
-        Height="331.249" Width="399.127"
+        Height="355.249" Width="399.127"
         Background="GhostWhite">
 
     <StackPanel x:Name="content" Background="GhostWhite" Margin="26,10,21,10">

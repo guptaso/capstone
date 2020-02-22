@@ -4,30 +4,127 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyStrokes"
+        xmlns:controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
         mc:Ignorable="d"
-        Height="454" Width="1020.495"
+        Height="540" Width="960"
         KeyDown="KeyInteractor"
-        Background="White">
+        Background="GhostWhite">
+    <!--WindowStyle="None"-->
 
-    <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" >
-        <StackPanel x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Orientation="Vertical" Height="424" VerticalAlignment="Top" Width="1008">
-            <StackPanel Margin="0,0,10,61" Height="303" Orientation="Horizontal">
-                <Button x:Name="addButton" Content="+" Height="80" Width="125" Margin="11,10"  Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" KeyDown="Add_KeyDown" Click="Add_Click"/>
+    <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >
+        <StackPanel x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Orientation="Vertical" Height="509" VerticalAlignment="Top" Width="auto">
+            <!--<local:TitleBar x:Name="titleBar" VerticalAlignment="Top"/>
+           
+-->
+            <Grid Height="70">
+                <Grid VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Height="50">
+                    <Button VerticalAlignment="Center" Width="40" Height="30" BorderBrush="#FF020202" Content="☰" Click="MenuClick">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                <GradientStop Color="White" Offset="1"/>
+                                <GradientStop Color="#FFCCCCFF"/>
+                                <GradientStop Color="#FFFFFCFC"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+                <local:MenuControl Canvas.ZIndex="3" x:Name="menu_control" Visibility="Hidden" Margin="4,-6,818,-99" />
+                <local:ButtonGridControl x:Name="grid" Margin="10,0,10,-422" Height="442" VerticalAlignment="Bottom" />
 
-                <Button Content="1" Height="75" Width="125" Margin="11,10" KeyDown="Button1_KeyDown" Click="Button1_Click"/>
-                <Button Content="2" Height="75" Width="125" Margin="14,10,13,10" KeyDown="Button2_KeyDown" Click="Button2_Click"/>
-                <Button Content="3" Height="75" Width="125" Margin="11,1" KeyDown="Button3_KeyDown" Click="Button3_Click"/>
-            </StackPanel>
-            <StackPanel x:Name="bottomBar" Orientation="Horizontal" VerticalAlignment="Bottom" Height="59" Background="Gainsboro" HorizontalAlignment="Right" Width="1008">
-                <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Click="media_back_Click"/>
-                <Button x:Name="media_play_pause" Content="Play" Width="67" Click="media_play_pause_Click"/>
-                <Button x:Name="media_forward" Content="&gt;&gt;" Width="51" Click="media_forward_Click"/>
-                <GridSplitter Width="630" Background="Gainsboro"></GridSplitter>
-                <Button x:Name="undo" Content="Undo" Width="51" Click="undo_Click"/>
-                <Button x:Name="redo" Content="Redo" Width="51" Click="redo_Click"/>
-            </StackPanel>
+
+                <!--     <Grid  Width="250" HorizontalAlignment="Left" Height="70" Margin="90,0,0,0">
+                    <StackPanel VerticalAlignment="Top" x:Name="layoutBtn" Visibility="Hidden" Orientation="Horizontal">
+                        <ComboBox Width="100" x:Name="myComboBox" SelectionChanged="LayoutClick" SelectedValuePath="Content" VerticalAlignment="Center">
+                            <ComboBoxItem IsSelected="True" >1x4</ComboBoxItem>
+                            <ComboBoxItem IsSelected="False" >2x2</ComboBoxItem>
+                            <ComboBoxItem IsSelected="False" >4x1</ComboBoxItem>
+                            <ComboBoxItem IsSelected="False" >5x5</ComboBoxItem>
+                        </ComboBox>
+                        <StackPanel Orientation="Vertical" Margin="10,0,0,0" >
+                        <Button Content="Enter your own" Width="100" Click="getInput" Margin="0,10,0,0" >
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                        <GradientStop Color="White" Offset="1"/>
+                                        <GradientStop Color="#FFCCCCFF"/>
+                                        <GradientStop Color="#FFFFFCFC"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBox Width="39" Height="20" x:Name="inputBox" Visibility="Hidden"/>
+                                <Button Width="20" Height="20" Click="addLayout" x:Name="okInput" Visibility="Hidden"> OK </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <Grid VerticalAlignment="Center" Width="480" HorizontalAlignment="Left" Height="50" Margin="180,-5,0,0">
+                    <Button VerticalAlignment="Top" Width="60" Height="30" BorderBrush="#FF020202" Content="+" Visibility="Hidden" x:Name="newBtn" >
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                <GradientStop Color="White" Offset="1"/>
+                                <GradientStop Color="#FFCCCCFF"/>
+                                <GradientStop Color="#FFFFFCFC"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button VerticalAlignment="Top" Width="60" Height="30" BorderBrush="#FF020202" Content="Move" Visibility="Hidden" x:Name="moveBtn" Margin="150,10,0,0" Click="mvClick">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                <GradientStop Color="White" Offset="1"/>
+                                <GradientStop Color="#FFCCCCFF"/>
+                                <GradientStop Color="#FFFFFCFC"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,-180,0" Visibility="Hidden" x:Name="movementStack">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Button Name:</TextBlock>
+                        <TextBox Width="39" Height="20" x:Name="moveBox" />
+                        <TextBlock VerticalAlignment="Center"  Margin="10,0,0,0">Row:</TextBlock>
+                        <TextBox Width="39" Height="20" Margin="10,0,10,0" x:Name="rowInput"></TextBox>
+                        <TextBlock VerticalAlignment="Center">Column: </TextBlock>
+                        <TextBox Width="39" Height="20" Margin="10,0,0,0" x:Name="colInput"></TextBox>
+                        <Button Width="20" Height="20" Click="mvRCSubmit" x:Name="RCSubmit" >OK</Button>
+                    </StackPanel>
+                </Grid> -->
+            </Grid>
+            <Canvas Height="369">
+                <StackPanel x:Name="bottomBar" Visibility="Hidden" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="62" Background="Gainsboro" HorizontalAlignment="Right" Width="948" Canvas.Left="3" Canvas.Top="367">
+                    <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Background="GhostWhite" Click="media_back_Click"/>
+                    <Button x:Name="media_play_pause" Content="Play" Width="67" Background="GhostWhite" Click="media_play_pause_Click"/>
+                    <Button x:Name="media_forward" Content="&gt;&gt;" Width="51" Background="GhostWhite" Click="media_forward_Click"/>
+                    <GridSplitter Width="573" Background="Gainsboro"/>
+                    <Button x:Name="undo" Content="Undo" Width="51" Background="GhostWhite" Click="undo_Click"/>
+                    <Button x:Name="redo" Content="Redo" Width="51" Background="GhostWhite" Click="redo_Click"/>
+                </StackPanel>
+            </Canvas>
+            <!--
+            <controls:UniformGrid x:Name="newMyGrid" Margin="10" Rows="1" Columns="4" Height="303" ClipToBounds="True">
+                <Button  x:Name="addButton" Content="+" Height="30" Width="50" Margin="11,10"  Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" KeyDown="Add_KeyDown" Click="Add_Click"/>
+                <Button Content="1" Height="30" Width="50" Margin="11,10" KeyDown="Button1_KeyDown" Click="Button1_Click"/>
+                <Button Content="2" Height="30" Width="50" Margin="14,10,13,10" KeyDown="Button2_KeyDown" Click="Button2_Click"/>
+                <Button Content="3" Height="30" Width="50" Margin="11,1" KeyDown="Button3_KeyDown" Click="Button3_Click"/>
+            </controls:UniformGrid>
+-->
 
         </StackPanel>
+        <!--   <Grid x:Name="buttonGrid" Margin="0,0,10,61" Height="0" Width="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
 
+                <Button Grid.Column="0" Grid.Row="0" x:Name="addButton" Content="+" Width="Auto" Margin="40,8,40,10"  Opacity="0.7" Background="#0C000000" BorderBrush="#7F000000" KeyDown="Add_KeyDown" Click="Add_Click"/>
+                <Button Grid.Column="1" Content="1" Width="Auto" Margin="40,14" KeyDown="Button1_KeyDown" Click="Button1_Click"/>
+                <Button Grid.Column="2" Content="2" Width="Auto" Margin="40,14" KeyDown="Button2_KeyDown" Click="Button2_Click"/>
+                <Button Grid.Column="3" Content="3" Width="Auto" Margin="40,12" KeyDown="Button3_KeyDown" Click="Button3_Click"/>
+            </Grid>
+-->
     </ScrollViewer>
 </Window>

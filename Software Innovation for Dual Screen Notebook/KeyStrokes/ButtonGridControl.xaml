@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="KeyStrokes.ButtonGridControl"
+    x:Name="buttonGrid"
+    xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation" Width="941" Height="345">
+
+    <!-- this is the theme for the button change this and all the buttons do this! -->
+    <UserControl.Resources>
+        <ControlTemplate x:Key="button" TargetType="Button">
+            <Border Name="border"
+               BorderThickness="1"
+               Padding="4,2"
+               CornerRadius="3"
+               Background="SlateGray">
+                <Grid >
+                    <ContentPresenter HorizontalAlignment="Center"
+                           VerticalAlignment="Center" Name="content"/>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+
+    </UserControl.Resources>
+
+    <controls:UniformGrid x:Name="grid" Margin="10" Rows="3" Columns="4" Height="303" ClipToBounds="True">
+        <!--<Button Template="{StaticResource button}"  Content="1" Width="auto" Margin="11,10" KeyDown="Button_KeyDown" Click="Button_Click"/>
+        <Button Template="{StaticResource button}" Content="2" Width="auto" Margin="14,10,13,10" KeyDown="Button_KeyDown" Click="Button_Click_1"/>
+        <Button Template="{StaticResource button}" Content="3" Width="auto" Margin="11,1" KeyDown="Button_KeyDown" Click="Button_Click_2"/>
+        <wpf:Button Content="yeet" Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="0" wpf:Grid.Row="0"  />
+        <wpf:Button  Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="1" wpf:Grid.Row="0"  />
+    --></controls:UniformGrid>
+</UserControl> 

@@ -102,10 +102,6 @@ namespace KeyStrokes
             newKey.Children.Add(newKeyText);
             newKey.Children.Add(newKeyClose);
 
-            //    new TextBlock {
-            //    Name = keyEnum.SelectedItem.ToString(),
-            //    Text = keyEnum.SelectedItem.ToString()
-            //};
             hotkeyDisplay.Children.Add(newKeyBorder);
            
         }
@@ -118,49 +114,21 @@ namespace KeyStrokes
 
         private void Click_Confirm(object sender, RoutedEventArgs e)
         {
-            ///* adds generic elements to a button */
-            Button format = main.addButton;
-            Button newButton = new Button();
-            newButton.Content = "no shortcut name";
-            newButton.Width = format.Width;
-            newButton.Height = format.Height;
-            //newButton.CornerRadius = btn_add.CornerRadius; 
-            newButton.Opacity = format.Opacity;
-            newButton.Background = format.Background;
-            newButton.BorderBrush = format.BorderBrush;
-            newButton.FontSize = 30;
-            newButton.Padding = format.Padding;
-            newButton.Margin = format.Margin;
-
-            // option to remove the button
-            //newButton.RightTapped += async (s, en) =>
-            newButton.MouseDown += async (s, en) =>
+            // assigns the app name
+            String ButtonText = "ShortCut";
+            if (!String.IsNullOrEmpty(nameInput.Text))
             {
-                MessageBoxResult result = MessageBox.Show("Remove?", "", MessageBoxButton.YesNo);
-                switch (result)
-                {
-                    case MessageBoxResult.Yes:
-                        main.myGrid.Children.Remove(newButton);
-                        break;
-                }
-            };
-
-
-            // assigns the app name 
-            if (String.IsNullOrEmpty(nameInput.Text))
-            {
-                newButton.Content = "";
-            }
-            else
-            {
-                newButton.Content = this.nameInput.Text;    // name of the app 
+                ButtonText = this.nameInput.Text;    // name of the app 
+                //newButton.Name = this.nameInput.Text; add this to addbutton thing
             }
 
+            // will hold the click handler
+            Action<object, RoutedEventArgs> click = null;
 
             string hold = appInput.Text;
             if (!(String.IsNullOrEmpty(hold)))
             {
-                newButton.Click += (se, ev) =>
+                click = (se, ev) =>
                 {
                     string str = "";
 
@@ -188,29 +156,37 @@ namespace KeyStrokes
             }
 
 
-            ///*
+            // launch app does not exist and I don't know why?
             //// assigns the application to launch:
+            //String Tag = appInput.Text;
             //if (!(String.IsNullOrEmpty(appInput.Text)))
             //{
-            //    newButton.Tag = appInput.Text; //use tag to store the uri location, then can be accessed in the calling function
-            //    newButton.Click += (se, ev) => this.launchApp(se, ev);
+            //    Tag = appInput.Text; //use tag to store the uri location, then can be accessed in the calling function
+            //    click += (se, ev) => this.launchApp(se, ev);
             //}
 
-            //*/
+
 
             // assigns the keyboard shortcuts to launch
             if (shortcut.Count != 0)
             {
-                newButton.Click += (se, ev) =>
+                click = (se, ev) =>
                 {
                     Shortcut.send(shortcut.ToArray());
                 };
             }
 
-            //// adds the button to the grid
-            main.myGrid.Children.Add(newButton);
+            // don't let the user add an empty button...
+            if (click != null)
+            {
+                main.grid.addButton(ButtonText, click);
+                this.Close();
 
-            this.Close();
+            }
+
+            //// adds the button to the grid
+            //main.newMyGrid.Children.Add(newButton);
+
         }
     }
 }
