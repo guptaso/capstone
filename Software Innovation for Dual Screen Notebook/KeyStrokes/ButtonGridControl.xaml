@@ -23,12 +23,29 @@
         </ControlTemplate>
 
     </UserControl.Resources>
+    <!--        <controls:StackPanel VerticalAlignment="Bottom" Margin="-60">
+            <controls:Button Width="auto"  Height="20" Click="removeBtn" Background="Black" Content="Remove Btn" x:Name="btnMenu" Visibility="Visible"/>
 
-    <controls:UniformGrid x:Name="grid" Margin="10" Rows="3" Columns="4" Height="303" ClipToBounds="True">
+        </controls:StackPanel>-->
+
+    <Grid>
+        <StackPanel x:Name="btnMenu" Width="100" Height="200" Margin="10,0,0,0" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <Button Width="100" Height="40" Click="removeBtn" Background="GhostWhite" x:Name="rBtn" Content="Remove Button" Margin="0,0,0,0" />
+            <Button Width="100" Height="40" Click="okBtn" Background="GhostWhite" x:Name="cBtn" Content="Change Position" Margin="0,0,0,0"/>
+            <TextBlock Text="New Row" Margin="0,10,0,0" Visibility="Hidden" x:Name="rName"/>
+            <TextBox x:Name="rowIn" Visibility="Hidden"/>
+            <TextBlock Text="New Col" Visibility="Hidden" x:Name="cName"/>
+            <TextBox x:Name="colIn" Visibility="Hidden"/>
+            <Button Content="Change" Background="GhostWhite" Width="50" Click="changeBtn" Visibility="Hidden" x:Name="but"/>
+        </StackPanel>
+        <controls:UniformGrid x:Name="grid" Margin="0,0,0,0" Rows="1" Columns="4"  />
+
         <!--<Button Template="{StaticResource button}"  Content="1" Width="auto" Margin="11,10" KeyDown="Button_KeyDown" Click="Button_Click"/>
         <Button Template="{StaticResource button}" Content="2" Width="auto" Margin="14,10,13,10" KeyDown="Button_KeyDown" Click="Button_Click_1"/>
         <Button Template="{StaticResource button}" Content="3" Width="auto" Margin="11,1" KeyDown="Button_KeyDown" Click="Button_Click_2"/>
         <wpf:Button Content="yeet" Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="0" wpf:Grid.Row="0"  />
         <wpf:Button  Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="1" wpf:Grid.Row="0"  />
-    --></controls:UniformGrid>
+    -->
+
+    </Grid>
 </UserControl> 
