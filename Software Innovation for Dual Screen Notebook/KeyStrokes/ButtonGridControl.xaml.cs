@@ -19,6 +19,8 @@ namespace KeyStrokes
         private int col = 0;
         private int row = 0;
         private Button hold;
+        private Point startPoint;
+
         public ButtonGridControl()
         {
             InitializeComponent();
@@ -110,6 +112,7 @@ namespace KeyStrokes
             btnMenu.Visibility = Visibility.Hidden;
         }
 
+        /*
         public void okBtn(object sender, RoutedEventArgs e)
         {
             rName.Visibility = Visibility.Visible;
@@ -117,9 +120,117 @@ namespace KeyStrokes
             cName.Visibility = Visibility.Visible;
             colIn.Visibility = Visibility.Visible;
             but.Visibility = Visibility.Visible;
-        }
+        }*/
 
         public void changeBtn(object sender, RoutedEventArgs e)
+        {
+            grid.Visibility = Visibility.Hidden;
+            myG.Visibility = Visibility.Visible;
+
+
+            myG.Rows = grid.Rows+1;
+            myG.Columns = 2*grid.Columns;
+
+            buttonList.Clear();
+            foreach (Button buttonItem in grid.Children)
+            {
+                if (buttonItem is FrameworkElement)
+                {
+                    buttonList.Add(buttonItem);
+                }
+            }
+
+            grid.Children.Clear();
+
+            Button placeButton = new Button();
+            placeButton.Content = "+";
+            placeButton.Height = 20;
+            placeButton.Width = 40;
+            placeButton.Click += new RoutedEventHandler(btnClick);
+
+            myG.Children.Add(placeButton);
+            foreach (Button buttonItem in buttonList)
+            {
+                Button placeButtons = new Button();
+                placeButtons.Content = "+";
+                placeButtons.Height = 20;
+                placeButtons.Width = 40;
+                placeButtons.Click += new RoutedEventHandler(btnClick);
+
+
+                myG.Children.Add(buttonItem);
+                myG.Children.Add(placeButtons);
+            }
+
+
+        }
+ 
+        public void cancelBtn(object sender, RoutedEventArgs e)
+        {
+            if (myG.Visibility == Visibility.Visible)
+            {
+                myG.Children.Clear();
+
+                foreach(Button bI in buttonList)
+                {
+                    grid.Children.Add(bI);
+                }
+
+                myG.Visibility = Visibility.Hidden;
+                grid.Visibility = Visibility.Visible;
+            }
+
+            btnMenu.Visibility = Visibility.Hidden;
+        }
+
+        public void btnClick(object sender, RoutedEventArgs e)
+        {
+            // change color of button
+            Button targetButton = (Button)sender;
+            targetButton.Content = "clicked";
+
+            // go through grid moving elements to list 
+            buttonList.Clear();
+            foreach(Button buttonItem in myG.Children)
+            {
+                // if button.Content == "clicked", make that the hold
+                if (buttonItem == targetButton)
+                {
+                    buttonList.Add(hold);
+                }
+                // if button == "hold", remove
+                else if (buttonItem == hold)
+                {
+                    ;
+                }
+                // if button.Content == "+", skip
+                else if (buttonItem.Content.ToString() == "+")
+                {
+                    ;
+                }
+                else
+                {
+                    buttonList.Add(buttonItem);
+                }
+            }
+            // clear out spare grid
+            myG.Children.Clear();
+
+            // move list to real grid
+            foreach (Button buttonItem in buttonList)
+            {
+                grid.Children.Add(buttonItem);
+            }
+
+            // reverse the grids back 
+            grid.Visibility = Visibility.Visible;
+            myG.Visibility = Visibility.Hidden;
+            btnMenu.Visibility = Visibility.Hidden;
+
+        }
+
+        /* old method of moving through user input 
+        public void changeBtn2(object sender, RoutedEventArgs e)
         {
             int newRow = Int32.Parse(rowIn.Text);
             int newCol = Int32.Parse(colIn.Text);
@@ -161,7 +272,7 @@ namespace KeyStrokes
             {
                 grid.Children.Add(buttonItem);
             }
-
+            
 
 
             // clear and close everything
@@ -175,6 +286,7 @@ namespace KeyStrokes
             but.Visibility = Visibility.Hidden;
 
         }
+        */
 
         // this opens the new window for adding new buttons
         private void Add_Click(object sender, RoutedEventArgs e)
