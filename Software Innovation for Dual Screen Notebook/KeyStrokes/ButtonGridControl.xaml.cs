@@ -72,6 +72,7 @@ namespace KeyStrokes
 
             };
 
+            
             b.MouseDoubleClick += async (s, en) =>
             {
                 btnMenu.Visibility = Visibility.Visible;
@@ -229,71 +230,13 @@ namespace KeyStrokes
 
         }
 
-        /* old method of moving through user input 
-        public void changeBtn2(object sender, RoutedEventArgs e)
-        {
-            int newRow = Int32.Parse(rowIn.Text);
-            int newCol = Int32.Parse(colIn.Text);
-
-            // get new index 
-            // (newRow * number of cols set currently) + newRow = new index 
-            int curRows = grid.Rows;
-            int curCols = grid.Columns;
-            //int a = ((curRows-1)*newRow) + (newCol);
-            int a = ((newRow - 1) * curCols + newCol);
-
-            // remove button
-            grid.Children.Remove(hold);
-            buttonList.Clear();
-            foreach (Button buttonItem in grid.Children)
-            {
-                if (buttonItem is FrameworkElement)
-                {
-                    buttonList.Add(buttonItem);
-                }
-            }
-
-            if ((a) <= buttonList.Count + 1)
-            {
-                // insert button at new position
-                Console.WriteLine("count: ");
-                Console.WriteLine(buttonList.Count);
-                buttonList.Insert(a - 1, hold);
-            }
-            else
-            {
-                buttonList.Add(hold);
-            }
-            // clear grid
-            grid.Children.Clear();
-
-            // re-format grid
-            foreach (Button buttonItem in buttonList)
-            {
-                grid.Children.Add(buttonItem);
-            }
-            
-
-
-            // clear and close everything
-            btnMenu.Visibility = Visibility.Hidden;
-            rowIn.Text = "";
-            colIn.Text = "";
-            rName.Visibility = Visibility.Hidden;
-            rowIn.Visibility = Visibility.Hidden;
-            cName.Visibility = Visibility.Hidden;
-            colIn.Visibility = Visibility.Hidden;
-            but.Visibility = Visibility.Hidden;
-
-        }
-        */
 
         // this opens the new window for adding new buttons
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            AddButtonWindow addButton = new AddButtonWindow();
-            addButton.InitializeComponent();
-            addButton.Show();
+            //AddButtonWindow addButton = new AddButtonWindow();
+            //addButton.InitializeComponent();
+            //addButton.Show();
         }
 
 
@@ -303,6 +246,9 @@ namespace KeyStrokes
             grid.Columns = col;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }

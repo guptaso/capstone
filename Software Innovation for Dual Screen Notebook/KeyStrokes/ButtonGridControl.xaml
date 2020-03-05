@@ -13,16 +13,15 @@
         <ControlTemplate x:Key="button" TargetType="Button">
             <Border Name="border"
                BorderThickness="1"
-               Padding="4,2"
-               CornerRadius="3"
-               Background="SlateGray" MinWidth="250" MinHeight="50">
+               Padding="10"
+               CornerRadius="5"
+               Background="SlateGray" MinHeight="50">
                 <Grid >
                     <ContentPresenter HorizontalAlignment="Center"
                            VerticalAlignment="Center" Name="content"/>
                 </Grid>
             </Border>
         </ControlTemplate>
-
     </UserControl.Resources>
     <!--        <controls:StackPanel VerticalAlignment="Bottom" Margin="-60">
             <controls:Button Width="auto"  Height="20" Click="removeBtn" Background="Black" Content="Remove Btn" x:Name="btnMenu" Visibility="Visible"/>
@@ -40,12 +39,12 @@
             <TextBox x:Name="colIn" Visibility="Hidden"/> 
             <Button Content="Change" Background="GhostWhite" Width="50" Click="changeBtn" Visibility="Hidden" x:Name="but"/>-->
         </StackPanel>
-        <controls:UniformGrid x:Name="grid" Margin="0,0,0,0" Rows="1" Columns="4"  Visibility="Visible"/>
+        <controls:UniformGrid x:Name="grid" Margin="0,0,0,0" Rows="3" Columns="3"  Visibility="Visible">
+        </controls:UniformGrid>
         <controls:UniformGrid x:Name="myG" Rows="1" Columns="1"  Visibility="Hidden"/>
 
 
-        <!--<Button Template="{StaticResource button}"  Content="1" Width="auto" Margin="11,10" KeyDown="Button_KeyDown" Click="Button_Click"/>
-        <Button Template="{StaticResource button}" Content="2" Width="auto" Margin="14,10,13,10" KeyDown="Button_KeyDown" Click="Button_Click_1"/>
+        <!--<Button Template="{StaticResource button}" Content="2" Width="auto" Margin="14,10,13,10" KeyDown="Button_KeyDown" Click="Button_Click_1"/>
         <Button Template="{StaticResource button}" Content="3" Width="auto" Margin="11,1" KeyDown="Button_KeyDown" Click="Button_Click_2"/>
         <wpf:Button Content="yeet" Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="0" wpf:Grid.Row="0"  />
         <wpf:Button  Template="{wpf:StaticResource button}" Width="auto" wpf:Grid.Column="1" wpf:Grid.Row="0"  />

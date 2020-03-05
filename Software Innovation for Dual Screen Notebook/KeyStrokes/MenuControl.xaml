@@ -1,46 +1,42 @@
 ﻿<UserControl
     x:Class="KeyStrokes.MenuControl"
-    x:Name="titleBar"
+    x:Name="menu"
     xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Width="139"
     xmlns:local="clr-namespace:KeyStrokes">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Background="GhostWhite" x:Name="movementStack" Height="164" Width="140" Margin="-1,0,0,0">
-        <Button  Width="40" Height="30" HorizontalAlignment="Left" Background="GhostWhite" Click="Close_Click"  x:Name="Close" Content="❮" />
-        <TextBlock Text="Grid Size" Margin="10,0,0,0" />
-        <ComboBox x:Name="layout_box" SelectionChanged="layout_SelectionChanged" SelectedValuePath="Content" VerticalAlignment="Center" Margin="10,0">
-            <ComboBoxItem IsSelected="True" Content="1x4" />
-            <ComboBoxItem IsSelected="False" Content="2x2" />
-            <ComboBoxItem IsSelected="False" Content="3x3" />
-            <ComboBoxItem IsSelected="False" Content="4x4" />
-            <ComboBoxItem IsSelected="False" Content="4x2" />
-            <ComboBoxItem IsSelected="False" Content="5x5" />
-        </ComboBox>
-        <Button Width="auto" Height="20" Background="GhostWhite" Click="add_button_Click"  x:Name="add_button" Content="Add Button" />
-        <Button Width="auto" Height="20" Background="GhostWhite" Click="bottom_bar_Click"  x:Name="bottom_bar" Content="Bottom Bar" />
-        <!-- <StackPanel Orientation="Vertical" Margin="10,0,0,0" >
-            <Button Content="Enter your own" Width="100" Click="getInput" Margin="0,10,0,0" >
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                        <GradientStop Color="White" Offset="1"/>
-                        <GradientStop Color="#FFCCCCFF"/>
-                        <GradientStop Color="#FFFFFCFC"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBox Width="39" Height="20" x:Name="inputBox" Visibility="Hidden"/>
-                <Button Width="20" Height="20" Click="addLayout" x:Name="okInput" Visibility="Hidden">OK</Button>
-            </StackPanel>
+    <Grid>
+        <local:AddButtonWindow Panel.ZIndex="4" x:Name="addButton" Visibility="Collapsed" Background="#FFD4D4E4" Margin="-203,43,-53,63" HorizontalAlignment="Right" Width="395" />
+
+        <StackPanel Orientation="Vertical" Background="#FFD4D4E4" x:Name="movementStack" Height="458" Margin="-203,0,-53,0" RenderTransformOrigin="0.515,0.696" HorizontalAlignment="Right" Width="395">
+            <Grid MouseDown="Grid_MouseDown"  Background="#FF75AABB" DockPanel.Dock="Top" Height="40" >
+                <Button VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Height="40" BorderBrush="#00CCCCFF" Content="❮" Click="Close_Click" Margin="0" Background="#00CCCCFF" FontSize="18"/>
+                <TextBlock x:Name="title" Text="Menu" Margin="50,8,0,8" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"/>
+            </Grid>
+            <Grid Height="45">
+                <TextBlock Text="Grid Size" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" />
+                <ComboBox x:Name="layout_box" SelectionChanged="layout_SelectionChanged" SelectedValuePath="Content" VerticalAlignment="Bottom" Margin="246,0,10,10" Width="139">
+                    <ComboBoxItem IsSelected="True" Content="1x4" />
+                    <ComboBoxItem IsSelected="False" Content="2x2" />
+                    <ComboBoxItem IsSelected="False" Content="3x3" />
+                    <ComboBoxItem IsSelected="False" Content="4x4" />
+                    <ComboBoxItem IsSelected="False" Content="4x2" />
+                    <ComboBoxItem IsSelected="False" Content="5x5" />
+                </ComboBox>
+            </Grid>
+            <Grid Height="45">
+                <TextBlock Text="Toggle Bottom Bar" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" />
+                <Button Width="auto" Height="20" Background="GhostWhite" Click="bottom_bar_Click"  x:Name="bottom_bar" Content="Toggle Bottom Bar" Margin="248,12,10,13" />
+            </Grid>
+
+            <Grid Height="45">
+                <Button Width="auto" Click="add_button_Click"  x:Name="add_button" Content="Add Button" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4" />
+            </Grid>
+
+
+
         </StackPanel>
-        
-        <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Button Name:</TextBlock>
-        <TextBox Width="39" Height="20" x:Name="moveBox" />
-        <TextBlock VerticalAlignment="Center"  Margin="10,0,0,0">Row:</TextBlock>
-        <TextBox Width="39" Height="20" Margin="10,0,10,0" x:Name="rowInput"></TextBox>
-        <TextBlock VerticalAlignment="Center">Column:</TextBlock>
-        <TextBox Width="39" Height="20" Margin="10,0,0,0" x:Name="colInput"></TextBox>
-        <Button Width="20" Height="20" Background="GhostWhite" Click="RCSubmit_Click"  x:Name="RCSubmit" >OK</Button> -->
-    </StackPanel>
+    </Grid>
+
 </UserControl>

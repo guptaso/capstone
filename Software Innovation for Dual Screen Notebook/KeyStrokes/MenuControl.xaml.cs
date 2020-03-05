@@ -26,16 +26,20 @@ namespace KeyStrokes
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            titleBar.Visibility = Visibility.Hidden;
+        {   
+            if (addButton.Visibility == Visibility.Visible)
+            {
+                addButton.Visibility = Visibility.Hidden;
+            } else
+            {
+                menu.Visibility = Visibility.Hidden;
+            }
         }
 
         private void add_button_Click(object sender, RoutedEventArgs e)
         {
-            AddButtonWindow addButton = new AddButtonWindow();
-            addButton.InitializeComponent();
-            addButton.Show();
-            titleBar.Visibility = Visibility.Hidden;
+            addButton.Visibility = Visibility.Visible;
+            //menu.Visibility = Visibility.Hidden;
         }
 
         private void layout_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,6 +69,11 @@ namespace KeyStrokes
             {
                 main.bottomBar.Visibility = Visibility.Hidden;
             }
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            main.DragMove();
         }
     }
 }

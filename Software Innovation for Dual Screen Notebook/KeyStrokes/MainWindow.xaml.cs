@@ -113,9 +113,9 @@ namespace KeyStrokes
         // this opens the new window for adding new buttons
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            AddButtonWindow addButton = new AddButtonWindow();
-            addButton.InitializeComponent();
-            addButton.Show();
+            //AddButtonWindow addButton = new AddButtonWindow();
+            //addButton.InitializeComponent();
+            ////addButton.Show();
         }
 
 

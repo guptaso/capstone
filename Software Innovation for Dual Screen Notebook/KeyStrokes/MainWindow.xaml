@@ -13,22 +13,14 @@
         WindowStyle="none" MinWidth="250" MinHeight="50">
 
     <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >
-        <StackPanel x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Orientation="Vertical" Height="509" VerticalAlignment="Top" Width="auto">
+        <Grid x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Height="509" VerticalAlignment="Top" Width="auto">
 
             <local:TitleBar x:Name="titleBar" VerticalAlignment="Top"/>
-
-            <Grid Height="70">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="99*"/>
-                    <ColumnDefinition Width="468*"/>
-                    <ColumnDefinition Width="394*"/>
-                </Grid.ColumnDefinitions>
+            <local:MenuControl Panel.ZIndex="3" x:Name="menu_control" Visibility="Collapsed" HorizontalAlignment="Left" Width="338" Margin="0,-2,0,50" />
 
 
-                <local:MenuControl Canvas.ZIndex="3" x:Name="menu_control" Visibility="Hidden" Margin="102.333,-6,227,-99" Grid.Column="1" />
-                <local:ButtonGridControl x:Name="grid" Margin="10,0,10,-422" Height="442" VerticalAlignment="Bottom" Grid.ColumnSpan="3" />
+            <local:ButtonGridControl x:Name="grid" Margin="10,0" Height="464" VerticalAlignment="Bottom" />
 
-            </Grid>
             <Canvas Height="369">
                 <StackPanel x:Name="bottomBar" Visibility="Hidden" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="62" Background="Gainsboro" HorizontalAlignment="Right" Width="948" Canvas.Left="3" Canvas.Top="367">
                     <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Background="GhostWhite" Click="media_back_Click"/>
@@ -39,6 +31,6 @@
                     <Button x:Name="redo" Content="Redo" Width="51" Background="GhostWhite" Click="redo_Click"/>
                 </StackPanel>
             </Canvas>
-        </StackPanel>
+        </Grid>
     </ScrollViewer>
 </Window>

@@ -16,16 +16,17 @@ namespace KeyStrokes
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public sealed partial class AddButtonWindow : Window
+    public sealed partial class AddButtonWindow : UserControl
     {
 
 
         private List<VirtualKeyShort.Key> shortcut;
         private MainWindow main;
 
-        protected override void OnSourceInitialized(EventArgs e)
+        public AddButtonWindow()
         {
-            base.OnSourceInitialized(e);
+            //base.OnSourceInitialized(e);
+            InitializeComponent();
 
             shortcut = new List<VirtualKeyShort.Key>();
 
@@ -109,7 +110,11 @@ namespace KeyStrokes
         private void Click_Cancel(object sender, RoutedEventArgs e)
         {
 
-            this.Close();
+            nameInput.Text = "";
+            appInput.Text = "";
+            pngInput.Text = "";
+            // rmeove hotkeys
+            this.Visibility = Visibility.Hidden;
         }
 
         private void Click_Confirm(object sender, RoutedEventArgs e)
@@ -170,8 +175,8 @@ namespace KeyStrokes
             if (click != null)
             {
                 main.grid.addButton(ButtonText, click);
-                this.Close();
-
+                Click_Cancel(sender, e);
+                main.menu_control.Visibility = Visibility.Collapsed;
             }
 
             //// adds the button to the grid
