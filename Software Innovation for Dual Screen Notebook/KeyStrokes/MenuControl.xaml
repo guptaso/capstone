@@ -10,9 +10,9 @@
         <Button  Width="40" Height="30" HorizontalAlignment="Left" Background="GhostWhite" Click="Close_Click"  x:Name="Close" Content="❮" />
         <TextBlock Text="Grid Size" Margin="10,0,0,0" />
         <ComboBox x:Name="layout_box" SelectionChanged="layout_SelectionChanged" SelectedValuePath="Content" VerticalAlignment="Center" Margin="10,0">
-            <ComboBoxItem IsSelected="False" Content="1x4" />
+            <ComboBoxItem IsSelected="True" Content="1x4" />
             <ComboBoxItem IsSelected="False" Content="2x2" />
-            <ComboBoxItem IsSelected="True" Content="3x3" />
+            <ComboBoxItem IsSelected="False" Content="3x3" />
             <ComboBoxItem IsSelected="False" Content="4x4" />
             <ComboBoxItem IsSelected="False" Content="4x2" />
             <ComboBoxItem IsSelected="False" Content="5x5" />

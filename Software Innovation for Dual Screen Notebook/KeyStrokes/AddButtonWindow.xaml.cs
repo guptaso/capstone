@@ -37,14 +37,14 @@ namespace KeyStrokes
         {
 
             if (shortcut.Count != 0)
-            {   
+            {
                 hotkeyDisplay.Children.Add(new TextBlock { Text = " + " });
             }
             shortcut.Add((VirtualKeyShort.Key)keyEnum.SelectedItem);
             var newKey = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
-                Margin = new Thickness(0)          
+                Margin = new Thickness(0)
             };
 
             var newKeyBorder = new Border
@@ -103,7 +103,7 @@ namespace KeyStrokes
             newKey.Children.Add(newKeyClose);
 
             hotkeyDisplay.Children.Add(newKeyBorder);
-           
+
         }
 
         private void Click_Cancel(object sender, RoutedEventArgs e)
@@ -125,6 +125,8 @@ namespace KeyStrokes
             // will hold the click handler
             Action<object, RoutedEventArgs> click = null;
 
+
+            // assigns the app to launch
             string hold = appInput.Text;
             if (!(String.IsNullOrEmpty(hold)))
             {
@@ -154,18 +156,6 @@ namespace KeyStrokes
                     }
                 };
             }
-
-
-            // launch app does not exist and I don't know why?
-            //// assigns the application to launch:
-            //String Tag = appInput.Text;
-            //if (!(String.IsNullOrEmpty(appInput.Text)))
-            //{
-            //    Tag = appInput.Text; //use tag to store the uri location, then can be accessed in the calling function
-            //    click += (se, ev) => this.launchApp(se, ev);
-            //}
-
-
 
             // assigns the keyboard shortcuts to launch
             if (shortcut.Count != 0)
