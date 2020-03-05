@@ -39,7 +39,7 @@ namespace KeyStrokes
         private void add_button_Click(object sender, RoutedEventArgs e)
         {
             addButton.Visibility = Visibility.Visible;
-            //menu.Visibility = Visibility.Hidden;
+            addButton.Open();
         }
 
         private void layout_SelectionChanged(object sender, SelectionChangedEventArgs e)

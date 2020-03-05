@@ -25,6 +25,7 @@ namespace KeyStrokes
 
         private void titlebar_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            main.Activate();
             main.DragMove();
         }
 
@@ -59,6 +60,7 @@ namespace KeyStrokes
             }
             else
             {
+                main.Activate();
                 main.menu_control.Visibility = Visibility.Visible;
             }
         }
