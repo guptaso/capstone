@@ -1,4 +1,5 @@
 ﻿<Window x:Class="KeyStrokes.MainWindow"
+        x:Name="window"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,42 +10,13 @@
         Height="540" Width="960"
         KeyDown="KeyInteractor"
         Background="GhostWhite"
-        WindowStyle="None">
-    <!--<WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="{Binding ActualHeight,ElementName=titlebar}"/>
-    </WindowChrome.WindowChrome>-->
+        WindowStyle="none" MinWidth="250" MinHeight="50">
+
     <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >
         <StackPanel x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Orientation="Vertical" Height="509" VerticalAlignment="Top" Width="auto">
-            <!--
-            <Border  Background="LightBlue" DockPanel.Dock="Top" Height="50" x:Name="titlebar" Width="auto">
-                <Grid VerticalAlignment="Top"  HorizontalAlignment="Left" Height="50" Width="956">
-                    <Button Panel.ZIndex="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40" Height="30" BorderBrush="#FF020202" Content="☰" Click="MenuClick">
-                        <Button.Background>
-                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                <GradientStop Color="White" Offset="1"/>
-                                <GradientStop Color="#FFCCCCFF"/>
-                                <GradientStop Color="#FFFFFCFC"/>
-                            </LinearGradientBrush>
-                        </Button.Background>
-                    </Button>
-                     These need to be changed to actual icons
-                <controls:TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,105,0" >  </controls:TextBlock>
-                    <controls:TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,58,0"> [ ] </controls:TextBlock>
-                    <controls:TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,14,0" > X </controls:TextBlock>
-                </Grid>
-            </Border>
+
             <local:TitleBar x:Name="titleBar" VerticalAlignment="Top"/>
-           
--->
-            <Button Panel.ZIndex="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40" Height="30" BorderBrush="#FF020202" Content="☰" Click="MenuClick">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                        <GradientStop Color="White" Offset="1"/>
-                        <GradientStop Color="#FFCCCCFF"/>
-                        <GradientStop Color="#FFFFFCFC"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
+
             <Grid Height="70">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="99*"/>

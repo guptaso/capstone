@@ -15,7 +15,7 @@
                BorderThickness="1"
                Padding="4,2"
                CornerRadius="3"
-               Background="SlateGray">
+               Background="SlateGray" MinWidth="250" MinHeight="50">
                 <Grid >
                     <ContentPresenter HorizontalAlignment="Center"
                            VerticalAlignment="Center" Name="content"/>
