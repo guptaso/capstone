@@ -6,28 +6,24 @@
         xmlns:local="clr-namespace:alert_center"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid>
-        <ItemsControl Name="alerts">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
+        <ListBox Name="alerts" ItemsSource="{Binding}" Width="300" HorizontalAlignment="Left">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1.5*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1.5*"/>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
-                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
+                            <Image Width="25" Height="25"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Name="subreddit" Width="100" Height="30" Text="{Binding website}"/>
+                            <TextBlock Width="100"/>
+                            <TextBlock Width="100"/>
+                        </StackPanel>
+                    </StackPanel>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Button Width="100" Height="30" Content="get reddit post" Click="get_reddit_post"/>
     </Grid>
 </Window>

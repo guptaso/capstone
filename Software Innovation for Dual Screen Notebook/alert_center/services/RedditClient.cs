@@ -46,7 +46,7 @@ namespace alert_center.services
             }
         }
 
-        public async Task<alert_item> get_top_post(string user, string before, string after, int limit) 
+        public async Task<reddit_item> get_top_post(string user, string before, string after, int limit) 
         {
             var timeSinceLastRequest = DateTime.Now.Subtract(_lastRequest);
             if (timeSinceLastRequest.Seconds < 1)
@@ -74,22 +74,24 @@ namespace alert_center.services
             var stringResp = await resp.Content.ReadAsStringAsync();
             JObject jo = JObject.Parse(stringResp);
             _lastRequest = DateTime.Now;
-            var alert_item_resp = alert_item_response(jo);
-            return alert_item_resp;
+            var reddit_item_resp = create_reddit_item(jo);
+            return reddit_item_resp;
         }
 
-        private alert_item alert_item_response(JObject response)
+        private reddit_item create_reddit_item(JObject response)
         {
-            var resp = new alert_item();
-            var sub = (string)response["data"]["children"][0]["data"]["subreddit_name_prefixed"];
-            
-            var user = (string)response["data"]["children"][0]["data"]["author_fullname"];
-            var ups = (string)response["data"]["children"][0]["data"]["ups"];
+            var resp = new reddit_item();
             if (response["data"]["children"][0]["data"]["is_video"].Value<bool>())
             {
-                var videoLink = (string)response["data"]["children"][0]["data"]["secure_media"]["reddit_video"]["fallback_url"];
+                resp.set_media_link((string)response["data"]["children"][0]["data"]["secure_media"]["reddit_video"]["fallback_url"]);
             }
-            var thumbnail = (string)response["data"]["children"][0]["data"]["thumbnail"];
+            resp.set_posting_account((string)response["data"]["children"][0]["data"]["author_fullname"]);
+            resp.set_subreddit((string)response["data"]["children"][0]["data"]["subreddit_name_prefixed"]);
+            resp.set_upvotes((int)response["data"]["children"][0]["data"]["ups"]);
+            resp.set_image((string)response["data"]["children"][0]["data"]["thumbnail"]);
+            resp.set_body_text((string)response["data"]["children"][0]["data"]["title"]);
+            resp.set_permalink((string)response["data"]["children"][0]["data"]["permalink"]);
+
             return resp;
         }
 
