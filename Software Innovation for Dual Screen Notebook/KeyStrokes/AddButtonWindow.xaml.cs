@@ -124,7 +124,6 @@ namespace KeyStrokes
             // will hold the click handler
             Action<object, RoutedEventArgs> click = null;
 
-
             // assigns the app to launch
             string hold = appInput.Text;
             if (!(String.IsNullOrEmpty(hold)))
@@ -159,9 +158,12 @@ namespace KeyStrokes
             // assigns the keyboard shortcuts to launch
             if (shortcut.Count != 0)
             {
-                click = (se, ev) =>
+                // by making a copy here it makes each button send its own shortcut
+                // otherwise all keys send the same shortcut
+                List<VirtualKeyShort.Key> holder = new List<VirtualKeyShort.Key>(shortcut);
+                click += (se, ev) =>
                 {
-                    Shortcut.send(shortcut.ToArray());
+                    Shortcut.send(holder.ToArray());
                 };
             }
 
