@@ -20,6 +20,7 @@ namespace KeyStrokes
         private int row = 0;
         private Button hold;
         private Point startPoint;
+        private DateTime click_started;
 
         public ButtonGridControl()
         {
@@ -27,6 +28,7 @@ namespace KeyStrokes
 
             buttonList = new List<Button>();
 
+            //click_started = new DateTime();
             //addButton("+", Add_Click);
         }
 
@@ -47,35 +49,35 @@ namespace KeyStrokes
             //newButton.RightTapped += async (s, en) =>
             b.MouseDown += async (s, en) =>
             {
-
-                /* MessageBoxResult result = MessageBox.Show("Remove?", "", MessageBoxButton.YesRemoveNo);
-                switch (result)
-                {
-                    case MessageBoxResult.Yes:
-
-                        // remove button
-                        grid.Children.Remove(b);
-                        buttonList.Clear();
-                        foreach(Button buttonItem in grid.Children)
-                        {
-                            if (buttonItem is FrameworkElement)
-                            {
-                                buttonList.Add(buttonItem);
-                            }
-                        }
-                        
-                        break;
-                }
-                */
-                btnMenu.Visibility = Visibility.Visible;
-                hold = b;
-
+                click_started = DateTime.Now;
             };
 
-            
-            b.MouseDoubleClick += async (s, en) =>
+            b.MouseUp += async (s, en) =>
             {
-                btnMenu.Visibility = Visibility.Visible;
+                if ((DateTime.Now - click_started).TotalSeconds > 1)
+                {
+                    if (btnMenu.Visibility == Visibility.Hidden)
+                    {
+                        btnMenu.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        btnMenu.Visibility = Visibility.Hidden;
+                    }
+                    hold = b;
+                }
+            };
+
+
+            b.MouseRightButtonDown += async (s, en) =>
+            {
+                if (btnMenu.Visibility == Visibility.Hidden)
+                {
+                    btnMenu.Visibility = Visibility.Visible;
+                } else
+                {
+                    btnMenu.Visibility = Visibility.Hidden;
+                }
                 hold = b;
             };
 
