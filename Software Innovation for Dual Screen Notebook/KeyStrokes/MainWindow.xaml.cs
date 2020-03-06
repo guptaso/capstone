@@ -113,9 +113,9 @@ namespace KeyStrokes
         // this opens the new window for adding new buttons
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            AddButtonWindow addButton = new AddButtonWindow();
-            addButton.InitializeComponent();
-            addButton.Show();
+            //AddButtonWindow addButton = new AddButtonWindow();
+            //addButton.InitializeComponent();
+            ////addButton.Show();
         }
 
 
@@ -179,7 +179,6 @@ namespace KeyStrokes
             if (media_play_pause.Content.Equals("Play"))
             {
                 media_play_pause.Content = "Pause";
-
             }
             else
             {
@@ -202,166 +201,5 @@ namespace KeyStrokes
         {
             Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.CONTROL, VirtualKeyShort.Key.KEY_Y });
         }
-
-        private void titleBar_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MenuClick(object sender, RoutedEventArgs e)
-        {
-            if (menu_control.IsVisible)
-            {
-                menu_control.Visibility = Visibility.Hidden;
-            } else
-            {
-                menu_control.Visibility = Visibility.Visible;
-            }
-            //if (layoutBtn.IsVisible)
-            //{
-            //    layoutBtn.Visibility = Visibility.Hidden;
-            //    newBtn.Visibility = Visibility.Hidden;
-            //    movementStack.Visibility = Visibility.Hidden;
-            //}
-            //else
-            //{
-            //    layoutBtn.Visibility = Visibility.Visible;
-            //    newBtn.Visibility = Visibility.Visible;
-            //    movementStack.Visibility = Visibility.Visible;
-            //}
-        }
-
-        //private void addLayout(object sender, RoutedEventArgs e)
-        //{
-        //    inputBox.Visibility = Visibility.Hidden;
-        //    okInput.Visibility = Visibility.Hidden;
-            
-        //    //layoutBtn.Visibility = Visibility.Hidden;
-        //    ComboBoxItem comboBoxItem = new ComboBoxItem();
-        //    string inputText = inputBox.Text;
-        //    comboBoxItem.Content = inputText;
-        //    myComboBox.Items.Add(comboBoxItem);
-        //    inputBox.Text = "";
-
-        //}
-
-        //private void getInput(object sender, RoutedEventArgs e)
-        //{
-        //    inputBox.Visibility = Visibility.Visible;
-        //    okInput.Visibility = Visibility.Visible;
-        //    layoutBtn.Visibility = Visibility.Visible;
-            
-
-        //}
-
-        //private void LayoutClick(object sender, SelectionChangedEventArgs e)
-        //{
-        //    ComboBoxItem ComboItem = (ComboBoxItem)myComboBox.SelectedItem;
-        //    string name = myComboBox.SelectedItem.ToString();
-        //    Trace.WriteLine(name.ToString());
-        //    //Trace.WriteLine(name.ToString().Substring(35,38));
-        //    string[] x = name.ToString().Split('x');
-        //    string a = x[1];
-        //    string b = "";
-        //    if (x.Length > 2)
-        //    {
-        //        b = x[2];
-        //        a = a.ToString().Split(' ')[1];
-        //        newMyGrid.Rows = Int16.Parse(a);
-        //        newMyGrid.Columns = Int16.Parse(b);
-        //    }
-        //    // a is rows b is cols
-
-        //}
-
-        //private void mvClick(object sender, RoutedEventArgs e)
-        //{
-        //    moveBox.Visibility = Visibility.Visible;
-        //}
-
-        // Ignore this function.... working on basically just copying everything over to move the buttons.... 
-        //private void mvRCSubmit(object sender, RoutedEventArgs e)
-        //{
-            /*
-            string btnName = moveBox.Text;
-            int rowNum = Int16.Parse(rowInput.Text);
-            int colNum = Int16.Parse(colInput.Text);
-            int cols = newMyGrid.Columns;
-            
-            // goes through each element in the stack pannel 
-            foreach (object child in newMyGrid.Children)
-            {
-                if (child is FrameworkElement)
-                {
-                    string[] x = child.ToString().Split(' ');
-                    string item = x.Last();
-                    
-                    // element to move found
-                    if (String.Equals(item, btnName))
-                    {
-
-                        // Remove this button
-                        newMyGrid.Children.Remove(child as FrameworkElement);
-
-                        // number of elements to skip over: (# of cols )* (row-1) + cols
-                        int skipOverCount = cols * (rowNum - 1) + colNum;
-                        int currentCount = 0;
-
-                        // temporary holders 
-                        Button hold = new Button();
-                        Button tempHold = new Button();
-                        foreach (object child2 in newMyGrid.Children)
-                        {
-                           
-                            if (child2 is FrameworkElement)
-                            {
-                                currentCount = currentCount + 1;
-
-                                // replaces with target button
-                                if (currentCount == skipOverCount)
-                                {
-                                    // copy info about this button into b"
-                                    // Button b = new Button();
-                                    (child2 as Button).Name = (child as Button).Name;
-                                    (child2 as Button).Content = (child as Button).Content;
-                                    (child2 as Button).Width = (child as Button).Width;
-                                    (child2 as Button).Height = (child as Button).Height;
-                                    (child2 as Button).Opacity = (child as Button).Opacity;
-                                    (child2 as Button).Background = (child as Button).Background;
-                                    (child2 as Button).BorderBrush = (child as Button).BorderBrush;
-                                    (child2 as Button).FontSize = (child as Button).FontSize;
-                                    (child2 as Button).Padding = (child as Button).Padding;
-                                    (child2 as Button).Margin = (child as Button).Margin;
-                                    // option to remove the button
-                                    //newButton.RightTapped += async (s, en) =>
-                                    (child2 as Button).MouseDown += async (s, en) =>
-                                    {
-                                        MessageBoxResult result = MessageBox.Show("Remove?", "", MessageBoxButton.YesNo);
-                                        switch (result)
-                                        {
-                                            case MessageBoxResult.Yes:
-                                                myGrid.Children.Remove((child2 as Button));
-                                                break;
-                                        }
-                                    };
-
-                                    // Need to add click event
-                                    //b.Click += (child as Button).Click; 
-                                    // Also need to copy keyboard shortcut....
-
-
-                                }
-                                // moves the rest of the buttons up 
-                                else if (currentCount >= skipOverCount)
-                                {
-
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-            }*/
-     //   }
     }
 }

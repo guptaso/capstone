@@ -15,15 +15,54 @@ namespace KeyStrokes
 {
     public partial class TitleBar : UserControl
     {
+        private MainWindow main;
 
         public TitleBar()
         {
-            InitializeComponent();          
+            InitializeComponent();
+            main = ((MainWindow)App.Current.MainWindow);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void titlebar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ((MainWindow)App.Current.MainWindow).Close();
+            main.Activate();
+            main.DragMove();
+        }
+
+
+        private void close_Click(object sender, RoutedEventArgs e)
+        {
+            main.Close();
+        }
+
+        private void maximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (main.WindowState == WindowState.Normal)
+            {
+                main.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                main.WindowState = WindowState.Normal;
+            }
+        }
+
+        private void minimize_Click(object sender, RoutedEventArgs e)
+        {
+            main.WindowState = WindowState.Minimized;
+        }
+
+        private void MenuClick(object sender, RoutedEventArgs e)
+        {
+            if (main.menu_control.IsVisible)
+            {
+                main.menu_control.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                main.Activate();
+                main.menu_control.Visibility = Visibility.Visible;
+            }
         }
     }
 }

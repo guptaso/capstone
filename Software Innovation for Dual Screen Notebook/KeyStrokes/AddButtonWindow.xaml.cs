@@ -16,16 +16,17 @@ namespace KeyStrokes
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public sealed partial class AddButtonWindow : Window
+    public sealed partial class AddButtonWindow : UserControl
     {
 
 
         private List<VirtualKeyShort.Key> shortcut;
         private MainWindow main;
 
-        protected override void OnSourceInitialized(EventArgs e)
+        public AddButtonWindow()
         {
-            base.OnSourceInitialized(e);
+            //base.OnSourceInitialized(e);
+            InitializeComponent();
 
             shortcut = new List<VirtualKeyShort.Key>();
 
@@ -33,83 +34,81 @@ namespace KeyStrokes
 
         }
 
+        public void Open()
+        {
+            nameInput.Text = "";
+            appInput.Text = "";
+            pngInput.Text = "";
+            shortcut.Clear();
+            redrawHotkeys();
+        }
+
+        private void redrawHotkeys() {
+                hotkeyDisplay.Children.Clear();
+                for (int i = 0; i < shortcut.Count; i++)
+                {
+                    var newKey = new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal,
+                        Margin = new Thickness(0)
+                    };
+                    var newKeyText = new TextBlock
+                    {
+                        Name = shortcut[i].ToString(),
+                        Text = shortcut[i].ToString(),
+                    };
+
+                    var newKeyClose = new Button
+                    {
+                        Width = 15,
+                        Height = 15,
+                        Content = "x",
+                        Name = shortcut[i].ToString()
+                    };
+
+                    // this needs a lot of work...
+                    newKeyClose.Click += (se, ev) =>
+                    {
+                        for (int j = 0; j < shortcut.Count; j++)
+                        {
+                            Button close = (Button)se;
+                            if (shortcut[j].ToString() == close.Name)
+                            {
+                                shortcut.RemoveAt(j);
+                            }
+                        }
+                        redrawHotkeys();
+                    };
+
+                    newKey.Children.Add(newKeyText);
+                    newKey.Children.Add(newKeyClose);
+
+                    var newKeyHolder = new Border
+                    {
+                        Background = Brushes.GhostWhite,
+                        BorderBrush = Brushes.Silver,
+                        BorderThickness = new Thickness(1),
+                        CornerRadius = new CornerRadius(3),
+                        Child = newKey
+                    };
+                    hotkeyDisplay.Children.Add(newKeyHolder);
+                    if (i != shortcut.Count - 1)
+                    {
+                        hotkeyDisplay.Children.Add(new TextBlock { Text = " + " });
+                    }
+                }
+            }
+
         private void Click_Addkey(object sender, RoutedEventArgs e)
         {
-
-            if (shortcut.Count != 0)
-            {
-                hotkeyDisplay.Children.Add(new TextBlock { Text = " + " });
-            }
             shortcut.Add((VirtualKeyShort.Key)keyEnum.SelectedItem);
-            var newKey = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                Margin = new Thickness(0)
-            };
-
-            var newKeyBorder = new Border
-            {
-                Background = Brushes.GhostWhite,
-                BorderBrush = Brushes.Silver,
-                BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(3),
-                Child = newKey
-            };
-
-            var newKeyText = new TextBlock
-            {
-                Name = keyEnum.SelectedItem.ToString(),
-                Text = keyEnum.SelectedItem.ToString(),
-            };
-
-            var newKeyClose = new Button
-            {
-                Width = 15,
-                Height = 15,
-                Content = "x"
-            };
-
-            // this needs a lot of work...
-            //newKeyClose.Click += (se, ev) =>
-            //{
-
-            //    hotkeyDisplay.Children.Add(new TextBox
-            //    {
-            //        Text = ev.Source.ToString()
-            //    });
-
-            //    //int count;
-            //    //Int32.TryParse(this.Uid, out count);
-            //    //hotkeyDisplay.Children.
-            //    //count += 1;
-            //    //if (count != 1)
-            //    //{
-            //    //    hotkeyDisplay.Children.RemoveAt(count);
-            //    //    hotkeyDisplay.Children.RemoveAt(count - 1);
-            //    //}
-            //    //else
-            //    //{
-            //    //    hotkeyDisplay.Children.RemoveAt(count);
-            //    //    if (shortcut.Count > 1)
-            //    //    {
-            //    //        hotkeyDisplay.Children.RemoveAt(count);
-            //    //    }
-            //    //}
-
-            //    //shortcut.RemoveAt((count-1) / 2);
-            //};
-
-            newKey.Children.Add(newKeyText);
-            newKey.Children.Add(newKeyClose);
-
-            hotkeyDisplay.Children.Add(newKeyBorder);
+            redrawHotkeys();
 
         }
 
         private void Click_Cancel(object sender, RoutedEventArgs e)
         {
-
-            this.Close();
+            this.Visibility = Visibility.Hidden;
         }
 
         private void Click_Confirm(object sender, RoutedEventArgs e)
@@ -124,7 +123,6 @@ namespace KeyStrokes
 
             // will hold the click handler
             Action<object, RoutedEventArgs> click = null;
-
 
             // assigns the app to launch
             string hold = appInput.Text;
@@ -160,9 +158,12 @@ namespace KeyStrokes
             // assigns the keyboard shortcuts to launch
             if (shortcut.Count != 0)
             {
-                click = (se, ev) =>
+                // by making a copy here it makes each button send its own shortcut
+                // otherwise all keys send the same shortcut
+                List<VirtualKeyShort.Key> holder = new List<VirtualKeyShort.Key>(shortcut);
+                click += (se, ev) =>
                 {
-                    Shortcut.send(shortcut.ToArray());
+                    Shortcut.send(holder.ToArray());
                 };
             }
 
@@ -170,8 +171,8 @@ namespace KeyStrokes
             if (click != null)
             {
                 main.grid.addButton(ButtonText, click);
-                this.Close();
-
+                Click_Cancel(sender, e);
+                main.menu_control.Visibility = Visibility.Collapsed;
             }
 
             //// adds the button to the grid

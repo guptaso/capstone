@@ -20,6 +20,7 @@ namespace KeyStrokes
         private int row = 0;
         private Button hold;
         private Point startPoint;
+        private DateTime click_started;
 
         public ButtonGridControl()
         {
@@ -27,6 +28,7 @@ namespace KeyStrokes
 
             buttonList = new List<Button>();
 
+            //click_started = new DateTime();
             //addButton("+", Add_Click);
         }
 
@@ -37,8 +39,8 @@ namespace KeyStrokes
 
             b.Content = content;
             b.Width = Double.NaN;
-            b.MaxHeight = 50;
-            b.MaxWidth = 100;
+            //b.MaxHeight = auto;
+            //b.MaxWidth = auto;
 
             // set the click handler
             b.Click += click.Invoke;
@@ -47,34 +49,35 @@ namespace KeyStrokes
             //newButton.RightTapped += async (s, en) =>
             b.MouseDown += async (s, en) =>
             {
-
-                /* MessageBoxResult result = MessageBox.Show("Remove?", "", MessageBoxButton.YesRemoveNo);
-                switch (result)
-                {
-                    case MessageBoxResult.Yes:
-
-                        // remove button
-                        grid.Children.Remove(b);
-                        buttonList.Clear();
-                        foreach(Button buttonItem in grid.Children)
-                        {
-                            if (buttonItem is FrameworkElement)
-                            {
-                                buttonList.Add(buttonItem);
-                            }
-                        }
-                        
-                        break;
-                }
-                */
-                btnMenu.Visibility = Visibility.Visible;
-                hold = b;
-
+                click_started = DateTime.Now;
             };
 
-            b.MouseDoubleClick += async (s, en) =>
+            b.MouseUp += async (s, en) =>
             {
-                btnMenu.Visibility = Visibility.Visible;
+                if ((DateTime.Now - click_started).TotalSeconds > 1)
+                {
+                    if (btnMenu.Visibility == Visibility.Hidden)
+                    {
+                        btnMenu.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        btnMenu.Visibility = Visibility.Hidden;
+                    }
+                    hold = b;
+                }
+            };
+
+
+            b.MouseRightButtonDown += async (s, en) =>
+            {
+                if (btnMenu.Visibility == Visibility.Hidden)
+                {
+                    btnMenu.Visibility = Visibility.Visible;
+                } else
+                {
+                    btnMenu.Visibility = Visibility.Hidden;
+                }
                 hold = b;
             };
 
@@ -229,71 +232,13 @@ namespace KeyStrokes
 
         }
 
-        /* old method of moving through user input 
-        public void changeBtn2(object sender, RoutedEventArgs e)
-        {
-            int newRow = Int32.Parse(rowIn.Text);
-            int newCol = Int32.Parse(colIn.Text);
-
-            // get new index 
-            // (newRow * number of cols set currently) + newRow = new index 
-            int curRows = grid.Rows;
-            int curCols = grid.Columns;
-            //int a = ((curRows-1)*newRow) + (newCol);
-            int a = ((newRow - 1) * curCols + newCol);
-
-            // remove button
-            grid.Children.Remove(hold);
-            buttonList.Clear();
-            foreach (Button buttonItem in grid.Children)
-            {
-                if (buttonItem is FrameworkElement)
-                {
-                    buttonList.Add(buttonItem);
-                }
-            }
-
-            if ((a) <= buttonList.Count + 1)
-            {
-                // insert button at new position
-                Console.WriteLine("count: ");
-                Console.WriteLine(buttonList.Count);
-                buttonList.Insert(a - 1, hold);
-            }
-            else
-            {
-                buttonList.Add(hold);
-            }
-            // clear grid
-            grid.Children.Clear();
-
-            // re-format grid
-            foreach (Button buttonItem in buttonList)
-            {
-                grid.Children.Add(buttonItem);
-            }
-            
-
-
-            // clear and close everything
-            btnMenu.Visibility = Visibility.Hidden;
-            rowIn.Text = "";
-            colIn.Text = "";
-            rName.Visibility = Visibility.Hidden;
-            rowIn.Visibility = Visibility.Hidden;
-            cName.Visibility = Visibility.Hidden;
-            colIn.Visibility = Visibility.Hidden;
-            but.Visibility = Visibility.Hidden;
-
-        }
-        */
 
         // this opens the new window for adding new buttons
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            AddButtonWindow addButton = new AddButtonWindow();
-            addButton.InitializeComponent();
-            addButton.Show();
+            //AddButtonWindow addButton = new AddButtonWindow();
+            //addButton.InitializeComponent();
+            //addButton.Show();
         }
 
 
@@ -303,6 +248,9 @@ namespace KeyStrokes
             grid.Columns = col;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }
