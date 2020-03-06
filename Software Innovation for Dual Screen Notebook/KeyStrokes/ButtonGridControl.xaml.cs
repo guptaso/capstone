@@ -37,8 +37,8 @@ namespace KeyStrokes
 
             b.Content = content;
             b.Width = Double.NaN;
-            b.MaxHeight = 50;
-            b.MaxWidth = 100;
+            //b.MaxHeight = auto;
+            //b.MaxWidth = auto;
 
             // set the click handler
             b.Click += click.Invoke;
