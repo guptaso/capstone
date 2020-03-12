@@ -83,6 +83,10 @@ namespace KeyStrokes
                 hold = b;
             };
 
+            b.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Hand;
+
+            b.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;
+
 
             // change this to actaully set the col and row
             //Grid.SetColumn(b, col++);

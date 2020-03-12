@@ -29,7 +29,7 @@
             <local:ButtonGridControl x:Name="grid" Margin="10,0,9,50" Height="414" VerticalAlignment="Bottom" Loaded="grid_Loaded" />
 
 
-            <StackPanel x:Name="bottomBar" Visibility="Visible" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="65" Background="Gainsboro" HorizontalAlignment="Right" Width="962" Canvas.Left="3" Canvas.Top="367" Margin="0,0,1,-15">
+            <StackPanel x:Name="bottomBar" Visibility="Hidden" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="65" Background="Gainsboro" HorizontalAlignment="Right" Width="962" Canvas.Left="3" Canvas.Top="367" Margin="0,0,1,-15">
                 <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Background="GhostWhite" Click="media_back_Click"/>
                 <Button x:Name="media_play_pause" Content="Play" Width="67" Background="GhostWhite" Click="media_play_pause_Click"/>
                 <Button x:Name="media_forward" Content="&gt;&gt;" Width="51" Background="GhostWhite" Click="media_forward_Click"/>
