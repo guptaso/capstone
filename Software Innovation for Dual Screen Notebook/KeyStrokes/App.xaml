@@ -6,6 +6,11 @@
              xmlns:enm="clr-namespace:KeyStrokes"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--  FluentWPF Controls  -->
+                <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         <LinearGradientBrush x:Key="GrayBlueGradientBrush" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="DarkGray" Offset="0" />
             <GradientStop Color="#CCCCFF" Offset="0.5" />
@@ -22,5 +27,9 @@
                 <x:Type TypeName="enm:VirtualKeyShort+Key"></x:Type>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+            
+            
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>

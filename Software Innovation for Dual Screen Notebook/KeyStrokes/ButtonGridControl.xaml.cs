@@ -37,6 +37,8 @@ namespace KeyStrokes
             var template = (ControlTemplate)buttonGrid.FindResource("button");
             Button b = new Button { Template = template };
 
+            
+
             b.Content = content;
             b.Width = Double.NaN;
             //b.MaxHeight = auto;
@@ -113,6 +115,8 @@ namespace KeyStrokes
             }
 
             btnMenu.Visibility = Visibility.Hidden;
+
+
         }
 
         /*

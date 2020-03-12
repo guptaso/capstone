@@ -5,47 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyStrokes"
         mc:Ignorable="d"
+        
         Height="428.249" Width="399.127"
         Background="White">
 
-    <StackPanel x:Name="content" Background="#00F8F8FF" Margin="26,10,21,10">
-        
+    <StackPanel x:Name="content" Background="#00F8F8FF" Margin="26,30,21,10">
+             
         <TextBlock Text="Shortcut Name: "/>
         <TextBox x:Name="nameInput"
                     Width="338"
-                    Height="25"
-                    HorizontalAlignment="Left">
+                    Height="36"
+                    HorizontalAlignment="Left"
+                 Style="{StaticResource TextBoxRevealStyle}">
         </TextBox>
 
         <TextBlock Text="Application(s) to open (seperated by a comma):" Margin="0,10,0,0"/>
         <TextBox x:Name="appInput"
                     Width="338"
-                    Height="20"
+                    Height="36"
                     HorizontalAlignment="Left"
-                    >
+                    Style="{StaticResource TextBoxRevealStyle}">
         </TextBox>
 
-
+<!-- This is now pre-loaded?
         <TextBlock Text="Add an Image to shortcut: " Margin="0,10,0,0"/>
         <TextBox x:Name="pngInput"
                     Width="338"
                     Height="22"
                     HorizontalAlignment="Left"
                     >
-        </TextBox>
+        </TextBox> -->
 
         <TextBlock Text="Add a keyboard shortcut:" Margin="0,10,0,0"/>
 
         <StackPanel Orientation="Horizontal">
-            <ComboBox x:Name="keyEnum" ItemsSource="{Binding Source={StaticResource enmKey}}" Width="299" Height="22" ></ComboBox>
-            <Button x:Name="addKey" Content="+" Background="GhostWhite" Click="Click_Addkey" Width="29" Height="22"/>
+            <ComboBox x:Name="keyEnum" ItemsSource="{Binding Source={StaticResource enmKey}}" Width="299" Height="25" SelectionChanged="keyEnum_SelectionChanged" IsEditable="True"></ComboBox>
+            <Button x:Name="addKey" Content="+" Background="Transparent" Click="Click_Addkey" Width="29" Height="22" Margin="10,0,0,0" Style="{StaticResource ButtonRevealStyle}"/>
         </StackPanel>
         <WrapPanel x:Name="hotkeyDisplay" Orientation="Horizontal" MinHeight="40" Height="auto" Width="353">
             
         </WrapPanel>
         <Grid HorizontalAlignment="Center" Margin="10,10,10,0" Width="332" Height="89">
-            <Button x:Name="cancel_btn" Content="Cancel" Click="Click_Cancel" Background="PaleVioletRed" HorizontalAlignment="Left" Margin="10,23,0,20" Width="141" VerticalAlignment="Center" Height="46"/>
-            <Button x:Name="confirm_btn" Content="Add Button" Click="Click_Confirm" Background="LightBlue" HorizontalAlignment="Right" Margin="0,23,10,20" Width="141" VerticalAlignment="Center" Height="46"/>
+            <Button x:Name="cancel_btn" Content="Cancel" Click="Click_Cancel" Background="PaleVioletRed" HorizontalAlignment="Left" Margin="10,23,0,20" Width="141" VerticalAlignment="Center" Height="46"  Style="{StaticResource ButtonRevealStyle}"/>
+            <Button x:Name="confirm_btn" Content="Add Button" Click="Click_Confirm" Background="LightBlue" HorizontalAlignment="Right" Margin="0,23,10,20" Width="141" VerticalAlignment="Center" Height="46"  Style="{StaticResource ButtonRevealStyle}"/>
         </Grid>
 
 

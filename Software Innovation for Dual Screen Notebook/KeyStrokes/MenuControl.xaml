@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Width="139"
     xmlns:local="clr-namespace:KeyStrokes">
     <Grid>
-        <local:AddButtonWindow Panel.ZIndex="4" x:Name="addButton" Visibility="Collapsed" Background="#FFD4D4E4" Margin="-203,43,-53,63" HorizontalAlignment="Right" Width="395" />
+        <local:AddButtonWindow Panel.ZIndex="4" x:Name="addButton" Visibility="Collapsed" Background="#FFD4D4E4" Margin="-203,53,-53,63" HorizontalAlignment="Right" Width="395" />
 
         <StackPanel Orientation="Vertical" Background="#FFD4D4E4" x:Name="movementStack" Height="458" Margin="-203,0,-53,0" RenderTransformOrigin="0.515,0.696" HorizontalAlignment="Right" Width="395">
             <Grid MouseDown="Grid_MouseDown"  Background="#FF75AABB" DockPanel.Dock="Top" Height="40" >
@@ -16,18 +16,19 @@
             </Grid>
             <Grid Height="45">
                 <TextBlock Text="Grid Size" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" />
+                <!-- App starts with 3x3 as default layout, so have the combo box reflect that -->
                 <ComboBox x:Name="layout_box" SelectionChanged="layout_SelectionChanged" SelectedValuePath="Content" VerticalAlignment="Bottom" Margin="246,0,10,10" Width="139">
-                    <ComboBoxItem IsSelected="True" Content="1x4" />
+                    <ComboBoxItem IsSelected="False" Content="1x4" />
                     <ComboBoxItem IsSelected="False" Content="2x2" />
-                    <ComboBoxItem IsSelected="False" Content="3x3" />
+                    <ComboBoxItem IsSelected="True" Content="3x3" />
                     <ComboBoxItem IsSelected="False" Content="4x4" />
                     <ComboBoxItem IsSelected="False" Content="4x2" />
                     <ComboBoxItem IsSelected="False" Content="5x5" />
                 </ComboBox>
             </Grid>
             <Grid Height="45">
-                <TextBlock Text="Toggle Bottom Bar" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" />
-                <Button Width="auto" Height="20" Background="GhostWhite" Click="bottom_bar_Click"  x:Name="bottom_bar" Content="Toggle Bottom Bar" Margin="248,12,10,13" />
+                <!--TextBlock Text="Toggle Bottom Bar" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" /-->
+                <Button Width="auto" Click="bottom_bar_Click" Content="Toggle Bottom Bar" Margin="0" HorizontalContentAlignment="Left" Background="#FFD4D4E4" x:Name="bottom_bar" Padding="12,1,1,1" FontSize="14"  BorderBrush="#FFD4D4E4" />
             </Grid>
 
             <Grid Height="45">

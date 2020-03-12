@@ -38,7 +38,7 @@ namespace KeyStrokes
         {
             nameInput.Text = "";
             appInput.Text = "";
-            pngInput.Text = "";
+            //pngInput.Text = "";
             shortcut.Clear();
             redrawHotkeys();
         }
@@ -175,8 +175,12 @@ namespace KeyStrokes
                 main.menu_control.Visibility = Visibility.Collapsed;
             }
 
-            //// adds the button to the grid
-            //main.newMyGrid.Children.Add(newButton);
+            keyEnum.SelectedIndex = 0;
+
+        }
+
+        private void keyEnum_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
         }
     }

@@ -201,5 +201,10 @@ namespace KeyStrokes
         {
             Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.CONTROL, VirtualKeyShort.Key.KEY_Y });
         }
+
+        private void grid_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
