@@ -58,12 +58,13 @@ namespace KeyStrokes
                         Text = shortcut[i].ToString(),
                     };
 
-                    var newKeyClose = new Button
-                    {
-                        Width = 15,
-                        Height = 15,
-                        Content = "x",
-                        Name = shortcut[i].ToString()
+                var newKeyClose = new Button
+                {
+                    Width = 15,
+                    Height = 20,
+                    Content = "x",
+                    Background = Brushes.LightGray,
+                    Name = shortcut[i].ToString()
                     };
 
                     // this needs a lot of work...
