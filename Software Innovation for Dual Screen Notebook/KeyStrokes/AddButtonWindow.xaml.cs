@@ -10,6 +10,7 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Collections.Generic;
+using Microsoft.Win32;
 
 namespace KeyStrokes
 {
@@ -183,6 +184,16 @@ namespace KeyStrokes
         private void keyEnum_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void file_open(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                appInput.Text += openFileDialog.FileName;
+                Console.WriteLine(openFileDialog.FileName);
+            }
         }
     }
 }

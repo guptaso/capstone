@@ -18,16 +18,18 @@
                     HorizontalAlignment="Left"
                  Style="{StaticResource TextBoxRevealStyle}">
         </TextBox>
-
         <TextBlock Text="Application(s) to open (seperated by a comma):" Margin="0,10,0,0"/>
-        <TextBox x:Name="appInput"
-                    Width="338"
-                    Height="36"
+        <Grid>
+            <TextBox x:Name="appInput"
+                    Width="250"
+                    Height="34"
                     HorizontalAlignment="Left"
                     Style="{StaticResource TextBoxRevealStyle}">
         </TextBox>
+            <Button x:Name="m" Content="File Open" Height="25" Click="file_open" Width="60" HorizontalAlignment="Right" Margin="0,0,20,0" Style="{StaticResource ButtonRevealStyle}" Background="Transparent"/>
+        </Grid>
 
-<!-- This is now pre-loaded?
+        <!-- This is now pre-loaded?
         <TextBlock Text="Add an Image to shortcut: " Margin="0,10,0,0"/>
         <TextBox x:Name="pngInput"
                     Width="338"
@@ -35,6 +37,7 @@
                     HorizontalAlignment="Left"
                     >
         </TextBox> -->
+
 
         <TextBlock Text="Add a keyboard shortcut:" Margin="0,10,0,0"/>
 
