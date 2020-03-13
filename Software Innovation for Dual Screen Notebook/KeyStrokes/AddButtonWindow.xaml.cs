@@ -195,5 +195,10 @@ namespace KeyStrokes
                 Console.WriteLine(openFileDialog.FileName);
             }
         }
+
+        private void nameInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

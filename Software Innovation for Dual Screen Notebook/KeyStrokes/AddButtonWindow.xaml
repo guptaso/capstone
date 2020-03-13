@@ -16,7 +16,7 @@
                     Width="338"
                     Height="36"
                     HorizontalAlignment="Left"
-                 Style="{StaticResource TextBoxRevealStyle}">
+                 Style="{StaticResource TextBoxRevealStyle}" TextChanged="nameInput_TextChanged">
         </TextBox>
         <TextBlock Text="Application(s) to open (seperated by a comma):" Margin="0,10,0,0"/>
         <Grid>
@@ -42,7 +42,7 @@
         <TextBlock Text="Add a keyboard shortcut:" Margin="0,10,0,0"/>
 
         <StackPanel Orientation="Horizontal">
-            <ComboBox x:Name="keyEnum" ItemsSource="{Binding Source={StaticResource enmKey}}" Width="299" Height="25" SelectionChanged="keyEnum_SelectionChanged" IsEditable="True"></ComboBox>
+            <ComboBox x:Name="keyEnum" ItemsSource="{Binding Source={StaticResource enmKey}}" Width="299" Height="25" SelectionChanged="keyEnum_SelectionChanged" IsEditable="True" Background="White" BorderBrush="#FFABADB3"></ComboBox>
             <Button x:Name="addKey" Content="+" Background="Transparent" Click="Click_Addkey" Width="29" Height="22" Margin="10,0,0,0" Style="{StaticResource ButtonRevealStyle}"/>
         </StackPanel>
         <WrapPanel x:Name="hotkeyDisplay" Orientation="Horizontal" MinHeight="40" Height="auto" Width="353">
