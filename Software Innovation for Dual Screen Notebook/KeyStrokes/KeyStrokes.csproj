@@ -125,5 +125,12 @@
   <ItemGroup>
     <Resource Include="Images\YT.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SavedApplications.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\kekw.jpg" />
+    <Resource Include="Images\lol.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

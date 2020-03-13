@@ -1,0 +1,20 @@
+C:\Riot Games\LoR\live\Game\LoR.exe
+75 90 11 10
+Images/lor.jpg 72 75 0.455 -0.263
+-80 0 -5 -20 1
+https://www.reddit.com/r/all
+75 90 11 10
+Images/reddit.jpg 72 75 0.455 -0.263
+-80 0 -5 -20 2
+https://www.youtube.com
+75 90 11 10
+Images/YT.png 72 75 0.455 -0.263
+-80 0 -5 -20 3
+C:\Riot Games\League of Legends\LeagueClient.exe
+75 90 11 10
+Images/lol.jpg 72 75 0.455 -0.263
+-80 0 -5 -20 L
+C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
+75 90 11 10
+ 72 75 0.455 -0.263
+-80 0 -5 -20 V
