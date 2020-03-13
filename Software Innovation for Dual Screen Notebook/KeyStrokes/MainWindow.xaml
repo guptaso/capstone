@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:KeyStrokes"
         xmlns:controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Height="560" Width="960"
         KeyDown="KeyInteractor"
@@ -30,12 +31,13 @@
 
 
             <StackPanel x:Name="bottomBar" Visibility="Hidden" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="65" Background="Gainsboro" HorizontalAlignment="Right" Width="962" Canvas.Left="3" Canvas.Top="367" Margin="0,0,1,-15">
-                <Button x:Name="media_back" Content="&lt;&lt;" Width="51" Background="GhostWhite" Click="media_back_Click"/>
-                <Button x:Name="media_play_pause" Content="Play" Width="67" Background="GhostWhite" Click="media_play_pause_Click"/>
-                <Button x:Name="media_forward" Content="&gt;&gt;" Width="51" Background="GhostWhite" Click="media_forward_Click"/>
+                <Button x:Name="media_back" Content="{materialDesign:PackIcon Kind=FastRewind, Size=20}" Width="51" Background="GhostWhite" Click="media_back_Click"/>
+                <Button x:Name="media_play_pause" Content="{materialDesign:PackIcon Kind=PlayPause, Size=20}" Width="67" Background="GhostWhite" Click="media_play_pause_Click"/>
+                <Button x:Name="media_forward" Content="{materialDesign:PackIcon Kind=FastForward, Size=20}" Width="51" Background="GhostWhite" Click="media_forward_Click"/>
                 <GridSplitter Width="573" Background="Gainsboro"/>
-                <Button x:Name="undo" Content="Undo" Width="51" Background="GhostWhite" Click="undo_Click"/>
-                <Button x:Name="redo" Content="Redo" Width="51" Background="GhostWhite" Click="redo_Click"/>
+                <Button x:Name="undo" Content="{materialDesign:PackIcon Kind=UndoVariant, Size=20}" Width="51" Background="GhostWhite" Click="undo_Click"/>
+                <Button x:Name="redo" Content="{materialDesign:PackIcon Kind=RedoVariant, Size=20}" Width="51" Background="GhostWhite" Click="redo_Click"/>
+                
             </StackPanel>
 
         </Grid>

@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Collections.Generic;
 using System.Linq;
+using MaterialDesignThemes.Wpf;
 
 namespace KeyStrokes
 {
@@ -178,11 +179,11 @@ namespace KeyStrokes
             // music is playing to be correct all the time
             if (media_play_pause.Content.Equals("Play"))
             {
-                media_play_pause.Content = "Pause";
+                media_play_pause.Content = new PackIcon { Kind = PackIconKind.PlayPause };
             }
             else
             {
-                media_play_pause.Content = "Play";
+                media_play_pause.Content = new PackIcon { Kind = PackIconKind.PlayPause };
             }
             Shortcut.send(new VirtualKeyShort.Key[] { VirtualKeyShort.Key.MEDIA_PLAY_PAUSE });
         }
