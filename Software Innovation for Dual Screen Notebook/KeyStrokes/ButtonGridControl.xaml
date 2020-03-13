@@ -11,16 +11,27 @@
     <!-- this is the theme for the button change this and all the buttons do this! -->
     <UserControl.Resources>
         <ControlTemplate x:Key="button" TargetType="Button">
+            
             <Border Name="border"
                BorderThickness="1"
                Padding="10"
                CornerRadius="5"
-               Background="SlateGray" MinHeight="50">
+               Background="LightGray" MinHeight="50">
                 <Grid >
                     <ContentPresenter HorizontalAlignment="Center"
                            VerticalAlignment="Center" Name="content"/>
                 </Grid>
             </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter TargetName="border" Property="BorderBrush" Value="LightBlue"/>
+                    <Setter Property="FontSize" Value="40"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+
         </ControlTemplate>
     </UserControl.Resources>
     <!--        <controls:StackPanel VerticalAlignment="Bottom" Margin="-60">

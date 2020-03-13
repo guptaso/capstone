@@ -10,6 +10,7 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Collections.Generic;
+using Microsoft.Win32;
 
 namespace KeyStrokes
 {
@@ -38,7 +39,7 @@ namespace KeyStrokes
         {
             nameInput.Text = "";
             appInput.Text = "";
-            pngInput.Text = "";
+            //pngInput.Text = "";
             shortcut.Clear();
             redrawHotkeys();
         }
@@ -58,12 +59,13 @@ namespace KeyStrokes
                         Text = shortcut[i].ToString(),
                     };
 
-                    var newKeyClose = new Button
-                    {
-                        Width = 15,
-                        Height = 15,
-                        Content = "x",
-                        Name = shortcut[i].ToString()
+                var newKeyClose = new Button
+                {
+                    Width = 15,
+                    Height = 20,
+                    Content = "x",
+                    Background = Brushes.LightGray,
+                    Name = shortcut[i].ToString()
                     };
 
                     // this needs a lot of work...
@@ -175,8 +177,27 @@ namespace KeyStrokes
                 main.menu_control.Visibility = Visibility.Collapsed;
             }
 
-            //// adds the button to the grid
-            //main.newMyGrid.Children.Add(newButton);
+            keyEnum.SelectedIndex = 0;
+
+        }
+
+        private void keyEnum_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void file_open(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                appInput.Text += openFileDialog.FileName;
+                Console.WriteLine(openFileDialog.FileName);
+            }
+        }
+
+        private void nameInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
         }
     }

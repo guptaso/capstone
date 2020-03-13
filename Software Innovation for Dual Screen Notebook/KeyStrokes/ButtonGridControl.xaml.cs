@@ -37,6 +37,8 @@ namespace KeyStrokes
             var template = (ControlTemplate)buttonGrid.FindResource("button");
             Button b = new Button { Template = template };
 
+            
+
             b.Content = content;
             b.Width = Double.NaN;
             //b.MaxHeight = auto;
@@ -81,6 +83,10 @@ namespace KeyStrokes
                 hold = b;
             };
 
+            b.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Hand;
+
+            b.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;
+
 
             // change this to actaully set the col and row
             //Grid.SetColumn(b, col++);
@@ -113,6 +119,8 @@ namespace KeyStrokes
             }
 
             btnMenu.Visibility = Visibility.Hidden;
+
+
         }
 
         /*
@@ -150,7 +158,7 @@ namespace KeyStrokes
             placeButton.Height = 20;
             placeButton.Width = 40;
             placeButton.Click += new RoutedEventHandler(btnClick);
-
+            placeButton.Background = Brushes.LightGray;
             myG.Children.Add(placeButton);
             foreach (Button buttonItem in buttonList)
             {
@@ -158,6 +166,7 @@ namespace KeyStrokes
                 placeButtons.Content = "+";
                 placeButtons.Height = 20;
                 placeButtons.Width = 40;
+                placeButtons.Background = Brushes.LightGray;
                 placeButtons.Click += new RoutedEventHandler(btnClick);
 
 
