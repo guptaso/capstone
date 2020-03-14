@@ -10,7 +10,6 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Height="560" Width="960"
-        KeyDown="KeyInteractor"
         WindowStyle="None" MinWidth="250" MinHeight="50"
         fw:AcrylicWindow.TintColor="Transparent" Background="Transparent"
         AllowsTransparency="True"
@@ -27,9 +26,18 @@
             <local:MenuControl Panel.ZIndex="3" x:Name="menu_control" Visibility="Collapsed" HorizontalAlignment="Left" Width="338" Margin="0,35,0,50" />
 
 
+
             <local:ButtonGridControl x:Name="grid" Margin="10,0,9,50" Height="414" VerticalAlignment="Bottom" Loaded="grid_Loaded" />
-
-
+                <!-- All buttons are embedded within this. -->
+                <!--
+                <Button Height="75" Width="90" Margin="11,10" KeyDown="Button1_KeyDown" Click="Button1_Click">
+                    <DockPanel>
+                        <Image Source="Images/lor.jpg" Height="72" Width="75" RenderTransformOrigin="0.455,-0.263"/>
+                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="-80,0,-5,-20">1</TextBlock>
+                    </DockPanel>
+                </Button>
+                -->
+                
             <StackPanel x:Name="bottomBar" Visibility="Visible" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="65" Background="Gainsboro" HorizontalAlignment="Right" Width="962" Canvas.Left="3" Canvas.Top="367" Margin="0,0,1,-15">
                 <Button x:Name="media_back" Content="{materialDesign:PackIcon Kind=FastRewind, Size=20}" Width="51" Background="Gainsboro" Click="media_back_Click" BorderThickness="0"/>
                 <Button x:Name="media_play_pause" Content="{materialDesign:PackIcon Kind=PlayPause, Size=20}" Width="67" Background="Gainsboro" Click="media_play_pause_Click" BorderThickness="0"/>
@@ -37,7 +45,9 @@
                 <GridSplitter Width="573" Background="Gainsboro"/>
                 <Button x:Name="undo" Content="{materialDesign:PackIcon Kind=UndoVariant, Size=20}" Width="51" Background="Gainsboro" Click="undo_Click" BorderThickness="0"/>
                 <Button x:Name="redo" Content="{materialDesign:PackIcon Kind=RedoVariant, Size=20}" Width="51" Background="Gainsboro" Click="redo_Click" BorderThickness="0"/>
-                
+                <Button x:Name="gaming_use_case" Width="150" Background="BlanchedAlmond" BorderThickness="0" Margin="-950, 0, 0, 0" Click="open_gaming_case">
+                    <TextBlock Text="Gaming Use Case"/>
+                </Button>
             </StackPanel>
 
         </Grid>
