@@ -35,6 +35,10 @@
                 <Button Width="auto" Click="add_button_Click"  x:Name="add_button" Content="Add Button" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4" />
             </Grid>
 
+            <Grid Height="45">
+                <Button Width="auto" Click="open_gaming_case" x:Name="gaming_use_case" Content="Gaming Use Case" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4"/>
+            </Grid>
+
 
 
         </StackPanel>

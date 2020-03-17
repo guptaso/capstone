@@ -132,7 +132,7 @@ namespace KeyStrokes
         {
 
         }
-
+        /*
         private void open_gaming_case(object sender, RoutedEventArgs e)
         {
             // If the application is already open, then don't open another instance...
@@ -146,5 +146,6 @@ namespace KeyStrokes
             game.Show();
 
         }
+        */
     }
 }
