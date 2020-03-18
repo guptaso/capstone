@@ -30,6 +30,13 @@ namespace KeyStrokes
             button2.TabStop = true;
             button2.TabIndex = 3;
 
+            // Add keydown events on the constructor here
+            // Gets overwritten when this is put in the designer.cs adn the form changes
+            textBox1.KeyDown += textBox1_KeyDown;
+            textBox2.KeyDown += textBox2_KeyDown;
+            textBox3.KeyDown += textBox3_KeyDown;
+            button1.KeyDown += button1_KeyDown;
+            button2.KeyDown += button2_KeyDown;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -56,7 +63,10 @@ namespace KeyStrokes
 
                 //Now checks if the hotkey used was unique.
                 if (GamingUseCase.processFormInputs(textBox1.Text, textBox2.Text, textBox3.Text))
+                {
+                    GamingUseCase.finished = false;
                     this.Close();
+                }
             }
         }
 
@@ -84,6 +94,7 @@ namespace KeyStrokes
         //Simply close the form
         private void button2_Click(object sender, EventArgs e)
         {
+            GamingUseCase.finished = false;
             this.Close();
         }
 
@@ -94,7 +105,10 @@ namespace KeyStrokes
             if (e.KeyData == Keys.Tab)
                 button1.Select();
             else if (e.KeyData == Keys.Enter)
+            {
+                GamingUseCase.finished = false;
                 this.Close();
+            }
         }
 
         //Switch to textbox 1 if tab is pressed
@@ -132,5 +146,6 @@ namespace KeyStrokes
             if (openFile.ShowDialog() == true)
                 textBox2.Text = openFile.FileName;
         }
+
     }
 }

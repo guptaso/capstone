@@ -444,7 +444,12 @@ namespace KeyStrokes
             addButton.InitializeComponent();
             addButton.Show();
             */
-
+            if (finished)
+            {
+                MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
+                return;
+            }
+            finished = true;
             AddApplication form1 = new AddApplication();
             form1.Show();
         }
@@ -453,10 +458,7 @@ namespace KeyStrokes
         private void Add_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.OemPlus)
-            {
-                AddApplication form1 = new AddApplication();
-                form1.Show();
-            }
+                Add_Click(sender, e);
         }
 
         //Takes in the form inputs from Form1.cs and dynamically adds a new button by appending it to the ScrollViewer
