@@ -14,8 +14,9 @@ namespace KeyStrokes
     public partial class AddApplication : Form
     {
 
+        private GamingUseCase GamingWindow;
 
-        public AddApplication()
+        public AddApplication(GamingUseCase game)
         {
             InitializeComponent();
 
@@ -30,6 +31,15 @@ namespace KeyStrokes
             button2.TabStop = true;
             button2.TabIndex = 3;
 
+            // Add keydown events on the constructor here
+            // Gets overwritten when this is put in the designer.cs adn the form changes
+            textBox1.KeyDown += textBox1_KeyDown;
+            textBox2.KeyDown += textBox2_KeyDown;
+            textBox3.KeyDown += textBox3_KeyDown;
+            button1.KeyDown += button1_KeyDown;
+            button2.KeyDown += button2_KeyDown;
+
+            GamingWindow = game;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -55,8 +65,11 @@ namespace KeyStrokes
                 //To avoid making a new MainWindow class, make the method static
 
                 //Now checks if the hotkey used was unique.
-                if (GamingUseCase.processFormInputs(textBox1.Text, textBox2.Text, textBox3.Text))
+                if (GamingWindow.processFormInputs(textBox1.Text, textBox2.Text, textBox3.Text))
+                {
+                    GamingUseCase.finished = false;
                     this.Close();
+                }
             }
         }
 
@@ -117,7 +130,10 @@ namespace KeyStrokes
             openFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
             if (openFile.ShowDialog() == true)
+            {
                 textBox1.Text = openFile.FileName;
+                textBox2.Select();
+            }
         }
 
         //Open the file dialog upon clicking "Load Image"
@@ -130,7 +146,10 @@ namespace KeyStrokes
             openFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
             if (openFile.ShowDialog() == true)
+            {
                 textBox2.Text = openFile.FileName;
+                textBox3.Select();
+            }
         }
     }
 }

@@ -43,16 +43,22 @@ namespace KeyStrokes
         public static extern IntPtr SendMessage(IntPtr hwnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         //Store list of hotkeys (in char) used atm (Cannot use the same hotkey in more than one button)
-        private static List<char> hotkeyCharList = new List<char>();
+        private List<char> hotkeyCharList = new List<char>();
 
         //Also store list of hotkeys (in Key) used atm
-        private static List<Key> hotKeyList = new List<Key>();
+        private List<Key> hotKeyList = new List<Key>();
 
         //Also store list of locations (mainly used for the dynamic button portion)
-        private static List<string> locations = new List<string>();
+        private List<string> locations = new List<string>();
 
         //Also store list of images
-        private static List<string> imageList = new List<string>();
+        private List<string> imageList = new List<string>();
+
+        //And also store a list of buttons
+        private List<Button> buttonList = new List<Button>();
+
+        //When right clicking a specific dynamic button, record that button
+        private Button current;
 
         /*
         [DllImport("user32.dll")]
@@ -78,19 +84,8 @@ namespace KeyStrokes
         {
             InitializeComponent();
 
-            foreach (Window window in Application.Current.Windows)
-            {
-                Console.WriteLine("The current window element: " + window.Content);
-            }
-
             //Your boy did it, he managed to KEKW the capstone project
             this.Icon = BitmapFrame.Create(new Uri("../../Images/kekw.jpg", UriKind.RelativeOrAbsolute));
-
-            //When loading multiple single instances, the lists are not being cleared for w/e reason.  Fix this issue by clearing the arrays beforehand.
-            hotkeyCharList.Clear();
-            hotKeyList.Clear();
-            locations.Clear();
-            imageList.Clear();
 
             //Store the initial set of hotkeys (1 initially)
             hotkeyCharList.Add('+');
@@ -136,7 +131,7 @@ namespace KeyStrokes
         }
 
         //Add the locations via a file
-        public static void LoadApplicationsFromFile(string file)
+        public void LoadApplicationsFromFile(string file)
         {
             using (StreamReader reader = new StreamReader(file))
             {
@@ -170,13 +165,20 @@ namespace KeyStrokes
 
                     // Step 3 (requires tokenizing)
                     string[] imageInfo = reader.ReadLine().Split(separator);
-                    string imageLocation = imageInfo[0];
+                    int imageHeight = Int32.Parse(imageInfo[0]);
+                    int imageWidth = Int32.Parse(imageInfo[1]);
+                    double originOne = Double.Parse(imageInfo[2]);
+                    double originTwo = Double.Parse(imageInfo[3]);
+                    string imageLocation = "";
+                    for(int i = 0; i < imageInfo[4].Length; i++)
+                    {
+                        if (imageInfo[4][i] == '$')
+                            imageLocation += ' ';
+                        else
+                            imageLocation += imageInfo[4][i];
+                    }
                     if (imageLocation == "n")
                         imageLocation = "";
-                    int imageHeight = Int32.Parse(imageInfo[1]);
-                    int imageWidth = Int32.Parse(imageInfo[2]);
-                    double originOne = Double.Parse(imageInfo[3]);
-                    double originTwo = Double.Parse(imageInfo[4]);
 
                     // Step 4 (requires parsing)
                     string[] textInfo = reader.ReadLine().Split(separator);
@@ -196,7 +198,7 @@ namespace KeyStrokes
         }
 
         // Actually add the application
-        private static void AddApplication(string appLocation,
+        private void AddApplication(string appLocation,
                                         int buttonHeight, int buttonWidth, int buttonMarginOne, int buttonMarginTwo,
                                             string imageLocation, int imageHeight, int imageWidth, double originOne, double originTwo,
                                                 int textMarginOne, int textMarginTwo, int textMarginThree, int textMarginFour, char hotkey)
@@ -233,7 +235,7 @@ namespace KeyStrokes
             text.VerticalAlignment = VerticalAlignment.Bottom;
             text.HorizontalAlignment = HorizontalAlignment.Center;
             text.Margin = textMargin;
-            text.Text = hotkey + "";
+            text.Text = Char.ToUpper(hotkey) + "";
 
             //Create a dock panel that holds both the Image and the TextBlock children
             DockPanel dock = new DockPanel();
@@ -249,30 +251,17 @@ namespace KeyStrokes
             };
             newButton.KeyDown += DynamicButton_KeyDown;
             newButton.Click += (sender, e) => DynamicButton_Click(sender, e, appLocation);
+            newButton.PreviewMouseRightButtonDown += (sender, e) => DynamicButton_RightClick(sender, e, newButton);
+            
 
             //Contents of the button is simply whatever the dock is
             newButton.Content = dock;
 
 
             //Finally, the button is a part of the stack panel, which is a content of the scrollviewer
-            //The only two controls are the ScrollViewer and the Grid.  Since we want the Grid, use index 1.
-
-            Window content;
-            foreach (Window window in Application.Current.Windows)
-            {
-                Console.WriteLine("The current window element: " + window.Content);
-                content = window;
-                if (content.Content is System.Windows.Controls.Grid)
-                {
-                    ScrollViewer scroll = content.FindName("ButtonViewholder") as ScrollViewer;
-                    StackPanel stack = content.FindName("MyStack") as StackPanel;
-
-                    stack.Children.Add(newButton);
-                    scroll.Content = stack;
-                    break;
-                }
-            }
-            
+            //Located in the ScrollViewer with the name of ButtonViewholder
+            MyStack.Children.Add(newButton);
+            ButtonViewholder.Content = MyStack;
 
 
             //Determine which key was pressed and add it to the Key enum list
@@ -366,6 +355,7 @@ namespace KeyStrokes
             hotkeyCharList.Add(hotkey);
             locations.Add(appLocation);
             imageList.Add(imageLocation);
+            buttonList.Add(newButton);
         }
 
 
@@ -396,9 +386,9 @@ namespace KeyStrokes
                 e.Cancel = true;
             else
             {
-                MainWindow.currentInstance = false;
+                MenuControl.currentInstance = false;
                 SaveApplications("../../SavedApplications.txt");
-                e.Cancel = false;
+
             }
         }
 
@@ -416,15 +406,30 @@ namespace KeyStrokes
                     // Second line: button details
                     writer.WriteLine("75 90 11 10");
 
-                    // Third line: image details
-                    if (imageList[i] == "")
-                        imageList[i] = "n";
-                    writer.WriteLine(imageList[i] + " 72 75 0.455 -0.263");
+                    // Third line: image detail
+                    string imageLocation = "";
+                    for(int j = 0; j < imageList[i].Length; j++)
+                    {
+                        if (imageList[i][j] == ' ')
+                            imageLocation += '$';
+                        else
+                            imageLocation += imageList[i][j];
+                    }
+                    if (imageLocation == "")
+                        imageLocation = "n";
+                    writer.WriteLine("72 75 0.455 -0.263 " + imageLocation);
 
                     // Fourth line: text details (offset by 1 since first hotkey is +)
                     writer.WriteLine("-80 0 -5 -20 " + hotkeyCharList[i + 1]);
                 }
             }
+
+            //Clear the lists before quitting
+            hotkeyCharList.Clear();
+            hotKeyList.Clear();
+            locations.Clear();
+            imageList.Clear();
+            buttonList.Clear();
         }
 
 
@@ -439,13 +444,13 @@ namespace KeyStrokes
         // this opens the new window for adding new buttons
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            AddButtonWindow addButton = new AddButtonWindow();
-            addButton.InitializeComponent();
-            addButton.Show();
-            */
-
-            AddApplication form1 = new AddApplication();
+            if (finished)
+            {
+                MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
+                return;
+            }
+            finished = true;
+            AddApplication form1 = new AddApplication(this);
             form1.Show();
         }
 
@@ -454,13 +459,19 @@ namespace KeyStrokes
         {
             if (e.Key == Key.OemPlus)
             {
-                AddApplication form1 = new AddApplication();
+                if (finished)
+                {
+                    MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
+                    return;
+                }
+                finished = true;
+                AddApplication form1 = new AddApplication(this);
                 form1.Show();
             }
         }
 
         //Takes in the form inputs from Form1.cs and dynamically adds a new button by appending it to the ScrollViewer
-        public static bool processFormInputs(string appLocation, string appImage, string appHotKey)
+        public bool processFormInputs(string appLocation, string appImage, string appHotKey)
         {
 
             //First go through the current list of hotkeys. 
@@ -495,7 +506,7 @@ namespace KeyStrokes
         }
 
         //Dynamic button's KeyDown event
-        private static void DynamicButton_KeyDown(object sender, KeyEventArgs e)
+        private void DynamicButton_KeyDown(object sender, KeyEventArgs e)
         {
             //Search for which hotkey was pressed (not including + since there's already an event for it)
             for (int i = 1; i < hotKeyList.Count; i++)
@@ -504,21 +515,136 @@ namespace KeyStrokes
                 {
                     //Start the application at the 1st offset index and then stop searching
                     Process.Start(locations[i - 1]);
+
+
+                    //Move the button so that it's at the front
+                    //Two steps: remove the button and then restore it to the front
+                    
+                    // Find the button
+                    int buttonIndex = i - 1;
+
+                    // Remove elements with that buttonIndex
+                    // Just make sure to offset the two hotkeyLists by adding 1
+                    // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
+                    Button tempButton = buttonList[buttonIndex];
+                    buttonList.RemoveAt(buttonIndex);
+                    string tempLocation = locations[buttonIndex];
+                    locations.RemoveAt(buttonIndex);
+                    string tempImage = imageList[buttonIndex];
+                    imageList.RemoveAt(buttonIndex);
+                    char tempCharKey = hotkeyCharList[buttonIndex + 1];
+                    hotkeyCharList.RemoveAt(buttonIndex + 1);
+                    Key tempKey = hotKeyList[buttonIndex + 1];
+                    hotKeyList.RemoveAt(buttonIndex + 1);
+
+                    // Then, remove from the stack
+                    MyStack.Children.RemoveAt(buttonIndex);
+
+                    // Add it back to the stack in the very front
+                    MyStack.Children.Insert(0, tempButton);
+
+                    // Then, restore the contents
+                    buttonList.Insert(0, tempButton);
+                    locations.Insert(0, tempLocation);
+                    imageList.Insert(0, tempImage);
+                    hotkeyCharList.Insert(1, tempCharKey);
+                    hotKeyList.Insert(1, tempKey);
+
+                    // Finally, update the scrollviewer with changes made to the stack
+                    ButtonViewholder.Content = MyStack;
+
                     break;
                 }
             }
         }
 
         //Dynamic button's Click event
-        private static void DynamicButton_Click(object sender, RoutedEventArgs e, string location)
+        private void DynamicButton_Click(object sender, RoutedEventArgs e, string location)
         {
             Process.Start(location);
+
+            //Move the button so that it's at the front
+            //Two steps: remove the button and then restore it to the front
+
+            // Find the button
+            int buttonIndex = locations.FindIndex(x => x == location);
+
+            // Remove elements with that buttonIndex
+            // Just make sure to offset the two hotkeyLists by adding 1
+            // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
+            Button tempButton = buttonList[buttonIndex];
+            buttonList.RemoveAt(buttonIndex);
+            string tempLocation = locations[buttonIndex];
+            locations.RemoveAt(buttonIndex);
+            string tempImage = imageList[buttonIndex];
+            imageList.RemoveAt(buttonIndex);
+            char tempCharKey = hotkeyCharList[buttonIndex + 1];
+            hotkeyCharList.RemoveAt(buttonIndex + 1);
+            Key tempKey = hotKeyList[buttonIndex + 1];
+            hotKeyList.RemoveAt(buttonIndex + 1);
+
+            // Then, remove from the stack
+            MyStack.Children.RemoveAt(buttonIndex);
+
+            // Add it back to the stack in the very front
+            MyStack.Children.Insert(0, tempButton);
+
+            // Then, restore the contents
+            buttonList.Insert(0, tempButton);
+            locations.Insert(0, tempLocation);
+            imageList.Insert(0, tempImage);
+            hotkeyCharList.Insert(1, tempCharKey);
+            hotKeyList.Insert(1, tempKey);
+
+            // Finally, update the scrollviewer with changes made to the stack
+            ButtonViewholder.Content = MyStack;
+
         }
 
-        //Only have 1 instance of this
-        private void Check_Load(object sender, RoutedEventArgs e)
+        private void DynamicButton_RightClick(object sender, MouseButtonEventArgs e, Button currentButton)
+        {
+            // Record the current instance of the button once it's been clicked
+            current = currentButton;
+            btnMenu.Visibility = Visibility.Visible;
+        }
+
+        private void ScrollHorizontally(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollMe = sender as ScrollViewer;
+            if (e.Delta > 0)
+                scrollMe.PageLeft();
+            else
+                scrollMe.PageRight();
+            e.Handled = true;
+        }
+
+        private void cancelBtn(object sender, RoutedEventArgs e)
+        {
+            btnMenu.Visibility = Visibility.Hidden;
+        }
+
+        private void removeBtn(object sender, RoutedEventArgs e)
         {
 
+            // Find the button
+            int buttonIndex = buttonList.FindIndex(x => x == current);
+
+            // Remove elements with that buttonIndex
+            // Just make sure to offset the two hotkeyLists by adding 1
+            buttonList.RemoveAt(buttonIndex);
+            locations.RemoveAt(buttonIndex);
+            imageList.RemoveAt(buttonIndex);
+            hotkeyCharList.RemoveAt(buttonIndex + 1);
+            hotKeyList.RemoveAt(buttonIndex + 1);
+
+            // Finally, remove from the actual scrollviewer
+            MyStack.Children.RemoveAt(buttonIndex);
+            ButtonViewholder.Content = MyStack;
+
+
+            // After removing the button completely, hide the menu
+            btnMenu.Visibility = Visibility.Hidden;
         }
+
     }
 }

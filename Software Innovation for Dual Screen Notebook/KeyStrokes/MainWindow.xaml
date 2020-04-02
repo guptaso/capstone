@@ -38,16 +38,14 @@
                 </Button>
                 -->
                 
-            <StackPanel x:Name="bottomBar" Visibility="Visible" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="65" Background="Gainsboro" HorizontalAlignment="Right" Width="962" Canvas.Left="3" Canvas.Top="367" Margin="0,0,1,-15">
+            <StackPanel x:Name="bottomBar" Visibility="Hidden" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="65" Background="Gainsboro" HorizontalAlignment="Right" Width="962" Canvas.Left="3" Canvas.Top="367" Margin="0,0,1,-15">
                 <Button x:Name="media_back" Content="{materialDesign:PackIcon Kind=FastRewind, Size=20}" Width="51" Background="Gainsboro" Click="media_back_Click" BorderThickness="0"/>
                 <Button x:Name="media_play_pause" Content="{materialDesign:PackIcon Kind=PlayPause, Size=20}" Width="67" Background="Gainsboro" Click="media_play_pause_Click" BorderThickness="0"/>
                 <Button x:Name="media_forward" Content="{materialDesign:PackIcon Kind=FastForward, Size=20}" Width="51" Background="Gainsboro" Click="media_forward_Click" BorderThickness="0"/>
                 <GridSplitter Width="573" Background="Gainsboro"/>
                 <Button x:Name="undo" Content="{materialDesign:PackIcon Kind=UndoVariant, Size=20}" Width="51" Background="Gainsboro" Click="undo_Click" BorderThickness="0"/>
                 <Button x:Name="redo" Content="{materialDesign:PackIcon Kind=RedoVariant, Size=20}" Width="51" Background="Gainsboro" Click="redo_Click" BorderThickness="0"/>
-                <Button x:Name="gaming_use_case" Width="150" Background="BlanchedAlmond" BorderThickness="0" Margin="-950, 0, 0, 0" Click="open_gaming_case">
-                    <TextBlock Text="Gaming Use Case"/>
-                </Button>
+                
             </StackPanel>
 
         </Grid>

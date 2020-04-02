@@ -17,6 +17,7 @@ namespace KeyStrokes
     {
 
         private MainWindow main;
+        public static Boolean currentInstance = false;
 
         public MenuControl()
         {
@@ -40,6 +41,20 @@ namespace KeyStrokes
         {
             addButton.Visibility = Visibility.Visible;
             addButton.Open();
+        }
+
+        private void open_gaming_case(object sender, RoutedEventArgs e)
+        {
+            // If the application is already open, then don't open another instance...
+            if (currentInstance)
+            {
+                MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
+                return;
+            }
+            currentInstance = true;
+            GamingUseCase game = new GamingUseCase();
+            game.Show();
+
         }
 
         private void layout_SelectionChanged(object sender, SelectionChangedEventArgs e)
