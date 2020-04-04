@@ -13,6 +13,8 @@
         WindowStyle="None" MinWidth="250" MinHeight="50"
         fw:AcrylicWindow.TintColor="Transparent" Background="Transparent"
         AllowsTransparency="True"
+        Loaded="OnLoad"
+        WindowStartupLocation="CenterScreen"
         >
 
     <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >

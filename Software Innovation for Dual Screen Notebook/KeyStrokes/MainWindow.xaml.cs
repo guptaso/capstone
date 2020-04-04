@@ -22,6 +22,7 @@ namespace KeyStrokes
     {
 
         public static Boolean currentInstance = false;
+        private System.Windows.Forms.Screen currentScreen;
         private const int WM_MOUSEACTIVATE = 0x0021;
         private const int MA_NOACTIVATE = 3;
         private const int WS_EX_NOACTIVE = 0x08000000;
@@ -133,6 +134,35 @@ namespace KeyStrokes
 
         }
 
-        
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            // Output all screens that the computer has
+            // For the asus zenbook pro duo, there will be 2 screens, where the companion screen is index 1 and main screen is index 0
+            // To determine dimensions of the second screen, all the screens on the user laptop will be outputted
+            for (int i = 0; i < System.Windows.Forms.Screen.AllScreens.Length; i++)
+                Console.WriteLine("Screen: " + System.Windows.Forms.Screen.AllScreens[i]);
+
+            // If there is only one screen, place it on the main screen
+            // Otherwise, load it on the companion screen
+            if (System.Windows.Forms.Screen.AllScreens.Length == 1)
+                currentScreen = System.Windows.Forms.Screen.AllScreens[0];
+            else
+            {
+                currentScreen = System.Windows.Forms.Screen.AllScreens[1];
+                if (currentScreen != null)
+                {
+
+                    // Position this to the top of the second screen.  See the output logs for more info
+                    this.Top = currentScreen.WorkingArea.Height;
+                    
+
+                }
+            }
+
+
+
+
+        }
+
     }
 }

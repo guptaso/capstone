@@ -15,6 +15,7 @@ using System.IO;
 using System.ComponentModel;
 using System.Threading;
 
+
 namespace KeyStrokes
 {
     /// <summary>
@@ -22,7 +23,7 @@ namespace KeyStrokes
     /// </summary>
     public sealed partial class GamingUseCase: Window
     {
-        public static Boolean finished;
+        public static Boolean finished, helpFinished;
         private const int WM_MOUSEACTIVATE = 0x0021;
         private const int MA_NOACTIVATE = 3;
         private const int WS_EX_NOACTIVE = 0x08000000;
@@ -60,6 +61,9 @@ namespace KeyStrokes
         //When right clicking a specific dynamic button, record that button
         private Button current;
 
+        //Either display on the main screen if there is only one or display on the bottom screen if there are 2
+        System.Windows.Forms.Screen currentScreen;
+
         /*
         [DllImport("user32.dll")]
         static extern short VkKeyScan(char ch);
@@ -82,6 +86,7 @@ namespace KeyStrokes
 
         public GamingUseCase()
         {
+
             InitializeComponent();
 
             //Your boy did it, he managed to KEKW the capstone project
@@ -203,6 +208,11 @@ namespace KeyStrokes
                                             string imageLocation, int imageHeight, int imageWidth, double originOne, double originTwo,
                                                 int textMarginOne, int textMarginTwo, int textMarginThree, int textMarginFour, char hotkey)
         {
+
+            //Before adding, remove the text if it's already removed
+            if (EmptyApplications.Visibility == Visibility.Visible)
+                EmptyApplications.Visibility = Visibility.Hidden;
+
             //Adds the margin (Left, Top, Right, Bottom)
             Thickness buttonMargin = new Thickness(buttonMarginOne, 0, buttonMarginTwo, 0);
             Thickness textMargin = new Thickness(textMarginOne, textMarginTwo, textMarginThree, textMarginFour);
@@ -362,13 +372,13 @@ namespace KeyStrokes
         //Keys register on window.
         private void KeyInteractor(object sender, KeyEventArgs e)
         {
-
+            // triggering the +/= key
             if (e.Key == Key.OemPlus)
             {
                 e.Handled = true; //prevent the action from happening twice.
-                Add_KeyDown(sender, e);
+                Add_KeyUp(sender, e);
             }
-            //For the dynamic
+            // any other key
             else
             {
                 e.Handled = true;
@@ -388,7 +398,6 @@ namespace KeyStrokes
             {
                 MenuControl.currentInstance = false;
                 SaveApplications("../../SavedApplications.txt");
-
             }
         }
 
@@ -436,7 +445,13 @@ namespace KeyStrokes
         // this opens the help window purely for showing how to work this application
         private void Help_Click(object sender, RoutedEventArgs e)
         {
-            Help help = new Help();
+            if (helpFinished)
+            {
+                MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
+                return;
+            }
+            helpFinished = true;
+            Help help = new Help(this);
             help.Show();
         }
 
@@ -455,7 +470,7 @@ namespace KeyStrokes
         }
 
         // Press the + button (shift =) to call via keydown
-        private void Add_KeyDown(object sender, KeyEventArgs e)
+        private void Add_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.OemPlus)
             {
@@ -625,7 +640,6 @@ namespace KeyStrokes
 
         private void removeBtn(object sender, RoutedEventArgs e)
         {
-
             // Find the button
             int buttonIndex = buttonList.FindIndex(x => x == current);
 
@@ -641,10 +655,45 @@ namespace KeyStrokes
             MyStack.Children.RemoveAt(buttonIndex);
             ButtonViewholder.Content = MyStack;
 
+            // If the stack is empty, then redisplay that empty text
+            if(MyStack.Children.Count == 0)
+                EmptyApplications.Visibility = Visibility.Visible;
 
             // After removing the button completely, hide the menu
             btnMenu.Visibility = Visibility.Hidden;
+
+
         }
 
+        // Another way to close the btn menu is to click anywhere else
+        private void CloseBtnMenu(object sender, MouseButtonEventArgs e)
+        {
+            // If we clicked on the remove button, then we'll have to hide it anyways, 
+            // but we want to keep it visible so that the application will actually be removed
+            if(e.Source != rBtn)
+                btnMenu.Visibility = Visibility.Hidden;
+        }
+
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            // If there is only one screen, place it on the main screen
+            // Otherwise, load it on the companion screen
+            if (System.Windows.Forms.Screen.AllScreens.Length == 1)
+                currentScreen = System.Windows.Forms.Screen.AllScreens[0];
+            else
+            {
+                currentScreen = System.Windows.Forms.Screen.AllScreens[1];
+                if (currentScreen != null)
+                {
+                    
+                    this.Top = currentScreen.WorkingArea.Height;
+
+                }
+            }
+
+            
+
+
+        }
     }
 }

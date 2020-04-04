@@ -15,11 +15,16 @@ namespace KeyStrokes
     {
 
         private GamingUseCase GamingWindow;
+        private Screen currentScreen;
+
 
         public AddApplication(GamingUseCase game)
         {
+
+            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             InitializeComponent();
 
+            // These simply set the order of Tabs and allow these controls to be changed via Tab
             textBox1.TabStop = true;
             textBox1.TabIndex = 0;
             textBox2.TabStop = true;
@@ -46,30 +51,43 @@ namespace KeyStrokes
         {
             //If at least one of the fields are empty
             if (textBox1.Text == ""/* || textBox2.Text == "" */|| textBox3.Text == "")
+            {
                 MessageBox.Show("At least one of the required entries are empty, please try again", "Empty Inputs");
+
+                // Whichever text item was empty, make sure to give it focus
+                if (textBox1.Text == "")
+                    textBox1.Select();
+                else
+                    textBox3.Select();
+            }
 
             //Textbox 3 input should only be 1 character
             else if (textBox3.Text.Length > 1)
+            {
                 MessageBox.Show("The assigned hotkey should only be a single character", "Invalid Hotkey");
+                textBox3.Select();      // reassign the hotkey so give it control
+            }
 
             //Textbox 3, for now, should ONLY have alphanumeric characters
-            else if(!Char.IsLetterOrDigit(textBox3.Text[0]))
+            else if (!Char.IsLetterOrDigit(textBox3.Text[0]))
             {
                 MessageBox.Show("The assigned hotkey should only be alphanumeric", "Invalid Hotkey");
+                textBox3.Select();      // reassign the hotkey so give it control
             }
 
             //Otherwise, we chilling
             else
             {
-                //Send the form information to the MainWindow.
-                //To avoid making a new MainWindow class, make the method static
-
+                //Send the form information to the MainWindow
                 //Now checks if the hotkey used was unique.
+                //If the hotkey was not unique, restore focus to that textbox
                 if (GamingWindow.processFormInputs(textBox1.Text, textBox2.Text, textBox3.Text))
                 {
                     GamingUseCase.finished = false;
                     this.Close();
                 }
+                else
+                    textBox3.Select();
             }
         }
 
@@ -97,6 +115,7 @@ namespace KeyStrokes
         //Simply close the form
         private void button2_Click(object sender, EventArgs e)
         {
+            GamingUseCase.finished = false;
             this.Close();
         }
 
@@ -107,7 +126,10 @@ namespace KeyStrokes
             if (e.KeyData == Keys.Tab)
                 button1.Select();
             else if (e.KeyData == Keys.Enter)
+            {
+                GamingUseCase.finished = false;
                 this.Close();
+            }
         }
 
         //Switch to textbox 1 if tab is pressed
@@ -149,6 +171,34 @@ namespace KeyStrokes
             {
                 textBox2.Text = openFile.FileName;
                 textBox3.Select();
+            }
+        }
+
+        // When the form is closed using the x button on the top right
+        private void Application_Closing(object sender, CancelEventArgs e)
+        {
+            GamingUseCase.finished = false;
+            // this.Close();                    // because this event closes the app already, it would actually cause issues if this.Close() was called
+        }
+
+        // When the form is opened, determine if there's a second screen
+        private void Application_Opening(object sender, EventArgs e)
+        {
+            // If there is only one screen, place it on the main screen
+            // Otherwise, load it on the companion screen
+            if (Screen.AllScreens.Length == 1)
+                currentScreen = Screen.AllScreens[0];
+            else
+            {
+                currentScreen = Screen.AllScreens[1];
+                if (currentScreen != null)
+                {
+
+                    // Winforms and wpf interpret dimensions differently.  
+                    // In the case of putting the add form on the second screen, we have to multiply the working area's dimensions by 2
+                    this.Top = currentScreen.WorkingArea.Height *2;
+
+                }
             }
         }
     }

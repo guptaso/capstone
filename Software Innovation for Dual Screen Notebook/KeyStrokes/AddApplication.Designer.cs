@@ -57,7 +57,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(325, 30);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Absolute destination/URL";
+            this.label2.Text = "Load Application From Computer*";
             // 
             // label3
             // 
@@ -68,7 +68,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(251, 30);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Hotkey Assignment";
+            this.label3.Text = "Hotkey Assignment*";
             // 
             // button1
             // 
@@ -124,7 +124,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(200, 30);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Image Location";
+            this.label1.Text = "Add Local Image";
             // 
             // textBox2
             // 
@@ -150,7 +150,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FloralWhite;
+            this.BackColor = System.Drawing.Color.FromArgb(0xffd4d4);
             this.ClientSize = new System.Drawing.Size(1166, 658);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox2);
@@ -167,6 +167,8 @@
             this.MinimizeBox = false;
             this.Name = "AddApplication";
             this.Text = "Create a new widget";
+            this.Load += Application_Opening;
+            this.FormClosing += Application_Closing;
             this.ResumeLayout(false);
             this.PerformLayout();
 

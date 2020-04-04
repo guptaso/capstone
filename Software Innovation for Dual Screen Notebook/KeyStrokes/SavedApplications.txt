@@ -1,16 +1,24 @@
-C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
-75 90 11 10
-72 75 0.455 -0.263 n
--80 0 -5 -20 V
 C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
 75 90 11 10
 72 75 0.455 -0.263 n
--80 0 -5 -20 G
-C:\Users\Intel-VCSE-7\Desktop\Academic Transcript.html
+-80 0 -5 -20 1
+C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
 75 90 11 10
 72 75 0.455 -0.263 n
--80 0 -5 -20 T
+-80 0 -5 -20 G
 C:\Riot Games\League of Legends\LeagueClient.exe
 75 90 11 10
 72 75 0.455 -0.263 n
 -80 0 -5 -20 L
+C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
+75 90 11 10
+72 75 0.455 -0.263 n
+-80 0 -5 -20 V
+C:\Program Files\Haskell Platform\8.6.5\winghci\winghci.exe
+75 90 11 10
+72 75 0.455 -0.263 n
+-80 0 -5 -20 W
+C:\Users\Intel-VCSE-7\Desktop\Dolphin Emulator\Dolphin\Dolphin.exe
+75 90 11 10
+72 75 0.455 -0.263 n
+-80 0 -5 -20 D
