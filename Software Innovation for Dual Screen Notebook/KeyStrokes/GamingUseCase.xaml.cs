@@ -685,15 +685,10 @@ namespace KeyStrokes
                 currentScreen = System.Windows.Forms.Screen.AllScreens[1];
                 if (currentScreen != null)
                 {
-                    
                     this.Top = currentScreen.WorkingArea.Height;
 
                 }
             }
-
-            
-
-
         }
     }
 }

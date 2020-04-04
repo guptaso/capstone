@@ -14,7 +14,7 @@ namespace KeyStrokes
     public partial class AddApplication : Form
     {
 
-        private GamingUseCase GamingWindow;
+        private readonly GamingUseCase GamingWindow;
         private Screen currentScreen;
 
 
@@ -75,6 +75,19 @@ namespace KeyStrokes
                 textBox3.Select();      // reassign the hotkey so give it control
             }
 
+            // DISCORD SPECIAL CONDITION: if any part of the automatically filled out fields were altered, then do not accept it
+            else if (((textBox1.Text == "https://discordapp.com" || textBox1.Text == "https://discord.gg") && !textBox2.Text.Contains(@"KeyStrokes\Images\discord.png"))
+                        || ((textBox1.Text != "https://discordapp.com" && textBox1.Text != "https://discord.gg") && textBox2.Text.Contains(@"KeyStrokes\Images\discord.png"))) 
+            {
+                MessageBox.Show("I see you want to load Discord.  However, please DO NOT change the automatically loaded fields...", "Discord Forms Altered");
+
+                // Reload the fields
+                textBox1.Text = "https://discordapp.com";   // or https://discord.gg
+                textBox2.Text = @"C:\Users\Intel-VCSE-7\Desktop\gaming-improvements\Software Innovation for Dual Screen Notebook\KeyStrokes\Images\discord.png";
+                textBox3.Select();
+
+            }
+
             //Otherwise, we chilling
             else
             {
@@ -84,6 +97,7 @@ namespace KeyStrokes
                 if (GamingWindow.processFormInputs(textBox1.Text, textBox2.Text, textBox3.Text))
                 {
                     GamingUseCase.finished = false;
+                    GamingWindow.Activate();        // for some reason, the gaming use case window goes out of focus when app is closed.  this line fixes that issue
                     this.Close();
                 }
                 else
@@ -154,7 +168,17 @@ namespace KeyStrokes
             if (openFile.ShowDialog() == true)
             {
                 textBox1.Text = openFile.FileName;
-                textBox2.Select();
+
+                // only discord has problems with Process.Start(), so with ONLY discord, we automatically fill in 2 textbox fields
+                if (textBox1.Text.Contains(@"Discord\Update.exe"))
+                {
+                    MessageBox.Show("Discord must be loaded onto a website, so the first two fields will automatically be provided", "Discord Warning");
+                    textBox1.Text = "https://discordapp.com";               // or https://discord.gg
+                    textBox2.Text = @"C:\Users\Intel-VCSE-7\Desktop\gaming-improvements\Software Innovation for Dual Screen Notebook\KeyStrokes\Images\discord.png";
+                    textBox3.Select();
+                }
+                else
+                    textBox2.Select();
             }
         }
 
@@ -195,8 +219,9 @@ namespace KeyStrokes
                 {
 
                     // Winforms and wpf interpret dimensions differently.  
-                    // In the case of putting the add form on the second screen, we have to multiply the working area's dimensions by 2
+                    // In the case of putting the add form on the second screen, we have to multiply the working area's height by 2
                     this.Top = currentScreen.WorkingArea.Height *2;
+                    this.Left = currentScreen.WorkingArea.Width - this.Width;    //basically, offset to the left by the width of the form
 
                 }
             }

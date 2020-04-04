@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyStrokes"
         mc:Ignorable="d"
-        Height="365" Width="577"
+        Height="365" Width="970"
         MinHeight="365"
         MaxHeight="365"
         MinWidth="575"
@@ -24,7 +24,7 @@
             
         </TextBlock>
         
-        <ScrollViewer Name="ButtonViewholder" PreviewMouseWheel="ScrollHorizontally" PanningMode="HorizontalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,25,0,0">
+        <ScrollViewer Name="ButtonViewholder" PreviewMouseWheel="ScrollHorizontally" PanningMode="HorizontalOnly" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,25,0,0">
             <StackPanel Name="MyStack" RenderTransformOrigin="0.173,1.371" Orientation="Horizontal" Height="196" VerticalAlignment="Top" x:FieldModifier="public">
                 <!-- This is where the dynamic applications will be placed -->
             </StackPanel>

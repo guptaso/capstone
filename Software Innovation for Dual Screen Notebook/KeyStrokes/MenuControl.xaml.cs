@@ -16,7 +16,7 @@ namespace KeyStrokes
     public partial class MenuControl : UserControl
     {
 
-        private MainWindow main;
+        private readonly MainWindow main;
         public static Boolean currentInstance = false;
 
         public MenuControl()

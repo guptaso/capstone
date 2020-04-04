@@ -151,16 +151,10 @@ namespace KeyStrokes
                 currentScreen = System.Windows.Forms.Screen.AllScreens[1];
                 if (currentScreen != null)
                 {
-
                     // Position this to the top of the second screen.  See the output logs for more info
                     this.Top = currentScreen.WorkingArea.Height;
-                    
-
                 }
             }
-
-
-
 
         }
 
