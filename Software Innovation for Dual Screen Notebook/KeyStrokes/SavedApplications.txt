@@ -1,35 +1,51 @@
-C:\Program Files (x86)\Atmel\Studio\7.0\AtmelStudio.exe
+C:\Program Files\Microsoft Office\root\Office16\POWERPNT.EXE
 75 90 11 10
 72 75 0.455 -0.263 n
--80 0 -5 -20 A
-C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
+-80 0 -5 -20 P
+https://discord.gg
+75 90 11 10
+72 75 0.455 -0.263 C:\Users\Intel-VCSE-7\Desktop\gaming-improvements\Software$Innovation$for$Dual$Screen$Notebook\KeyStrokes\Images\discord.png
+-80 0 -5 -20 D
+C:\Program Files (x86)\Microsoft\Skype for Desktop\Skype.exe
 75 90 11 10
 72 75 0.455 -0.263 n
--80 0 -5 -20 1
-C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
-75 90 11 10
-72 75 0.455 -0.263 n
--80 0 -5 -20 V
-C:\Users\Intel-VCSE-7\Desktop\Dolphin Emulator\Dolphin\Dolphin.exe
-75 90 11 10
-72 75 0.455 -0.263 n
--80 0 -5 -20 E
+-80 0 -5 -20 Y
 C:\Program Files\Haskell Platform\8.6.5\winghci\winghci.exe
 75 90 11 10
 72 75 0.455 -0.263 n
 -80 0 -5 -20 W
-https://discordapp.com
-75 90 11 10
-72 75 0.455 -0.263 C:\Users\Intel-VCSE-7\Desktop\gaming-improvements\Software$Innovation$for$Dual$Screen$Notebook\KeyStrokes\Images\discord.png
--80 0 -5 -20 D
-C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+C:\Program Files (x86)\WinSCP\WinSCP.exe
 75 90 11 10
 72 75 0.455 -0.263 n
--80 0 -5 -20 G
+-80 0 -5 -20 S
 C:\Riot Games\League of Legends\LeagueClient.exe
 75 90 11 10
 72 75 0.455 -0.263 n
 -80 0 -5 -20 L
+C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE
+75 90 11 10
+72 75 0.455 -0.263 n
+-80 0 -5 -20 3
+C:\Users\Intel-VCSE-7\Desktop\Dolphin Emulator\Dolphin\Dolphin.exe
+75 90 11 10
+72 75 0.455 -0.263 n
+-80 0 -5 -20 E
+C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+75 90 11 10
+72 75 0.455 -0.263 n
+-80 0 -5 -20 G
+C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
+75 90 11 10
+72 75 0.455 -0.263 n
+-80 0 -5 -20 1
+C:\Program Files (x86)\Atmel\Studio\7.0\AtmelStudio.exe
+75 90 11 10
+72 75 0.455 -0.263 n
+-80 0 -5 -20 A
+C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
+75 90 11 10
+72 75 0.455 -0.263 n
+-80 0 -5 -20 V
 C:\Riot Games\LoR\live\Game\LoR.exe
 75 90 11 10
 72 75 0.455 -0.263 n

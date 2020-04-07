@@ -99,10 +99,6 @@
     <Compile Include="GamingUseCase.xaml.cs">
       <DependentUpon>GamingUseCase.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Help.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Help.Designer.cs" />
     <Compile Include="MenuControl.xaml.cs">
       <DependentUpon>MenuControl.xaml</DependentUpon>
     </Compile>
@@ -141,7 +137,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="AddApplication.resx" />
-    <EmbeddedResource Include="Help.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

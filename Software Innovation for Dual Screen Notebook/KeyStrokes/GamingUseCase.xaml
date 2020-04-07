@@ -39,7 +39,7 @@
         </StackPanel>
         
         <!--Added the help and add buttons to the bottom-->
-        <Button Content="HELP" x:Name="helpButton" Height="75" Width="90" Margin="0,0,175,-200"  Opacity="5.5"  Click="Help_Click" BorderThickness="2" ClipToBounds="True"/>
+        <Button Content="CLEAR" x:Name="clearButton" Height="75" Width="90" Margin="0,0,175,-200"  Opacity="5.5"  Click="Clear_Click" BorderThickness="2" ClipToBounds="True"/>
         <Button Content="+" x:Name="addButton" Height="75" Width="90" Margin="0,0,-175,-200"  Opacity="5.5" KeyUp="Add_KeyUp" Click="Add_Click" BorderThickness="2" ClipToBounds="True"/>
     </Grid>
 </Window>

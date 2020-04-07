@@ -8,12 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace KeyStrokes
 {
     public partial class AddApplication : Form
     {
-
         private readonly GamingUseCase GamingWindow;
         private Screen currentScreen;
 
@@ -159,13 +157,13 @@ namespace KeyStrokes
         //Open the file dialog upon clicking "Load Application"
         private void button3_Click(object sender, EventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog openFile = new Microsoft.Win32.OpenFileDialog();
+            OpenFileDialog openFile = new OpenFileDialog();
 
             openFile.Filter = "All files (*.*)|*.*";
             openFile.DefaultExt = "(*.*)";
             openFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-            if (openFile.ShowDialog() == true)
+            
+            if (openFile.ShowDialog() == DialogResult.OK)
             {
                 textBox1.Text = openFile.FileName;
 

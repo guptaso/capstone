@@ -23,7 +23,7 @@ namespace KeyStrokes
     /// </summary>
     public sealed partial class GamingUseCase: Window
     {
-        public static Boolean finished, helpFinished;
+        public static Boolean finished;
         private const int WM_MOUSEACTIVATE = 0x0021;
         private const int MA_NOACTIVATE = 3;
         private const int WS_EX_NOACTIVE = 0x08000000;
@@ -386,7 +386,6 @@ namespace KeyStrokes
             }
         }
 
-
         // Save all current applications on the Window to the text file
         private void CloseWindow(object sender, CancelEventArgs e)
         {
@@ -443,16 +442,26 @@ namespace KeyStrokes
 
 
         // this opens the help window purely for showing how to work this application
-        private void Help_Click(object sender, RoutedEventArgs e)
+        private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            if (helpFinished)
+            MessageBoxResult confirm = MessageBox.Show("Are you sure you want to clear all applications?  This action cannot be undone", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (confirm == MessageBoxResult.Yes)
             {
-                MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
-                return;
+                //Clear the lists
+                hotkeyCharList.Clear();
+                hotKeyList.Clear();
+                locations.Clear();
+                imageList.Clear();
+                buttonList.Clear();
+
+                //And contents inside the ScrollViewer
+                MyStack.Children.Clear();
+                ButtonViewholder.Content = MyStack;
+
+                //Finally, add the + button again
+                hotkeyCharList.Add('+');
+                hotKeyList.Add(Key.OemPlus);
             }
-            helpFinished = true;
-            Help help = new Help(this);
-            help.Show();
         }
 
 
@@ -503,7 +512,6 @@ namespace KeyStrokes
             //Otherwise form is valid and hotkey is unique, add the form.
 
 
-
             //Just displaying what will be added
             MessageBox.Show("Your application was successfully added!", "Button successfully created!");
 
@@ -512,8 +520,6 @@ namespace KeyStrokes
                                 75, 90, 11, 10,
                                     appImage, 72, 75, 0.455, -0.263,
                                         -80, 0, -5, -20, appHotKey[0]);
-
-
 
             return true;
 
@@ -613,7 +619,6 @@ namespace KeyStrokes
 
             // Finally, update the scrollviewer with changes made to the stack
             ButtonViewholder.Content = MyStack;
-
         }
 
         private void DynamicButton_RightClick(object sender, MouseButtonEventArgs e, Button currentButton)
@@ -626,6 +631,7 @@ namespace KeyStrokes
         private void ScrollHorizontally(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scrollMe = sender as ScrollViewer;
+
             if (e.Delta > 0)
                 scrollMe.PageLeft();
             else
@@ -662,7 +668,6 @@ namespace KeyStrokes
             // After removing the button completely, hide the menu
             btnMenu.Visibility = Visibility.Hidden;
 
-
         }
 
         // Another way to close the btn menu is to click anywhere else
@@ -684,10 +689,7 @@ namespace KeyStrokes
             {
                 currentScreen = System.Windows.Forms.Screen.AllScreens[1];
                 if (currentScreen != null)
-                {
                     this.Top = currentScreen.WorkingArea.Height;
-
-                }
             }
         }
     }
