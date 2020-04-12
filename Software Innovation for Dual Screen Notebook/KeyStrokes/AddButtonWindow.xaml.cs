@@ -200,5 +200,38 @@ namespace KeyStrokes
         {
 
         }
+
+        // add more for diffrent types of buttons
+        public static void add_config_shortcut(String name, List<VirtualKeyShort.Key> configShortcut)
+        {
+            // assigns the keyboard shortcuts to launch
+            if (configShortcut.Count != 0)
+            {
+
+                String ButtonText = "ShortCut";
+                if (!String.IsNullOrEmpty(name))
+                {
+                    ButtonText = name;    // name of the app 
+                                                         //newButton.Name = this.nameInput.Text; add this to addbutton thing
+                }
+
+                Action<object, RoutedEventArgs> click = null;
+
+                // by making a copy here it makes each button send its own shortcut
+                // otherwise all keys send the same shortcut
+                List<VirtualKeyShort.Key> holder = new List<VirtualKeyShort.Key>(configShortcut);
+                click += (se, ev) =>
+                {
+                    Shortcut.send(holder.ToArray());
+                };
+
+                // don't let the user add an empty button...
+                if (click != null)
+                {
+                    ((MainWindow)App.Current.MainWindow).grid.addButton(ButtonText, click);
+                }
+
+            }
+        }
     }
 }

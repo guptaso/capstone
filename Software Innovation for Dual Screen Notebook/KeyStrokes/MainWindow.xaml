@@ -45,9 +45,12 @@
                 <GridSplitter Width="573" Background="Gainsboro"/>
                 <Button x:Name="undo" Content="{materialDesign:PackIcon Kind=UndoVariant, Size=20}" Width="51" Background="Gainsboro" Click="undo_Click" BorderThickness="0"/>
                 <Button x:Name="redo" Content="{materialDesign:PackIcon Kind=RedoVariant, Size=20}" Width="51" Background="Gainsboro" Click="redo_Click" BorderThickness="0"/>
-                <Button x:Name="gaming_use_case" Width="150" Background="BlanchedAlmond" BorderThickness="0" Margin="-950, 0, 0, 0" Click="open_gaming_case">
+                <!-- <Button x:Name="gaming_use_case" Width="150" Background="BlanchedAlmond" BorderThickness="0" Margin="-950, 0, 0, 0" Click="open_gaming_case">
                     <TextBlock Text="Gaming Use Case"/>
-                </Button>
+                </Button> -->
+                <Slider Name="Slider" Margin="-950, 0, 0, 0" Width="300" Height="20"
+                    Maximum="100" Minimum="0">
+                </Slider>
             </StackPanel>
 
         </Grid>

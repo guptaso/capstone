@@ -75,5 +75,10 @@ namespace KeyStrokes
         {
             main.DragMove();
         }
+
+        private void music_button_Click(object sender, RoutedEventArgs e)
+        {
+            MusicProduction music = new MusicProduction();
+        }
     }
 }
