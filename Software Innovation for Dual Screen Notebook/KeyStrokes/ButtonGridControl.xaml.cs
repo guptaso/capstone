@@ -15,7 +15,7 @@ namespace KeyStrokes
 {
     public partial class ButtonGridControl : UserControl
     {
-        private List<Button> buttonList;
+        private List<UIElement> buttonList;
         private int col = 0;
         private int row = 0;
         private Button hold;
@@ -26,7 +26,7 @@ namespace KeyStrokes
         {
             InitializeComponent();
 
-            buttonList = new List<Button>();
+            buttonList = new List<UIElement>();
 
             //click_started = new DateTime();
             //addButton("+", Add_Click);
@@ -37,7 +37,7 @@ namespace KeyStrokes
             var template = (ControlTemplate)buttonGrid.FindResource("button");
             Button b = new Button { Template = template };
 
-            
+
 
             b.Content = content;
             b.Width = Double.NaN;
@@ -92,14 +92,45 @@ namespace KeyStrokes
             //Grid.SetColumn(b, col++);
             //Grid.SetRow(b, row);
 
-            // add button to the list
-            buttonList.Add(b);
+            addElem(b);
 
-            //grid.Children.Add(b);
+            //// add button to the list
+            //buttonList.Add(b);
+
+            ////grid.Children.Add(b);
+
+            //// re-adds the buttons from the list 
+            //grid.Children.Clear();
+            //foreach (Button buttonItem in buttonList)
+            //{
+            //    grid.Children.Add(buttonItem);
+            //}
+        }
+
+        public void addSlider(String name)
+        {
+            StackPanel sliderHolder = new StackPanel {
+                Name = name,
+                Orientation = Orientation.Vertical
+            };
+            Slider slider = new Slider();
+            slider.Name = name;
+            slider.Orientation = Orientation.Vertical;
+
+            sliderHolder.Children.Add(slider);
+            //sliderHolder.Children.Add(new TextBlock { Text = name });
+
+            addElem(sliderHolder);
+        }
+
+        private void addElem(UIElement elem)
+        {
+            // add button to the list
+            buttonList.Add(elem);
 
             // re-adds the buttons from the list 
             grid.Children.Clear();
-            foreach (Button buttonItem in buttonList)
+            foreach (UIElement buttonItem in buttonList)
             {
                 grid.Children.Add(buttonItem);
             }

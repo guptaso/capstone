@@ -101,6 +101,7 @@ namespace KeyStrokes
                 }
             }
 
+
         private void Click_Addkey(object sender, RoutedEventArgs e)
         {
             shortcut.Add((VirtualKeyShort.Key)keyEnum.SelectedItem);
@@ -199,6 +200,13 @@ namespace KeyStrokes
         private void nameInput_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        // add param for wht the slider controls
+        public static void add_slider(String name)
+        {
+
+            ((MainWindow)App.Current.MainWindow).grid.addSlider(name);
         }
 
         // add more for diffrent types of buttons

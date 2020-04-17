@@ -146,5 +146,10 @@ namespace KeyStrokes
             game.Show();
 
         }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            
+        }
     }
 }

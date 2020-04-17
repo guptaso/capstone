@@ -39,6 +39,16 @@ namespace KeyStrokes
 
             AddButtonWindow.add_config_shortcut("Duplicate", shortcut);
 
+            //< Slider Name = "VolumeSlider" Margin = "-950, 0, 0, 0" Width = "300" Height = "20"
+            //        Maximum = "100" Minimum = "0" ValueChanged = "VolumeSlider_ValueChanged" >
+
+            //        </ Slider >
+
+            
+
+            AddButtonWindow.add_slider("slider");
+            AddButtonWindow.add_slider("slider2");
+            AddButtonWindow.add_slider("slider3");
 
 
             main.menu_control.Visibility = Visibility.Collapsed;
