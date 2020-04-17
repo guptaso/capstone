@@ -25,8 +25,10 @@ namespace KeyStrokes
             // These simply set the order of Tabs and allow these controls to be changed via Tab
             textBox1.TabStop = true;
             textBox1.TabIndex = 0;
+            textBox1.ReadOnly = true;
             textBox2.TabStop = true;
             textBox2.TabIndex = 1;
+            textBox2.ReadOnly = true;
             textBox3.TabStop = true;
             textBox3.TabIndex = 2;
             button1.TabStop = true;
