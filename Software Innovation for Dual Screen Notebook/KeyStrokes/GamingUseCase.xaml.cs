@@ -150,7 +150,7 @@ namespace KeyStrokes
                     /*
                      *  1. Application name
                      *  2. Button height, width, and margins 
-                     *  3. Image location (unless n), height, width, and transformation origins
+                     *  3. Image height, width, transformation origins, and location (unless n)
                      *  4. Text margins
                      */
 
@@ -461,6 +461,9 @@ namespace KeyStrokes
                 //Finally, add the + button again
                 hotkeyCharList.Add('+');
                 hotKeyList.Add(Key.OemPlus);
+
+                //Redisplay the empty applications message since contents of the scrollviewer are cleared
+                EmptyApplications.Visibility = Visibility.Visible;
             }
         }
 
@@ -468,11 +471,21 @@ namespace KeyStrokes
         // this opens the new window for adding new buttons
         private void Add_Click(object sender, RoutedEventArgs e)
         {
+            // If we already have an instance of the application running, then don't run another instance
             if (finished)
             {
                 MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
                 return;
             }
+
+            // Alternatively, if we used up all alphanumeric keys, then we can't add anymore
+            if (hotkeyCharList.Count == 37)
+            {
+                MessageBox.Show("You cannot add anymore applications, there are no more hotkeys to assign", "Application Capacity Full");
+                return;
+            }
+
+            // Otherwise, open the form
             finished = true;
             AddApplication form1 = new AddApplication(this);
             form1.Show();
@@ -483,11 +496,21 @@ namespace KeyStrokes
         {
             if (e.Key == Key.OemPlus)
             {
+                // If we already have an instance of the application running, then don't run another instance
                 if (finished)
                 {
                     MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
                     return;
                 }
+
+                // Alternatively, if we used up all alphanumeric keys, then we can't add anymore
+                if(hotkeyCharList.Count == 37)
+                {
+                    MessageBox.Show("You cannot add anymore applications, there are no more hotkeys to assign", "Application Capacity Full");
+                    return;
+                }
+
+                // Otherwise, open the form
                 finished = true;
                 AddApplication form1 = new AddApplication(this);
                 form1.Show();
@@ -687,6 +710,7 @@ namespace KeyStrokes
                 currentScreen = System.Windows.Forms.Screen.AllScreens[0];
             else
             {
+                // If the second screen exists, then set the application to the top.
                 currentScreen = System.Windows.Forms.Screen.AllScreens[1];
                 if (currentScreen != null)
                     this.Top = currentScreen.WorkingArea.Height;

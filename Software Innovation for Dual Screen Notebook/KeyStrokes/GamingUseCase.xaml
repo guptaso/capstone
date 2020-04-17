@@ -21,7 +21,6 @@
     <Grid x:Name="myGrid">
         <TextBlock TextAlignment="Center" FontSize="24" Margin="180,10,180,229">
             <Bold>Applications</Bold>
-            
         </TextBlock>
         
         <ScrollViewer Name="ButtonViewholder" PreviewMouseWheel="ScrollHorizontally" PanningMode="HorizontalOnly" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,25,0,0">
