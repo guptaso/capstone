@@ -90,19 +90,20 @@ namespace KeyStrokes
             InitializeComponent();
 
             //Your boy did it, he managed to KEKW the capstone project
-            this.Icon = BitmapFrame.Create(new Uri("../../Images/kekw.jpg", UriKind.RelativeOrAbsolute));
+            this.Icon = BitmapFrame.Create(new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Capstone Project\Images\kekw.jpg", UriKind.RelativeOrAbsolute));
 
             //Store the initial set of hotkeys (1 initially)
             hotkeyCharList.Add('+');
-
             hotKeyList.Add(Key.OemPlus);
 
-
-            //Also add the applications
-            LoadApplicationsFromFile("../../SavedApplications.txt");
-
+            // Also add the applications
+            // Ask user if they want to load a pre-existing configuration or not
+            MessageBoxResult loadFile = MessageBox.Show("Would you like to load previously saved layouts?", "Load Applications", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (loadFile == MessageBoxResult.Yes)
+                LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Capstone Project\SavedApplications.txt");
         }
 
+        
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -117,6 +118,7 @@ namespace KeyStrokes
             HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
             source.AddHook(WndProc);
         }
+        
 
         // this gets the click message so that 
         // it can still sends the click to the app
@@ -389,14 +391,18 @@ namespace KeyStrokes
         // Save all current applications on the Window to the text file
         private void CloseWindow(object sender, CancelEventArgs e)
         {
-            // If user chooses to quit, then save all applications onto the text file before leaving
-            MessageBoxResult confirm = MessageBox.Show("Are you sure you want to quit?", "Confirm Closure", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            // If user changes their mind, then don't quit
+            MessageBoxResult confirm = MessageBox.Show("Are you sure you want to quit?", "Confirm Closure", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (confirm == MessageBoxResult.No)
                 e.Cancel = true;
+
+            // Otherwise, ask the user one more time if they want to save all applications onto a text file before leaving
             else
             {
                 MenuControl.currentInstance = false;
-                SaveApplications("../../SavedApplications.txt");
+                MessageBoxResult save = MessageBox.Show("Do you want to save these layouts for future use?", "Save Applications?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if(save == MessageBoxResult.Yes)
+                    SaveApplications(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Capstone Project\SavedApplications.txt");
             }
         }
 
@@ -613,7 +619,7 @@ namespace KeyStrokes
             // Find the button
             int buttonIndex = locations.FindIndex(x => x == location);
 
-            // Remove elements with that buttonIndex
+                 // Remove elements with that buttonIndex
             // Just make sure to offset the two hotkeyLists by adding 1
             // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
             Button tempButton = buttonList[buttonIndex];
@@ -715,6 +721,7 @@ namespace KeyStrokes
                 if (currentScreen != null)
                     this.Top = currentScreen.WorkingArea.Height;
             }
+            
         }
     }
 }

@@ -12,7 +12,7 @@ namespace KeyStrokes
 {
     public partial class AddApplication : Form
     {
-        private readonly GamingUseCase GamingWindow;
+        private readonly GamingUseCase GamingWindow;        // readonly because we do not want to change contents of the window
         private Screen currentScreen;
 
 
@@ -76,14 +76,15 @@ namespace KeyStrokes
             }
 
             // DISCORD SPECIAL CONDITION: if any part of the automatically filled out fields were altered, then do not accept it
-            else if (((textBox1.Text == "https://discordapp.com" || textBox1.Text == "https://discord.gg") && !textBox2.Text.Contains(@"KeyStrokes\Images\discord.png"))
-                        || ((textBox1.Text != "https://discordapp.com" && textBox1.Text != "https://discord.gg") && textBox2.Text.Contains(@"KeyStrokes\Images\discord.png"))) 
+            else if (((textBox1.Text == "https://discordapp.com" || textBox1.Text == "https://discord.gg") && !textBox2.Text.Contains(@"\Images\discord.png"))
+                        || ((textBox1.Text != "https://discordapp.com" && textBox1.Text != "https://discord.gg") && textBox2.Text.Contains(@"\Images\discord.png"))) 
             {
+                
                 MessageBox.Show("I see you want to load Discord.  However, please DO NOT change the automatically loaded fields...", "Discord Forms Altered");
 
                 // Reload the fields
                 textBox1.Text = "https://discordapp.com";   // or https://discord.gg
-                textBox2.Text = @"C:\Users\Intel-VCSE-7\Desktop\gaming-improvements\Software Innovation for Dual Screen Notebook\KeyStrokes\Images\discord.png";
+                textBox2.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Images\discord.png";
                 textBox3.Select();
 
             }
@@ -97,7 +98,6 @@ namespace KeyStrokes
                 if (GamingWindow.processFormInputs(textBox1.Text, textBox2.Text, textBox3.Text))
                 {
                     GamingUseCase.finished = false;
-                    GamingWindow.Activate();        // for some reason, the gaming use case window goes out of focus when app is closed.  this line fixes that issue
                     this.Close();
                 }
                 else
@@ -174,7 +174,7 @@ namespace KeyStrokes
                 {
                     MessageBox.Show("Discord must be loaded onto a website, so the first two fields will automatically be provided", "Discord Warning");
                     textBox1.Text = "https://discordapp.com";               // or https://discord.gg
-                    textBox2.Text = @"C:\Users\Intel-VCSE-7\Desktop\gaming-improvements\Software Innovation for Dual Screen Notebook\KeyStrokes\Images\discord.png";
+                    textBox2.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Capstone Project\Images\discord.png";
                     textBox3.Select();
                 }
                 else
@@ -202,6 +202,7 @@ namespace KeyStrokes
         private void Application_Closing(object sender, CancelEventArgs e)
         {
             GamingUseCase.finished = false;
+            GamingWindow.Activate();
             // this.Close();                    // because this event closes the app already, it would actually cause issues if this.Close() was called
         }
 

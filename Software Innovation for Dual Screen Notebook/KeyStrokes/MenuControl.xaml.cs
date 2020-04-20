@@ -54,6 +54,7 @@ namespace KeyStrokes
             currentInstance = true;
             GamingUseCase game = new GamingUseCase();
             game.Show();
+            
 
         }
 
@@ -76,6 +77,8 @@ namespace KeyStrokes
 
         private void bottom_bar_Click(object sender, RoutedEventArgs e)
         {
+
+
             if (main.bottomBar.Visibility == Visibility.Hidden)
             {
                 main.bottomBar.Visibility = Visibility.Visible;
@@ -84,6 +87,7 @@ namespace KeyStrokes
             {
                 main.bottomBar.Visibility = Visibility.Hidden;
             }
+
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)

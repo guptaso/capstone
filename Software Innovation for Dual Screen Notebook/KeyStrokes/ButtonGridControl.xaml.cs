@@ -119,8 +119,6 @@ namespace KeyStrokes
             }
 
             btnMenu.Visibility = Visibility.Hidden;
-
-
         }
 
         /*
