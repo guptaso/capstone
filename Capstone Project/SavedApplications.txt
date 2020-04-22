@@ -1,8 +1,0 @@
-C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
-75 90 11 10
-72 75 0.455 -0.263 n
--80 0 -5 -20 G
-https://discordapp.com
-75 90 11 10
-72 75 0.455 -0.263 C:\Users\Intel-VCSE-7\Desktop\Capstone$Project\Images\discord.png
--80 0 -5 -20 D
