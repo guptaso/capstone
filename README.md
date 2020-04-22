@@ -12,6 +12,7 @@
 **To clone:** 
 - install git bash if necessary from: https://gitforwindows.org/
 - git clone https://github.com/guptaso/capstone.git  
+- Also, please place CS66B_Project folder onto the Desktop before following the instructions below.
 
 **Open Project:**
 - Launch visual studio 2019
