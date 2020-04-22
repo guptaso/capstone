@@ -84,7 +84,7 @@ namespace KeyStrokes
 
                 // Reload the fields
                 textBox1.Text = "https://discordapp.com";   // or https://discord.gg
-                textBox2.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Images\discord.png";
+                textBox2.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\Images\discord.png";
                 textBox3.Select();
 
             }
@@ -174,7 +174,7 @@ namespace KeyStrokes
                 {
                     MessageBox.Show("Discord must be loaded onto a website, so the first two fields will automatically be provided", "Discord Warning");
                     textBox1.Text = "https://discordapp.com";               // or https://discord.gg
-                    textBox2.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Capstone Project\Images\discord.png";
+                    textBox2.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"CS66B_Project\Images\discord.png";
                     textBox3.Select();
                 }
                 else

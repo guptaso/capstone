@@ -90,7 +90,7 @@ namespace KeyStrokes
             InitializeComponent();
 
             //Your boy did it, he managed to KEKW the capstone project
-            this.Icon = BitmapFrame.Create(new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Capstone Project\Images\kekw.jpg", UriKind.RelativeOrAbsolute));
+            this.Icon = BitmapFrame.Create(new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\Images\kekw.jpg", UriKind.RelativeOrAbsolute));
 
             //Store the initial set of hotkeys (1 initially)
             hotkeyCharList.Add('+');
@@ -100,7 +100,7 @@ namespace KeyStrokes
             // Ask user if they want to load a pre-existing configuration or not
             MessageBoxResult loadFile = MessageBox.Show("Would you like to load previously saved layouts?", "Load Applications", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (loadFile == MessageBoxResult.Yes)
-                LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Capstone Project\SavedApplications.txt");
+                LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
         }
 
         
@@ -402,7 +402,7 @@ namespace KeyStrokes
                 MenuControl.currentInstance = false;
                 MessageBoxResult save = MessageBox.Show("Do you want to save these layouts for future use?", "Save Applications?", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if(save == MessageBoxResult.Yes)
-                    SaveApplications(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Capstone Project\SavedApplications.txt");
+                    SaveApplications(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
             }
         }
 
