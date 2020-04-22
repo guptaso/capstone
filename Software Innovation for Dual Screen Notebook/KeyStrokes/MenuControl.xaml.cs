@@ -16,7 +16,8 @@ namespace KeyStrokes
     public partial class MenuControl : UserControl
     {
 
-        private MainWindow main;
+        private readonly MainWindow main;
+        public static Boolean currentInstance = false;
 
         public MenuControl()
         {
@@ -42,6 +43,21 @@ namespace KeyStrokes
             addButton.Open();
         }
 
+        private void open_gaming_case(object sender, RoutedEventArgs e)
+        {
+            // If the application is already open, then don't open another instance...
+            if (currentInstance)
+            {
+                MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
+                return;
+            }
+            currentInstance = true;
+            GamingUseCase game = new GamingUseCase();
+            game.Show();
+            
+
+        }
+
         private void layout_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem ComboItem = (ComboBoxItem)layout_box.SelectedItem;
@@ -61,6 +77,8 @@ namespace KeyStrokes
 
         private void bottom_bar_Click(object sender, RoutedEventArgs e)
         {
+
+
             if (main.bottomBar.Visibility == Visibility.Hidden)
             {
                 main.bottomBar.Visibility = Visibility.Visible;
@@ -69,6 +87,7 @@ namespace KeyStrokes
             {
                 main.bottomBar.Visibility = Visibility.Hidden;
             }
+
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)

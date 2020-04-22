@@ -16,10 +16,10 @@ namespace KeyStrokes
     public partial class ButtonGridControl : UserControl
     {
         private List<Button> buttonList;
-        private int col = 0;
-        private int row = 0;
+        //private int col = 0;
+        //private int row = 0;
         private Button hold;
-        private Point startPoint;
+        //private Point startPoint;
         private DateTime click_started;
 
         public ButtonGridControl()
@@ -49,12 +49,12 @@ namespace KeyStrokes
 
             // option to remove the button
             //newButton.RightTapped += async (s, en) =>
-            b.MouseDown += async (s, en) =>
+            b.MouseDown += (s, en) =>
             {
                 click_started = DateTime.Now;
             };
 
-            b.MouseUp += async (s, en) =>
+            b.MouseUp += (s, en) =>
             {
                 if ((DateTime.Now - click_started).TotalSeconds > 1)
                 {
@@ -71,7 +71,7 @@ namespace KeyStrokes
             };
 
 
-            b.MouseRightButtonDown += async (s, en) =>
+            b.MouseRightButtonDown += (s, en) =>
             {
                 if (btnMenu.Visibility == Visibility.Hidden)
                 {
@@ -119,8 +119,6 @@ namespace KeyStrokes
             }
 
             btnMenu.Visibility = Visibility.Hidden;
-
-
         }
 
         /*
