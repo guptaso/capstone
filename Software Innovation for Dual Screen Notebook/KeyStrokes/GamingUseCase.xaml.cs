@@ -130,7 +130,18 @@ namespace KeyStrokes
             // Ask user if they want to load a pre-existing configuration or not
             MessageBoxResult loadFile = MessageBox.Show("Would you like to load previously saved layouts?", "Load Applications", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (loadFile == MessageBoxResult.Yes)
-                LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
+            {
+                if(!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt"))
+                {
+                    MessageBox.Show("Error, something happened with the file.  Layouts cannot be loaded", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    using (StreamWriter writer = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt"))
+                    {
+                        // do nothing
+                    }
+                }
+                else
+                    LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
+            }
         }
 
         //Add the locations via a file
