@@ -134,10 +134,8 @@ namespace KeyStrokes
                 if(!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt"))
                 {
                     MessageBox.Show("Error, something happened with the file.  Layouts cannot be loaded", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-                    using (StreamWriter writer = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt"))
-                    {
-                        // do nothing
-                    }
+                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\");
+                    using (StreamWriter writer = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt")); // only going to create the file
                 }
                 else
                     LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
@@ -203,16 +201,17 @@ namespace KeyStrokes
                     char hotkey = textInfo[4][0];
 
                     // Then load that button dynamically
-                    AddApplication(application,
+                    if (!AddApplication(application,
                                     buttonHeight, buttonWidth, buttonMarginOne, buttonMarginTwo,
                                         imageLocation, imageHeight, imageWidth, originOne, originTwo,
-                                            textMarginOne, textMarginTwo, textMarginThree, textMarginFour, hotkey);
+                                            textMarginOne, textMarginTwo, textMarginThree, textMarginFour, hotkey))
+                        break;
                 }
             }
         }
 
         // Actually add the application
-        private void AddApplication(string appLocation,
+        private Boolean AddApplication(string appLocation,
                                         int buttonHeight, int buttonWidth, int buttonMarginOne, int buttonMarginTwo,
                                             string imageLocation, int imageHeight, int imageWidth, double originOne, double originTwo,
                                                 int textMarginOne, int textMarginTwo, int textMarginThree, int textMarginFour, char hotkey)
@@ -221,6 +220,20 @@ namespace KeyStrokes
             //Before adding, remove the text if it's already removed
             if (EmptyApplications.Visibility == Visibility.Visible)
                 EmptyApplications.Visibility = Visibility.Hidden;
+
+            // Before moving on, check two things: 
+            // 1. The file location exists
+            // 2. The image location exists (if provided)
+            if((!File.Exists(appLocation)) || (!File.Exists(imageLocation) && imageLocation != ""))
+            {
+                if (appLocation != "https://discordapp.com" && appLocation != "https://discord.gg")
+                {
+                    MessageBox.Show("Error, you have an invalid path in the file, we will no longer read other loaded layouts!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+            }
+
+
 
             //Adds the margin (Left, Top, Right, Bottom)
             Thickness buttonMargin = new Thickness(buttonMarginOne, 0, buttonMarginTwo, 0);
@@ -391,6 +404,8 @@ namespace KeyStrokes
             locations.Add(appLocation);
             imageList.Add(imageLocation);
             buttonList.Add(newButton);
+
+            return true;
         }
 
 
