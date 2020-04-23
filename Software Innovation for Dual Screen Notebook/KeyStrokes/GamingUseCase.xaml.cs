@@ -217,15 +217,12 @@ namespace KeyStrokes
                                                 int textMarginOne, int textMarginTwo, int textMarginThree, int textMarginFour, char hotkey)
         {
 
-            //Before adding, remove the text if it's already removed
-            if (EmptyApplications.Visibility == Visibility.Visible)
-                EmptyApplications.Visibility = Visibility.Hidden;
-
             // Before moving on, check two things: 
             // 1. The file location exists
             // 2. The image location exists (if provided)
             if((!File.Exists(appLocation)) || (!File.Exists(imageLocation) && imageLocation != ""))
             {
+                // One exception: if the application was discord, then it must be loaded on the web.  Thus, proceed with discord
                 if (appLocation != "https://discordapp.com" && appLocation != "https://discord.gg")
                 {
                     MessageBox.Show("Error, you have an invalid path in the file, we will no longer read other loaded layouts!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -233,7 +230,9 @@ namespace KeyStrokes
                 }
             }
 
-
+            //Before adding, remove the text if it's already removed
+            if (EmptyApplications.Visibility == Visibility.Visible)
+                EmptyApplications.Visibility = Visibility.Hidden;
 
             //Adds the margin (Left, Top, Right, Bottom)
             Thickness buttonMargin = new Thickness(buttonMarginOne, 0, buttonMarginTwo, 0);

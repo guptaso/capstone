@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="KeyStrokes.exe" size="216576">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="KeyStrokes.exe" size="217088">
       <assemblyIdentity name="KeyStrokes" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>qqxZkhaeFfEtS4B5NqzlRgcmI/nBonX67e7PxXcYvDA=</dsig:DigestValue>
+        <dsig:DigestValue>XW2qabkKQ9lp4/PgR+MMneL8XAFe6Pmlly1Rott9F2w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
