@@ -218,12 +218,12 @@ namespace KeyStrokes
         {
 
             // Before moving on, check two things: 
-            // 1. The file location exists
+            // 1. The file location exists (unless discord was provided)
             // 2. The image location exists (if provided)
-            if((!File.Exists(appLocation)) || (!File.Exists(imageLocation) && imageLocation != ""))
+            if(appLocation != "https://discordapp.com" && appLocation != "https://discord.gg")
             {
                 // One exception: if the application was discord, then it must be loaded on the web.  Thus, proceed with discord
-                if (appLocation != "https://discordapp.com" && appLocation != "https://discord.gg")
+                if (!File.Exists(appLocation) || (!File.Exists(imageLocation) && imageLocation != ""))
                 {
                     MessageBox.Show("Error, you have an invalid path in the file, we will no longer read other loaded layouts!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
