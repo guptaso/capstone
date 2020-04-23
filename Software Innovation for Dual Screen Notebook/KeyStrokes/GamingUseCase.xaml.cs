@@ -222,7 +222,7 @@ namespace KeyStrokes
             // 2. The image location exists (if provided)
             if(appLocation != "https://discordapp.com" && appLocation != "https://discord.gg")
             {
-                // One exception: if the application was discord, then it must be loaded on the web.  Thus, proceed with discord
+                // Outer if statement is not Discord, thus check if the file path exists
                 if (!File.Exists(appLocation) || (!File.Exists(imageLocation) && imageLocation != ""))
                 {
                     MessageBox.Show("Error, you have an invalid path in the file, we will no longer read other loaded layouts!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
