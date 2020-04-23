@@ -259,5 +259,37 @@ namespace KeyStrokes
         {
 
         }
+        private void changeNBtn(object sender, RoutedEventArgs e)
+        {
+
+
+            if (!String.IsNullOrEmpty(nameInput.Text))
+            {
+
+                buttonList.Clear();
+                foreach (Button buttonItem in grid.Children)
+                {
+                    if (buttonItem == hold)
+                    {
+
+                        buttonItem.Content = this.nameInput.Text;
+                        buttonList.Add(buttonItem);
+                    }
+                    else
+                    {
+                        buttonList.Add(buttonItem);
+                    }
+                }
+                grid.Children.Clear();
+
+                foreach (Button buttonItem in buttonList)
+                {
+                    grid.Children.Add(buttonItem);
+                }
+            }
+            nameInput.Text = "";
+            btnMenu.Visibility = Visibility.Hidden;
+        }
+
     }
 }

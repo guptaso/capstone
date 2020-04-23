@@ -34,7 +34,17 @@
             <Grid Height="45">
                 <Button Width="auto" Click="add_button_Click"  x:Name="add_button" Content="Add Button" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4" />
             </Grid>
-
+            <Grid Height="45">
+                <TextBlock Text="Background Color" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" />
+                <ComboBox x:Name="background_design_box" SelectionChanged="background_design_change" SelectedValuePath="Content" VerticalAlignment="Bottom" Margin="246,0,10,10" Width="139">
+                    <ComboBoxItem IsSelected="True" Content="Transparent"/>
+                    <ComboBoxItem IsSelected="False" Content="LightBlue" />
+                    <ComboBoxItem IsSelected="False" Content="LightCoral" />
+                    <ComboBoxItem IsSelected="False" Content="LightGoldenrodYellow" />
+                    <ComboBoxItem IsSelected="False" Content="LightPink" />
+                    <ComboBoxItem IsSelected="False" Content="Silver"/>
+                </ComboBox>
+            </Grid>
             <Grid Height="45">
                 <Button Width="auto" x:Name="gaming_use_case" Content="Open Custom Applications" Background="#FFD4D4E4" Padding="12,1,1,1" HorizontalContentAlignment="Left" Margin="0" Click="open_gaming_case" FontSize="14" BorderBrush="#FFD4D4E4"/>
             </Grid>

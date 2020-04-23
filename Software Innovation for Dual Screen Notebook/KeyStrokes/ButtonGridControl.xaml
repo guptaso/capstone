@@ -40,15 +40,28 @@
         </controls:StackPanel>-->
 
     <Grid>
-        <StackPanel x:Name="btnMenu" Width="100" Height="130" Margin="5,0,0,0" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+        
+      <!--  <StackPanel x:Name="btnMenu" Width="100" Height="130" Margin="5,0,0,0" Visibility="Visible" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             <Button Width="100" Height="40" Click="removeBtn" Background="GhostWhite" x:Name="rBtn" Content="Remove Button" Margin="0,0,0,0" />
             <Button Width="100" Height="40" Click="changeBtn" Background="GhostWhite" x:Name="cBtn" Content="Change Position" Margin="0,0,0,0"/>
-            <Button Width="100" Height="40" Click="cancelBtn" Background="GhostWhite" x:Name="caBtn" Content="Cancel" Margin="0,0,0,0"/>
+            <Button Width="100" Height="40" Click="cancelBtn" Background="GhostWhite" x:Name="caBtn" Content="Cancel" Margin="0,0,0,0"/> -->
             <!--     <TextBlock Text="New Row" Margin="0,10,0,0" Visibility="Hidden" x:Name="rName"/>
             <TextBox x:Name="rowIn" Visibility="Hidden"/>
             <TextBlock Text="New Col" Visibility="Hidden" x:Name="cName"/>
             <TextBox x:Name="colIn" Visibility="Hidden"/> 
             <Button Content="Change" Background="GhostWhite" Width="50" Click="changeBtn" Visibility="Hidden" x:Name="but"/>-->
+        <StackPanel x:Name="btnMenu" Width="160" Height="165" Margin="5,0,0,0" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <Button Width="160" Height="40" Click="removeBtn" Background="GhostWhite" x:Name="rBtn" Content="Remove Button" Margin="0,0,0,0" />
+            <Button Width="160" Height="40" Click="changeBtn" Background="GhostWhite" x:Name="cBtn" Content="Change Position" Margin="0,0,0,0"/>
+            <Border BorderBrush="Black" BorderThickness="1">
+                <Grid Background="GhostWhite" Height="40">
+                    <TextBlock Background="GhostWhite" Text="New Name:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                    <TextBox x:Name="nameInput" Width="65" Height="29"  VerticalAlignment="Center" Style="{StaticResource TextBoxRevealStyle}"  Margin="0,0,-44,4"/>
+                    <Button x:Name="changeNameBtn" Click="changeNBtn" Background="GhostWhite" BorderBrush="Black" Content="ok" HorizontalAlignment="Right" Width="20" Height="25" VerticalAlignment="Center" Margin="0,-2,2,0"/>
+                </Grid>
+            </Border>
+            <Button Width="160" Height="40" Click="cancelBtn" Background="GhostWhite" x:Name="caBtn" Content="Cancel" Margin="0,0,0,0"/>
+
         </StackPanel>
         <controls:UniformGrid x:Name="grid" Margin="0,0,0,0" Rows="3" Columns="3"  Visibility="Visible">
         </controls:UniformGrid>

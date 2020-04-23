@@ -10,6 +10,8 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Collections.Generic;
+using System.Drawing;
+
 
 namespace KeyStrokes
 {
@@ -93,6 +95,21 @@ namespace KeyStrokes
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             main.DragMove();
+        }
+        private void background_design_change(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem ComboItem = (ComboBoxItem)background_design_box.SelectedItem;
+            string name = background_design_box.SelectedItem.ToString();
+            Trace.WriteLine(name.ToString());
+            string[] selectedVal = name.ToString().Split(' ');
+            if (selectedVal.Length > 1)
+            {
+                Trace.WriteLine(selectedVal[1]);
+                var color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(selectedVal[1]);
+                SolidColorBrush brush = new SolidColorBrush(color);
+                main.Background = brush;
+
+            }
         }
     }
 }
