@@ -23,7 +23,7 @@
             <Bold>Applications</Bold>
         </TextBlock>
         
-        <ScrollViewer Name="ButtonViewholder" PreviewMouseWheel="ScrollHorizontally" PanningMode="HorizontalOnly" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,25,0,0">
+        <ScrollViewer Name="ButtonViewholder" PreviewMouseWheel="ScrollHorizontally" PanningMode="HorizontalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,25,0,0">
             <StackPanel Name="MyStack" RenderTransformOrigin="0.173,1.371" Orientation="Horizontal" Height="196" VerticalAlignment="Top" x:FieldModifier="public">
                 <!-- This is where the dynamic applications will be placed -->
             </StackPanel>
@@ -38,7 +38,7 @@
         </StackPanel>
         
         <!--Added the help and add buttons to the bottom-->
-        <Button Content="CLEAR" x:Name="clearButton" Height="75" Width="90" Margin="0,0,175,-200"  Opacity="5.5"  Click="Clear_Click" BorderThickness="2" ClipToBounds="True"/>
+        <Button Content="CLEAR" x:Name="clearButton" Height="75" Width="90" Margin="0,0,175,-200" Opacity="5.5"  Click="Clear_Click" BorderThickness="2" ClipToBounds="True"/>
         <Button Content="+" x:Name="addButton" Height="75" Width="90" Margin="0,0,-175,-200"  Opacity="5.5" KeyUp="Add_KeyUp" Click="Add_Click" BorderThickness="2" ClipToBounds="True"/>
     </Grid>
 </Window>

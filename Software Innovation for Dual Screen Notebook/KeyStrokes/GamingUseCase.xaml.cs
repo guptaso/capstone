@@ -5,16 +5,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.ComponentModel;
-using System.Threading;
-
 
 namespace KeyStrokes
 {
@@ -84,6 +80,40 @@ namespace KeyStrokes
         }
 
 
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            shortcut = new List<VirtualKeyShort.Key>();
+
+            // sets the window so that a click does not bring it into focus
+            helper = new WindowInteropHelper(this);
+            SetWindowLong(helper.Handle, GWL_EXSTYLE, GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVE);
+
+            // this lets WndProc be overriden so that we can get the click massage
+            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            source.AddHook(WndProc);
+        }
+
+
+        // this gets the click message so that 
+        // it can still sends the click to the app
+        // even though it is out of focus
+        IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            // Handle messages...
+            switch (msg)
+            {
+                case WM_MOUSEACTIVATE:
+                    return (IntPtr)MA_NOACTIVATE;
+                default:
+                    break;
+            }
+
+            return IntPtr.Zero;
+        }
+
+
         public GamingUseCase()
         {
 
@@ -101,40 +131,6 @@ namespace KeyStrokes
             MessageBoxResult loadFile = MessageBox.Show("Would you like to load previously saved layouts?", "Load Applications", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (loadFile == MessageBoxResult.Yes)
                 LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
-        }
-
-        
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-
-            shortcut = new List<VirtualKeyShort.Key>();
-
-            // sets the window so that a click does not bring it into focus
-            helper = new WindowInteropHelper(this);
-            SetWindowLong(helper.Handle, GWL_EXSTYLE, GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVE);
-
-            // this lets WndProc be overriden so that we can get the click massage
-            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
-            source.AddHook(WndProc);
-        }
-        
-
-        // this gets the click message so that 
-        // it can still sends the click to the app
-        // even though it is out of focus
-        IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            // Handle messages...
-            switch (msg)
-            {
-                case WM_MOUSEACTIVATE:
-                    return (IntPtr)MA_NOACTIVATE;
-                default:
-                    break;
-            }
-
-            return IntPtr.Zero;
         }
 
         //Add the locations via a file
@@ -254,21 +250,37 @@ namespace KeyStrokes
             dock.Children.Add(image);
             dock.Children.Add(text);
 
+            
+
             //Create a new button and give it keydown and click events
             Button newButton = new Button()
             {
                 Height = buttonHeight,
                 Width = buttonWidth,
                 Margin = buttonMargin,
+                Background = System.Windows.Media.Brushes.LightGray,
             };
             newButton.KeyDown += DynamicButton_KeyDown;
             newButton.Click += (sender, e) => DynamicButton_Click(sender, e, appLocation);
             newButton.PreviewMouseRightButtonDown += (sender, e) => DynamicButton_RightClick(sender, e, newButton);
-            
+
+            /*
+            var border = new Border
+            {
+                Background = System.Windows.Media.Brushes.GhostWhite,
+                BorderBrush = System.Windows.Media.Brushes.Silver,
+                BorderThickness = new Thickness(3),
+                CornerRadius = new CornerRadius(10),
+                
+            };
+
+
+            dock.Children.Add(border);
+            */
+
 
             //Contents of the button is simply whatever the dock is
             newButton.Content = dock;
-
 
             //Finally, the button is a part of the stack panel, which is a content of the scrollviewer
             //Located in the ScrollViewer with the name of ButtonViewholder

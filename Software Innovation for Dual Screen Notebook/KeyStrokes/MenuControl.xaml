@@ -46,7 +46,7 @@
                 </ComboBox>
             </Grid>
             <Grid Height="45">
-                <Button Width="auto" x:Name="gaming_use_case" Content="Open Custom Applications" Background="#FFD4D4E4" Padding="12,1,1,1" HorizontalContentAlignment="Left" Margin="0" Click="open_gaming_case" FontSize="14" BorderBrush="#FFD4D4E4"/>
+                <Button Width="auto" x:Name="gaming_use_case" Content="Open Application Lists" Background="#FFD4D4E4" Padding="12,1,1,1" HorizontalContentAlignment="Left" Margin="0" Click="open_gaming_case" FontSize="14" BorderBrush="#FFD4D4E4"/>
             </Grid>
 
         </StackPanel>
