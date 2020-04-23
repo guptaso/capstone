@@ -301,7 +301,6 @@ namespace KeyStrokes
             dock.Children.Add(border);
             */
 
-
             //Contents of the button is simply whatever the dock is
             newButton.Content = dock;
 
@@ -758,7 +757,6 @@ namespace KeyStrokes
                 if (currentScreen != null)
                     this.Top = currentScreen.WorkingArea.Height;
             }
-            
         }
     }
 }
