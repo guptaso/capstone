@@ -1,5 +1,6 @@
 ## Team 66b: Software Innovation for Dual Screen Notebook
 
+### Running App through Visual Studio 
 **Overview:** This project was developed using visual studio, so in order to view and run the code the same way it was developed, we recommend installing visual studio 2019 as follows
 
 **Installing Visual Studio:**
@@ -22,7 +23,7 @@
 - right click KeyStrokes on the side bar and select 'Build'
 - Click 'Start' on the top bar and the program should run
 
-**To run:** Navigate to and launch:    
-  Software Innovation for Dual Screen Notebook\KeyStrokes\bin\Debug\KeyStrokes.exe
-
-
+### Running App Through Executable 
+- Copy the folder CS66B_Project to Desktop 
+- Run setup.exe within CS66B_Project  
+- Click Install when Prompted  
