@@ -27,3 +27,16 @@
 - Copy the folder CS66B_Project to Desktop 
 - Run setup.exe within CS66B_Project  
 - Click Install when Prompted  
+
+
+### Running on "Open Application Lists"
+- To get to this, open the navigation drawer on the main window located on the top left
+- Click on the 5th item - Open Application Lists
+- Whether or not you want to load previous layouts, press Yes or No (if you're a first time user, don't expect any loaded layouts)
+- To add an application, either press = Key or click on the + button.  This will open up a new form.
+- The form contains 3 entries, two of which are required, as denoted by a *
+- The 3 entries in order: the application location (required), the image location (optional), and the hotkey (required, unique, ,alphanumeric, no differentiation between uppercase and lowercase)
+- In addition, only the third textbox can be inputted by the user. 
+- Fill out the two required textbox fields, and press the Submit button to see your new application on the window.
+- To run the newly added application, simply Left Click on its corresponding button or tap on the hotkey
+- To delete the button, right click on it and then press the Remove Button option
