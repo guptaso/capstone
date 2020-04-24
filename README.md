@@ -1,5 +1,7 @@
 ## Team 66b: Software Innovation for Dual Screen Notebook
 
+### WARNING: NOT BUILT FOR MAC USERS 
+
 ### Running App through Visual Studio 
 **Overview:** This project was developed using visual studio, so in order to view and run the code the same way it was developed, we recommend installing visual studio 2019 as follows
 
