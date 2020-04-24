@@ -28,8 +28,7 @@
 - Run setup.exe within CS66B_Project  
 - Click Install when Prompted  
 
-
-### Running on "Open Application Lists"
+### Running on "Open Application Lists" Option on the Navigation Drawer
 - To get to this, open the navigation drawer on the main window located on the top left
 - Click on the 5th item - Open Application Lists
 - Whether or not you want to load previous layouts, press Yes or No (if you're a first time user, don't expect any loaded layouts)
