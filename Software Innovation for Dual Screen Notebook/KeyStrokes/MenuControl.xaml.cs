@@ -20,11 +20,15 @@ namespace KeyStrokes
 
         private readonly MainWindow main;
         public static Boolean currentInstance = false;
+        public static SolidColorBrush currentBrush;
+        public static SolidColorBrush transparentBrush;
 
         public MenuControl()
         {
             InitializeComponent();    
             main = ((MainWindow)App.Current.MainWindow);
+            currentBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFD4D4E4"));
+            transparentBrush = currentBrush;
 
         }
 
@@ -104,11 +108,14 @@ namespace KeyStrokes
             string[] selectedVal = name.ToString().Split(' ');
             if (selectedVal.Length > 1)
             {
-                Trace.WriteLine(selectedVal[1]);
+                Trace.WriteLine("Result: " + selectedVal[1]);
                 var color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(selectedVal[1]);
                 SolidColorBrush brush = new SolidColorBrush(color);
+                if (selectedVal[1] != "Transparent")
+                    currentBrush = brush;
+                else
+                    currentBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD4D4E4");
                 main.Background = brush;
-
             }
         }
     }

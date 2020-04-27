@@ -15,14 +15,24 @@
         AllowsTransparency="True"
         Loaded="OnLoad"
         WindowStartupLocation="CenterScreen"
+        
         >
 
+    <Window.Resources>
+        <!--
+        <DataTemplate x:Name="mainTemplate" DataType="{x:Type viewmodels:GamingUseCase}">
+            <views:GamingUsecase DataContext="{Binding}"/>
+        </DataTemplate>
+        -->
+    </Window.Resources>
+    
     <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >
         <Grid x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Height="540" VerticalAlignment="Top" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="190*"/>
                 <ColumnDefinition Width="131*"/>
             </Grid.ColumnDefinitions>
+
 
             <local:TitleBar x:Name="titleBar" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
             <local:MenuControl Panel.ZIndex="3" x:Name="menu_control" Visibility="Collapsed" HorizontalAlignment="Left" Width="338" Margin="0,35,0,50" />
@@ -38,6 +48,8 @@
                 <Button x:Name="redo" Content="{materialDesign:PackIcon Kind=RedoVariant, Size=20}" Width="51" Background="Gainsboro" Click="redo_Click" BorderThickness="0"/>
                 
             </StackPanel>
+
+            <ContentControl Content="{Binding}"/>
 
         </Grid>
 

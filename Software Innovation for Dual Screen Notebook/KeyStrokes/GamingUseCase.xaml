@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyStrokes"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Height="365" Width="970"
         MinHeight="365"
@@ -17,7 +19,7 @@
         WindowStartupLocation="CenterScreen" 
         Loaded="OnLoad"
         >
-    
+
     <Grid x:Name="myGrid">
         <TextBlock TextAlignment="Center" FontSize="24" Margin="180,10,180,229">
             <Bold>Applications</Bold>
@@ -32,13 +34,18 @@
         <TextBlock Name="EmptyApplications" Text="Click on the + button or click on the = key to add an application" FontSize="18" Margin="0,0,0,30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <!-- Options to remove button and cancel -->
-        <StackPanel x:Name="btnMenu" Width="100" Height="80" Visibility="Hidden" Margin="10,0,0,30" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+        <StackPanel x:Name="btnMenu" Width="100" Height="120" Margin="20,0,0,10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Visibility="Hidden">
             <Button Width="100" Height="40" Click="removeBtn" Background="GhostWhite" x:Name="rBtn" Content="Remove Button" Margin="0,0,0,0" />
+            <Button Width="100" Height="40" Click="changeBtn" Background="GhostWhite" x:Name="chBtn" Content="Change Hotkey" Margin="0,0,0,0"/>
             <Button Width="100" Height="40" Click="cancelBtn" Background="GhostWhite" x:Name="caBtn" Content="Cancel" Margin="0,0,0,0"/>
         </StackPanel>
         
-        <!--Added the help and add buttons to the bottom-->
-        <Button Content="CLEAR" x:Name="clearButton" Height="75" Width="90" Margin="0,0,175,-200" Opacity="5.5"  Click="Clear_Click" BorderThickness="2" ClipToBounds="True"/>
-        <Button Content="+" x:Name="addButton" Height="75" Width="90" Margin="0,0,-175,-200"  Opacity="5.5" KeyUp="Add_KeyUp" Click="Add_Click" BorderThickness="2" ClipToBounds="True"/>
+        <!-- Added the help, clear, and add buttons to the bottom -->
+
+        <Button Content="HELP" x:Name="helpButton" Height="75" Width="90" Margin="0,0,200,-200" Opacity="5.5" Click="Help_Click" BorderThickness="2" ClipToBounds="True" ToolTip="Click to Get Help from GitHub"/>
+        <Button Content="CLEAR" x:Name="clearButton" Height="75" Width="90" Margin="0,0,0,-200" Opacity="5.5"  Click="Clear_Click" BorderThickness="2" ClipToBounds="True" ToolTip="Click to Clear All Applications"/>
+        <Button Content="+" x:Name="addButton" Height="75" Width="90" Margin="0,0,-200,-200"  Opacity="5.5" KeyUp="Add_KeyUp" Click="Add_Click" BorderThickness="2" ClipToBounds="True" ToolTip="Click To Add an Application"/>
+
     </Grid>
+
 </Window>

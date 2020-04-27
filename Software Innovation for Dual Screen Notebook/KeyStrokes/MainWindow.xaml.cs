@@ -147,8 +147,6 @@ namespace KeyStrokes
                     this.Top = currentScreen.WorkingArea.Height;
                 }
             }
-
         }
-
     }
 }

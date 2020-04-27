@@ -140,6 +140,8 @@ namespace KeyStrokes
                 else
                     LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
             }
+
+            Background = MenuControl.currentBrush;
         }
 
         //Add the locations via a file
@@ -267,13 +269,15 @@ namespace KeyStrokes
             text.HorizontalAlignment = HorizontalAlignment.Center;
             text.Margin = textMargin;
             text.Text = Char.ToUpper(hotkey) + "";
+            text.Foreground = new SolidColorBrush(Colors.Navy);
+            text.FontWeight = FontWeights.Bold;
 
             //Create a dock panel that holds both the Image and the TextBlock children
             DockPanel dock = new DockPanel();
             dock.Children.Add(image);
             dock.Children.Add(text);
 
-            
+
 
             //Create a new button and give it keydown and click events
             Button newButton = new Button()
@@ -282,24 +286,11 @@ namespace KeyStrokes
                 Width = buttonWidth,
                 Margin = buttonMargin,
                 Background = System.Windows.Media.Brushes.LightGray,
+                ToolTip = "Right Click me in order to remove me or change my hotkey"
             };
             newButton.KeyDown += DynamicButton_KeyDown;
             newButton.Click += (sender, e) => DynamicButton_Click(sender, e, appLocation);
             newButton.PreviewMouseRightButtonDown += (sender, e) => DynamicButton_RightClick(sender, e, newButton);
-
-            /*
-            var border = new Border
-            {
-                Background = System.Windows.Media.Brushes.GhostWhite,
-                BorderBrush = System.Windows.Media.Brushes.Silver,
-                BorderThickness = new Thickness(3),
-                CornerRadius = new CornerRadius(10),
-                
-            };
-
-
-            dock.Children.Add(border);
-            */
 
             //Contents of the button is simply whatever the dock is
             newButton.Content = dock;
@@ -483,7 +474,14 @@ namespace KeyStrokes
         }
 
 
-        // this opens the help window purely for showing how to work this application
+        // this opens a help window
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("You will now be navigated to the GitHub repo where this was implemented.  Please see README.md for more details", "Navigating to GitHub");
+            Process.Start("https://www.github.com/guptaso/capstone");
+        }
+
+        // this clears all applications on the window, but only if they so choose
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult confirm = MessageBox.Show("Are you sure you want to clear all applications?  This action cannot be undone", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -576,7 +574,6 @@ namespace KeyStrokes
 
             //Otherwise form is valid and hotkey is unique, add the form.
 
-
             //Just displaying what will be added
             MessageBox.Show("Your application was successfully added!", "Button successfully created!");
 
@@ -655,7 +652,7 @@ namespace KeyStrokes
             // Find the button
             int buttonIndex = locations.FindIndex(x => x == location);
 
-                 // Remove elements with that buttonIndex
+            // Remove elements with that buttonIndex
             // Just make sure to offset the two hotkeyLists by adding 1
             // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
             Button tempButton = buttonList[buttonIndex];
@@ -690,6 +687,17 @@ namespace KeyStrokes
         {
             // Record the current instance of the button once it's been clicked
             current = currentButton;
+
+            // For usability, do work to show the hotkey 
+
+            // Get the dockpanel of the button
+            DockPanel getDock = (DockPanel)current.Content;
+
+            // Then, extract the Textblock's text
+            TextBlock getText = (TextBlock)getDock.Children[1];
+            rBtn.Content = "Remove " + getText.Text;
+
+            // Finally, show the button menu
             btnMenu.Visibility = Visibility.Visible;
         }
 
@@ -704,11 +712,156 @@ namespace KeyStrokes
             e.Handled = true;
         }
 
+        // Close the menu
         private void cancelBtn(object sender, RoutedEventArgs e)
         {
             btnMenu.Visibility = Visibility.Hidden;
         }
 
+        // Change the hotkey
+        private void changeBtn(object sender, RoutedEventArgs e)
+        {
+
+            // If the number of applications is full, then we can't change hotkeys
+            if (hotkeyCharList.Count == 37)
+            {
+                MessageBox.Show("Error, hotkeys cannot be changed because you have filled up the maximum number of applications", "Application Capacity Full", MessageBoxButton.OK, MessageBoxImage.Error);
+                btnMenu.Visibility = Visibility.Hidden;
+                return;
+            }
+
+            // Open the input box
+            string prompt = Microsoft.VisualBasic.Interaction.InputBox("What hotkey would you like to change to?", "Change Hotkey");
+
+            // Cancel button means the prompt is empty
+            if (prompt == "")
+            {
+                btnMenu.Visibility = Visibility.Hidden;
+                return;
+            }
+
+            // Otherwise, some erroneous input was entered: hotkey input > 1, hotkey input already exists, or hotkey input is NOT alphanumeric
+            while (prompt.Length != 1 || hotkeyCharList.Exists(x => x == Char.ToUpper(prompt[0])) || !Char.IsLetterOrDigit(prompt[0]))
+            {
+                // Display which error was detected
+                if (prompt.Length != 1)
+                    MessageBox.Show("ERROR: Please only have 1 character", "More than 1 character", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (hotkeyCharList.Exists(x => x == Char.ToUpper(prompt[0])))
+                    MessageBox.Show("ERROR: Please use a unique hotkey", "Non-unique hotkey", MessageBoxButton.OK, MessageBoxImage.Error);
+                else
+                    MessageBox.Show("ERROR: Please use an alphanumeric character", "Non-alphanumeric character", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                // Reprompt the user
+                prompt = Microsoft.VisualBasic.Interaction.InputBox("What hotkey would you like to change to?");
+
+                // Handle the cancel button case
+                if (prompt == "")
+                {
+                    btnMenu.Visibility = Visibility.Hidden;
+                    return;
+                }
+            }
+
+            Char upperPrompt = Char.ToUpper(prompt[0]);
+
+            // First, find the button from the Stackpanel 
+            int buttonIndex = buttonList.FindIndex(x => x == current);
+
+            // Change the hotkeys lists (remember to offset by 1 because + is also a recognized command)
+            hotkeyCharList[buttonIndex + 1] = upperPrompt;
+            if (Char.ToUpper(upperPrompt) == 'A')
+                hotKeyList[buttonIndex + 1] = Key.A;
+            else if (Char.ToUpper(upperPrompt) == 'B')
+                hotKeyList[buttonIndex + 1] = Key.B;
+            else if (Char.ToUpper(upperPrompt) == 'C')
+                hotKeyList[buttonIndex + 1] = Key.C;
+            else if (Char.ToUpper(upperPrompt) == 'D')
+                hotKeyList[buttonIndex + 1] = Key.D;
+            else if (Char.ToUpper(upperPrompt) == 'E')
+                hotKeyList[buttonIndex + 1] = Key.E;
+            else if (Char.ToUpper(upperPrompt) == 'F')
+                hotKeyList[buttonIndex + 1] = Key.F;
+            else if (Char.ToUpper(upperPrompt) == 'G')
+                hotKeyList[buttonIndex + 1] = Key.G;
+            else if (Char.ToUpper(upperPrompt) == 'H')
+                hotKeyList[buttonIndex + 1] = Key.H;
+            else if (Char.ToUpper(upperPrompt) == 'I')
+                hotKeyList[buttonIndex + 1] = Key.I;
+            else if (Char.ToUpper(upperPrompt) == 'J')
+                hotKeyList[buttonIndex + 1] = Key.J;
+            else if (Char.ToUpper(upperPrompt) == 'K')
+                hotKeyList[buttonIndex + 1] = Key.K;
+            else if (Char.ToUpper(upperPrompt) == 'L')
+                hotKeyList[buttonIndex + 1] = Key.L;
+            else if (Char.ToUpper(upperPrompt) == 'M')
+                hotKeyList[buttonIndex + 1] = Key.M;
+            else if (Char.ToUpper(upperPrompt) == 'N')
+                hotKeyList[buttonIndex + 1] = Key.N;
+            else if (Char.ToUpper(upperPrompt) == 'O')
+                hotKeyList[buttonIndex + 1] = Key.O;
+            else if (Char.ToUpper(upperPrompt) == 'P')
+                hotKeyList[buttonIndex + 1] = Key.P;
+            else if (Char.ToUpper(upperPrompt) == 'Q')
+                hotKeyList[buttonIndex + 1] = Key.Q;
+            else if (Char.ToUpper(upperPrompt) == 'R')
+                hotKeyList[buttonIndex + 1] = Key.R;
+            else if (Char.ToUpper(upperPrompt) == 'S')
+                hotKeyList[buttonIndex + 1] = Key.S;
+            else if (Char.ToUpper(upperPrompt) == 'T')
+                hotKeyList[buttonIndex + 1] = Key.T;
+            else if (Char.ToUpper(upperPrompt) == 'U')
+                hotKeyList[buttonIndex + 1] = Key.U;
+            else if (Char.ToUpper(upperPrompt) == 'V')
+                hotKeyList[buttonIndex + 1] = Key.V;
+            else if (Char.ToUpper(upperPrompt) == 'W')
+                hotKeyList[buttonIndex + 1] = Key.W;
+            else if (Char.ToUpper(upperPrompt) == 'X')
+                hotKeyList[buttonIndex + 1] = Key.X;
+            else if (Char.ToUpper(upperPrompt) == 'Y')
+                hotKeyList[buttonIndex + 1] = Key.Y;
+            else if (Char.ToUpper(upperPrompt) == 'Z')
+                hotKeyList[buttonIndex + 1] = Key.Z;
+            else if (upperPrompt == '1')
+                hotKeyList[buttonIndex + 1] = Key.D1;
+            else if (upperPrompt == '2')
+                hotKeyList[buttonIndex + 1] = Key.D2;
+            else if (upperPrompt == '3')
+                hotKeyList[buttonIndex + 1] = Key.D3;
+            else if (upperPrompt == '4')
+                hotKeyList[buttonIndex + 1] = Key.D4;
+            else if (upperPrompt == '5')
+                hotKeyList[buttonIndex + 1] = Key.D5;
+            else if (upperPrompt == '6')
+                hotKeyList[buttonIndex + 1] = Key.D6;
+            else if (upperPrompt == '7')
+                hotKeyList[buttonIndex + 1] = Key.D7;
+            else if (upperPrompt == '8')
+                hotKeyList[buttonIndex + 1] = Key.D8;
+            else if (upperPrompt == '9')
+                hotKeyList[buttonIndex + 1] = Key.D9;
+            else
+                hotKeyList[buttonIndex + 1] = Key.D0;
+
+            // Change the button display
+            // The content of the button is the Dockpanel
+            DockPanel changeDock = (DockPanel)current.Content;
+
+            // Second, the 2nd child of the dockpanel is the text (see AddApplication to see the Child order)
+            TextBlock changeText = (TextBlock)changeDock.Children[1];
+            changeText.Text = upperPrompt + "";
+            changeDock.Children[1] = changeText;
+            current.Content = changeDock;
+
+            // Third, replace the stack's child and update scrollviewer
+            MyStack.Children[buttonIndex] = current;
+            ButtonViewholder.Content = MyStack;
+
+
+            // Finally, close the button menu
+            btnMenu.Visibility = Visibility.Hidden;
+        }
+
+        // Remove button from the application window
         private void removeBtn(object sender, RoutedEventArgs e)
         {
             // Find the button
@@ -740,7 +893,8 @@ namespace KeyStrokes
         {
             // If we clicked on the remove button, then we'll have to hide it anyways, 
             // but we want to keep it visible so that the application will actually be removed
-            if(e.Source != rBtn)
+            // Same thing for the change hotkey button
+            if(e.Source != rBtn && e.Source != chBtn)
                 btnMenu.Visibility = Visibility.Hidden;
         }
 
