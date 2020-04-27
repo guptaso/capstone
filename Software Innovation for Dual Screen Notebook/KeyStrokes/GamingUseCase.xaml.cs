@@ -697,7 +697,7 @@ namespace KeyStrokes
             TextBlock getText = (TextBlock)getDock.Children[1];
             rBtn.Content = "Remove " + getText.Text;
 
-            // Finally, show the button menu
+            // Finally, show the button menu 
             btnMenu.Visibility = Visibility.Visible;
         }
 
