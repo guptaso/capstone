@@ -118,5 +118,41 @@ namespace KeyStrokes
                 main.Background = brush;
             }
         }
+
+        private void toolTipChanged(object sender, RoutedEventArgs e)
+        {
+            if (EnabledState.IsChecked.Value == true)
+            {
+                main.media_play_pause.ToolTip = "Play/Pause";
+                main.media_forward.ToolTip = "Forward";
+                main.media_back.ToolTip = "Previous";
+                main.undo.ToolTip = "Undo Last Action";
+                main.redo.ToolTip = "Redo Last Action";
+
+                addButton.nameInput.ToolTip = "This name will be displayed on the button";
+                addButton.appInput.ToolTip = "Click on Choose File to select Apps to launch with your button";
+                addButton.keyEnum.ToolTip = "Select a sequences of keys to bind to your button";
+                addButton.fileNames.ToolTip = "Drag a file or application here";
+                addButton.m.ToolTip = "Browse for a file through a file explorer";
+                addButton.confirm_btn.ToolTip = "Tip: Right Click on your new button to make edits";
+
+            }
+            else
+            {
+                main.media_play_pause.ToolTip = null;
+                main.media_forward.ToolTip = null;
+                main.media_back.ToolTip = null;
+                main.undo.ToolTip = null;
+                main.redo.ToolTip = null;
+
+                addButton.nameInput.ToolTip = null;
+                addButton.appInput.ToolTip = null;
+                addButton.keyEnum.ToolTip = null;
+                addButton.fileNames.ToolTip = null;
+                addButton.m.ToolTip = null;
+                addButton.confirm_btn.ToolTip = null;
+            }
+        }
+
     }
 }

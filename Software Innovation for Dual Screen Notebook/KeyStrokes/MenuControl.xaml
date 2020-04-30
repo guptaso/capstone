@@ -8,47 +8,51 @@
     xmlns:local="clr-namespace:KeyStrokes">
     <Grid>
         <local:AddButtonWindow Panel.ZIndex="4" x:Name="addButton" Visibility="Collapsed" Background="#FFD4D4E4" Margin="-203,53,-53,63" HorizontalAlignment="Right" Width="395" />
-
+        
         <StackPanel Orientation="Vertical" Background="#FFD4D4E4" x:Name="movementStack" Height="458" Margin="-203,0,-53,0" RenderTransformOrigin="0.515,0.696" HorizontalAlignment="Right" Width="395">
             <Grid MouseDown="Grid_MouseDown"  Background="#FF75AABB" DockPanel.Dock="Top" Height="40" >
-                <Button VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Height="40" BorderBrush="#00CCCCFF" Content="❮" Click="Close_Click" Margin="0" Background="#00CCCCFF" FontSize="18"/>
+                <Button Cursor="Hand" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Height="40" BorderBrush="#00CCCCFF" Content="❮" Click="Close_Click" Margin="0" Background="#00CCCCFF" FontSize="18"/>
                 <TextBlock x:Name="title" Text="Menu" Margin="50,8,0,8" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18"/>
             </Grid>
-            <Grid Height="45">
+            <Grid Height="45"  Margin="20,20,20,0" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Changes the Button's Layout on Grid">
+
                 <TextBlock Text="Grid Size" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" />
                 <!-- App starts with 3x3 as default layout, so have the combo box reflect that -->
-                <ComboBox x:Name="layout_box" SelectionChanged="layout_SelectionChanged" SelectedValuePath="Content" VerticalAlignment="Bottom" Margin="246,0,10,10" Width="139">
-                    <ComboBoxItem IsSelected="False" Content="1x4" />
-                    <ComboBoxItem IsSelected="False" Content="2x2" />
-                    <ComboBoxItem IsSelected="True" Content="3x3" />
-                    <ComboBoxItem IsSelected="False" Content="4x4" />
-                    <ComboBoxItem IsSelected="False" Content="4x2" />
-                    <ComboBoxItem IsSelected="False" Content="5x5" />
+                <ComboBox Cursor="Hand" x:Name="layout_box" SelectionChanged="layout_SelectionChanged" SelectedValuePath="Content" VerticalAlignment="Bottom" Margin="246,0,10,10" Width="139">
+                    <ComboBoxItem IsSelected="False" Content="1x4" Cursor="Hand" />
+                    <ComboBoxItem IsSelected="False" Content="2x2" Cursor="Hand" />
+                    <ComboBoxItem IsSelected="True" Content="3x3" Cursor="Hand"/>
+                    <ComboBoxItem IsSelected="False" Content="4x4" Cursor="Hand"/>
+                    <ComboBoxItem IsSelected="False" Content="4x2" Cursor="Hand"/>
+                    <ComboBoxItem IsSelected="False" Content="5x5" Cursor="Hand"/>
                 </ComboBox>
             </Grid>
-            <Grid Height="45">
-                <!--TextBlock Text="Toggle Bottom Bar" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" /-->
-                <Button Width="auto" Click="bottom_bar_Click" Content="Toggle Bottom Bar" Margin="0" HorizontalContentAlignment="Left" Background="#FFD4D4E4" x:Name="bottom_bar" Padding="12,1,1,1" FontSize="14"  BorderBrush="#FFD4D4E4" />
-            </Grid>
-
-            <Grid Height="45">
-                <Button Width="auto" Click="add_button_Click"  x:Name="add_button" Content="Add Button" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4" />
-            </Grid>
-            <Grid Height="45">
+            <Grid Height="45"  Margin="20,0,20,0" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Changes the Grid Background Color">
                 <TextBlock Text="Background Color" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" />
-                <ComboBox x:Name="background_design_box" SelectionChanged="background_design_change" SelectedValuePath="Content" VerticalAlignment="Bottom" Margin="246,0,10,10" Width="139">
-                    <ComboBoxItem IsSelected="True" Content="Transparent"/>
-                    <ComboBoxItem IsSelected="False" Content="LightBlue" />
-                    <ComboBoxItem IsSelected="False" Content="LightCoral" />
-                    <ComboBoxItem IsSelected="False" Content="LightGoldenrodYellow" />
-                    <ComboBoxItem IsSelected="False" Content="LightPink" />
-                    <ComboBoxItem IsSelected="False" Content="Silver"/>
+                <ComboBox Cursor="Hand" x:Name="background_design_box" SelectionChanged="background_design_change" SelectedValuePath="Content" VerticalAlignment="Bottom" Margin="246,0,10,10" Width="139">
+                    <ComboBoxItem IsSelected="True" Content="Transparent" Cursor="Hand"/>
+                    <ComboBoxItem IsSelected="False" Content="LightBlue" Cursor="Hand"/>
+                    <ComboBoxItem IsSelected="False" Content="LightCoral" Cursor="Hand"/>
+                    <ComboBoxItem IsSelected="False" Content="LightGoldenrodYellow" Cursor="Hand"/>
+                    <ComboBoxItem IsSelected="False" Content="LightPink" Cursor="Hand"/>
+                    <ComboBoxItem IsSelected="False" Content="Silver" Cursor="Hand"/>
                 </ComboBox>
             </Grid>
-            <Grid Height="45">
-                <Button Width="auto" x:Name="gaming_use_case" Content="Open Application Lists" Background="#FFD4D4E4" Padding="12,1,1,1" HorizontalContentAlignment="Left" Margin="0" Click="open_gaming_case" FontSize="14" BorderBrush="#FFD4D4E4"/>
+            <Grid Height="45" Margin="20,0,20,0">
+                <Button Width="auto" Cursor="Hand" Click="bottom_bar_Click" Content="Toggle Bottom Bar" Margin="0" HorizontalContentAlignment="Left" Background="#FFD4D4E4" x:Name="bottom_bar" Padding="12,1,1,1" FontSize="14"  BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Opens the Media Control Bar Below"/>
             </Grid>
 
+            <Grid Height="45"  Margin="20,0,20,0">
+                <Button Width="auto" Cursor="Hand" Click="add_button_Click"  x:Name="add_button" Content="Add Button" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Add a Button to the grid"/>
+            </Grid>
+
+            <Grid Height="45"  Margin="20,0,20,0">
+                <Button Width="auto" x:Name="gaming_use_case" Content="Open Application Lists" Background="#FFD4D4E4" Padding="12,1,1,1" HorizontalContentAlignment="Left" Margin="0" Click="open_gaming_case" FontSize="14" BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Open other use cases: Gaming Case" />
+            </Grid>
+            
+            <Grid Height="45" Margin="20,0,20,0">
+                <CheckBox x:Name="EnabledState" Content="Show Tool Tips" IsChecked="True" Margin="10 0" Click="toolTipChanged" FontSize="14"/>
+            </Grid> 
         </StackPanel>
     </Grid>
 

@@ -40,8 +40,39 @@ namespace KeyStrokes
             nameInput.Text = "";
             appInput.Text = "";
             //pngInput.Text = "";
+            fileNames.Text = "";
             shortcut.Clear();
             redrawHotkeys();
+        }
+
+        private void FileDropper(object sender, DragEventArgs e)
+        {
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+
+                appInput.Text += files[0];
+                appInput.Text += ",";
+                string x = appInput.Text;
+                Console.WriteLine("TEST: ", files[0]);
+                String[] spearator = { "\\" };
+                String[] toaddList = files[0].Split(spearator, 200, StringSplitOptions.RemoveEmptyEntries);
+
+                ((TextBox)sender).Text += toaddList[toaddList.Length - 1];
+                ((TextBox)sender).Text += ",\n";
+                Console.WriteLine("TEST: ", appInput.Text);
+                   
+
+                
+
+            }
+        }
+
+        private void FileDropper_PreviewDO(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
         }
 
         private void redrawHotkeys() {
@@ -113,6 +144,16 @@ namespace KeyStrokes
             this.Visibility = Visibility.Hidden;
         }
 
+        private void revealFileUploadOptions(object sender, RoutedEventArgs e)
+        {
+            mainFileBrowserSP.Visibility = Visibility.Visible;
+        }
+
+        private void closeFileBrowser(object sender, RoutedEventArgs e)
+        {
+            mainFileBrowserSP.Visibility = Visibility.Hidden;
+        }
+
         private void Click_Confirm(object sender, RoutedEventArgs e)
         {
             // assigns the app name
@@ -138,9 +179,23 @@ namespace KeyStrokes
                     String[] strlist = hold.Split(spear, StringSplitOptions.RemoveEmptyEntries);
                     foreach (String st in strlist)
                     {
-                        str = "";
-                        str += "start ";
-                        str += st;
+                        Console.WriteLine("st: ", st);
+                        if (st.Length>1)
+                        {
+                            if (str.Length > 1)
+                            {
+                                str += " & ";
+                            }
+                            str += " start \"\" \"";
+                            str += st;
+                            str += "\"";
+                            Console.WriteLine("str: ");
+                            Console.WriteLine(str);
+                        }
+
+                    }
+                    if (str.Length > 1)
+                    {
                         Process cmd = new Process();
                         cmd.StartInfo.FileName = "cmd.exe";
                         cmd.StartInfo.RedirectStandardInput = true;
@@ -192,6 +247,10 @@ namespace KeyStrokes
             if (openFileDialog.ShowDialog() == true)
             {
                 appInput.Text += openFileDialog.FileName;
+                String[] spearator = { "\\" };
+                String[] toaddList = openFileDialog.FileName.Split(spearator, 200, StringSplitOptions.RemoveEmptyEntries);
+                ((TextBox)fileNames).Text += toaddList[toaddList.Length - 1];
+                ((TextBox)fileNames).Text += ",\n";
                 Console.WriteLine(openFileDialog.FileName);
             }
         }
@@ -202,3 +261,4 @@ namespace KeyStrokes
         }
     }
 }
+
