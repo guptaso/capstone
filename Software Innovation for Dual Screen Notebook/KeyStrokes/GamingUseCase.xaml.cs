@@ -265,7 +265,7 @@ namespace KeyStrokes
                 Background = System.Windows.Media.Brushes.LightGray,
                 ToolTip = "Right Click me in order to remove me or change my hotkey"
             };
-            newButton.KeyDown += DynamicButton_KeyDown;
+            newButton.KeyUp += DynamicButton_KeyUp;
             newButton.Click += (sender, e) => DynamicButton_Click(sender, e, appLocation);
             newButton.PreviewMouseRightButtonDown += (sender, e) => DynamicButton_RightClick(sender, e, newButton);
 
@@ -388,7 +388,7 @@ namespace KeyStrokes
             else
             {
                 e.Handled = true;
-                DynamicButton_KeyDown(sender, e);
+                DynamicButton_KeyUp(sender, e);
             }
         }
 
@@ -495,13 +495,6 @@ namespace KeyStrokes
                 return;
             }
 
-            // Alternatively, if we used up all alphanumeric keys, then we can't add anymore
-            if (hotkeyCharList.Count == 37)
-            {
-                MessageBox.Show("You cannot add anymore applications, there are no more hotkeys to assign", "Application Capacity Full");
-                return;
-            }
-
             // Otherwise, open the form
             finished = true;
             AddApplication form1 = new AddApplication(this);
@@ -520,13 +513,6 @@ namespace KeyStrokes
                     return;
                 }
 
-                // Alternatively, if we used up all alphanumeric keys, then we can't add anymore
-                if(hotkeyCharList.Count == 37)
-                {
-                    MessageBox.Show("You cannot add anymore applications, there are no more hotkeys to assign", "Application Capacity Full");
-                    return;
-                }
-
                 // Otherwise, open the form
                 finished = true;
                 AddApplication form1 = new AddApplication(this);
@@ -538,6 +524,7 @@ namespace KeyStrokes
         public bool processFormInputs(string appLocation, string appImage, string appHotKey)
         {
 
+            /*
             //First go through the current list of hotkeys. 
             //If at least one hotkey matches, then return false
             for (int i = 0; i < hotkeyCharList.Count; i++)
@@ -548,6 +535,19 @@ namespace KeyStrokes
                     return false;
                 }
             }
+            */
+
+            // Altered based on feedback: now allow for non-unique hotkeys
+            // However, now we restrict buttons having more than 1 application
+            for (int i = 0; i < appLocationsList.Count; i++)
+            {
+                if (appLocation == appLocationsList[i])
+                {
+                    MessageBox.Show("Please load a unique application on here", "NonUnique Application");
+                    return false;
+                }
+            }
+
 
             //Otherwise form is valid and hotkey is unique, add the form.
 
@@ -564,54 +564,68 @@ namespace KeyStrokes
         }
 
         //Dynamic button's KeyDown event
-        private void DynamicButton_KeyDown(object sender, KeyEventArgs e)
+        private void DynamicButton_KeyUp(object sender, KeyEventArgs e)
         {
             //Search for which hotkey was pressed (not including + since there's already an event for it)
             for (int i = 1; i < hotKeyList.Count; i++)
             {
                 if (hotKeyList[i] == e.Key)
                 {
-                    //Start the application at the 1st offset index and then stop searching
-                    Process.Start(appLocationsList[i - 1]);
+                    // If the application cannot be opened for some reason, throw an exception
+                    // Otherwise, open as normal
+                    try
+                    {
+                        //Start the application at the 1st offset index and then stop searching
+                        Process.Start(appLocationsList[i - 1]);
 
 
-                    //Move the button so that it's at the front
-                    //Two steps: remove the button and then restore it to the front
-                    
-                    // Find the button
-                    int buttonIndex = i - 1;
+                        //Move the button so that it's at the front
+                        //Two steps: remove the button and then restore it to the front
 
-                    // Remove elements with that buttonIndex
-                    // Just make sure to offset the two hotkeyLists by adding 1
-                    // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
-                    Button tempButton = buttonList[buttonIndex];
-                    buttonList.RemoveAt(buttonIndex);
-                    string tempLocation = appLocationsList[buttonIndex];
-                    appLocationsList.RemoveAt(buttonIndex);
-                    string tempImage = imageList[buttonIndex];
-                    imageList.RemoveAt(buttonIndex);
-                    char tempCharKey = hotkeyCharList[buttonIndex + 1];
-                    hotkeyCharList.RemoveAt(buttonIndex + 1);
-                    Key tempKey = hotKeyList[buttonIndex + 1];
-                    hotKeyList.RemoveAt(buttonIndex + 1);
+                        // Find the button
+                        int buttonIndex = i - 1;
 
-                    // Then, remove from the stack
-                    MyStack.Children.RemoveAt(buttonIndex);
+                        // Remove elements with that buttonIndex
+                        // Just make sure to offset the two hotkeyLists by adding 1
+                        // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
+                        Button tempButton = buttonList[buttonIndex];
+                        buttonList.RemoveAt(buttonIndex);
+                        string tempLocation = appLocationsList[buttonIndex];
+                        appLocationsList.RemoveAt(buttonIndex);
+                        string tempImage = imageList[buttonIndex];
+                        imageList.RemoveAt(buttonIndex);
+                        char tempCharKey = hotkeyCharList[buttonIndex + 1];
+                        hotkeyCharList.RemoveAt(buttonIndex + 1);
+                        Key tempKey = hotKeyList[buttonIndex + 1];
+                        hotKeyList.RemoveAt(buttonIndex + 1);
 
-                    // Add it back to the stack in the very front
-                    MyStack.Children.Insert(0, tempButton);
+                        // Then, remove from the stack
+                        MyStack.Children.RemoveAt(buttonIndex);
 
-                    // Then, restore the contents
-                    buttonList.Insert(0, tempButton);
-                    appLocationsList.Insert(0, tempLocation);
-                    imageList.Insert(0, tempImage);
-                    hotkeyCharList.Insert(1, tempCharKey);
-                    hotKeyList.Insert(1, tempKey);
+                        // Add it back to the stack in the very front
+                        MyStack.Children.Insert(0, tempButton);
 
-                    // Finally, update the scrollviewer with changes made to the stack
-                    ButtonViewholder.Content = MyStack;
+                        // Then, restore the contents
+                        buttonList.Insert(0, tempButton);
+                        appLocationsList.Insert(0, tempLocation);
+                        imageList.Insert(0, tempImage);
+                        hotkeyCharList.Insert(1, tempCharKey);
+                        hotKeyList.Insert(1, tempKey);
 
-                    break;
+                        // Finally, update the scrollviewer with changes made to the stack
+                        ButtonViewholder.Content = MyStack;
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Error, something happened with the application.  It cannot be loaded, thus it will be removed", "App location changed or removed", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        // Before removing the button, update our current button to be the invalid one
+                        current = buttonList[i - 1];
+
+                        // Now remove it
+                        removeBtn(current, e);
+                    }
+
                 }
             }
         }
@@ -619,43 +633,58 @@ namespace KeyStrokes
         //Dynamic button's Click event
         private void DynamicButton_Click(object sender, RoutedEventArgs e, string location)
         {
-            Process.Start(location);
+            // If the application cannot be opened for some reason, throw an exception
+            // Otherwise, open as normal
+            try
+            {
+                Process.Start(location);
 
-            //Move the button so that it's at the front
-            //Two steps: remove the button and then restore it to the front
+                //Move the button so that it's at the front
+                //Two steps: remove the button and then restore it to the front
 
-            // Find the button
-            int buttonIndex = appLocationsList.FindIndex(x => x == location);
+                // Find the button
+                int buttonIndex = appLocationsList.FindIndex(x => x == location);
 
-            // Remove elements with that buttonIndex
-            // Just make sure to offset the two hotkeyLists by adding 1
-            // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
-            Button tempButton = buttonList[buttonIndex];
-            buttonList.RemoveAt(buttonIndex);
-            string tempLocation = appLocationsList[buttonIndex];
-            appLocationsList.RemoveAt(buttonIndex);
-            string tempImage = imageList[buttonIndex];
-            imageList.RemoveAt(buttonIndex);
-            char tempCharKey = hotkeyCharList[buttonIndex + 1];
-            hotkeyCharList.RemoveAt(buttonIndex + 1);
-            Key tempKey = hotKeyList[buttonIndex + 1];
-            hotKeyList.RemoveAt(buttonIndex + 1);
+                // Remove elements with that buttonIndex
+                // Just make sure to offset the two hotkeyLists by adding 1
+                // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
+                Button tempButton = buttonList[buttonIndex];
+                buttonList.RemoveAt(buttonIndex);
+                string tempLocation = appLocationsList[buttonIndex];
+                appLocationsList.RemoveAt(buttonIndex);
+                string tempImage = imageList[buttonIndex];
+                imageList.RemoveAt(buttonIndex);
+                char tempCharKey = hotkeyCharList[buttonIndex + 1];
+                hotkeyCharList.RemoveAt(buttonIndex + 1);
+                Key tempKey = hotKeyList[buttonIndex + 1];
+                hotKeyList.RemoveAt(buttonIndex + 1);
 
-            // Then, remove from the stack
-            MyStack.Children.RemoveAt(buttonIndex);
+                // Then, remove from the stack
+                MyStack.Children.RemoveAt(buttonIndex);
 
-            // Add it back to the stack in the very front
-            MyStack.Children.Insert(0, tempButton);
+                // Add it back to the stack in the very front
+                MyStack.Children.Insert(0, tempButton);
 
-            // Then, restore the contents
-            buttonList.Insert(0, tempButton);
-            appLocationsList.Insert(0, tempLocation);
-            imageList.Insert(0, tempImage);
-            hotkeyCharList.Insert(1, tempCharKey);
-            hotKeyList.Insert(1, tempKey);
+                // Then, restore the contents
+                buttonList.Insert(0, tempButton);
+                appLocationsList.Insert(0, tempLocation);
+                imageList.Insert(0, tempImage);
+                hotkeyCharList.Insert(1, tempCharKey);
+                hotKeyList.Insert(1, tempKey);
 
-            // Finally, update the scrollviewer with changes made to the stack
-            ButtonViewholder.Content = MyStack;
+                // Finally, update the scrollviewer with changes made to the stack
+                ButtonViewholder.Content = MyStack;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error, something happened with the application.  It cannot be loaded, thus it will be removed", "App location changed or removed", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                // Before removing the button, update our current button to be the invalid one
+                current = buttonList[appLocationsList.FindIndex(x => x == location)];
+
+                // Now remove it
+                removeBtn(current, e);
+            }
         }
 
         private void DynamicButton_RightClick(object sender, MouseButtonEventArgs e, Button currentButton)
@@ -697,14 +726,6 @@ namespace KeyStrokes
         private void changeBtn(object sender, RoutedEventArgs e)
         {
 
-            // If the number of applications is full, then we can't change hotkeys
-            if (hotkeyCharList.Count == 37)
-            {
-                MessageBox.Show("Error, hotkeys cannot be changed because you have filled up the maximum number of applications", "Application Capacity Full", MessageBoxButton.OK, MessageBoxImage.Error);
-                btnMenu.Visibility = Visibility.Hidden;
-                return;
-            }
-
             // Open the input box
             string prompt = Microsoft.VisualBasic.Interaction.InputBox("What hotkey would you like to change to?", "Change Hotkey");
 
@@ -715,14 +736,12 @@ namespace KeyStrokes
                 return;
             }
 
-            // Otherwise, some erroneous input was entered: hotkey input > 1, hotkey input already exists, or hotkey input is NOT alphanumeric
-            while (prompt.Length != 1 || hotkeyCharList.Exists(x => x == Char.ToUpper(prompt[0])) || !Char.IsLetterOrDigit(prompt[0]))
+            // Otherwise, some erroneous input was entered: hotkey input > 1 or hotkey input is NOT alphanumeric
+            while (prompt.Length != 1 || !Char.IsLetterOrDigit(prompt[0]))
             {
                 // Display which error was detected
                 if (prompt.Length != 1)
-                    MessageBox.Show("ERROR: Please only have 1 character", "More than 1 character", MessageBoxButton.OK, MessageBoxImage.Error);
-                else if (hotkeyCharList.Exists(x => x == Char.ToUpper(prompt[0])))
-                    MessageBox.Show("ERROR: Please use a unique hotkey", "Non-unique hotkey", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("ERROR: Please only have 1 character on the input field", "More than 1 character", MessageBoxButton.OK, MessageBoxImage.Error);
                 else
                     MessageBox.Show("ERROR: Please use an alphanumeric character", "Non-alphanumeric character", MessageBoxButton.OK, MessageBoxImage.Error);
 
