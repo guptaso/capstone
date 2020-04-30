@@ -18,6 +18,7 @@
         PreviewMouseDown="CloseBtnMenu"
         WindowStartupLocation="CenterScreen" 
         Loaded="OnLoad"
+        MouseLeftButtonDown="FocusOnWindow"
         >
 
     <Grid x:Name="myGrid">
