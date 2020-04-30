@@ -36,9 +36,9 @@
 
         <!-- Options to remove button and cancel -->
         <StackPanel x:Name="btnMenu" Width="100" Height="120" Margin="20,0,0,10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Visibility="Hidden">
-            <Button Width="100" Height="40" Click="removeBtn" Background="GhostWhite" x:Name="rBtn" Content="Remove Button" Margin="0,0,0,0" />
-            <Button Width="100" Height="40" Click="changeBtn" Background="GhostWhite" x:Name="chBtn" Content="Change Hotkey" Margin="0,0,0,0"/>
-            <Button Width="100" Height="40" Click="cancelBtn" Background="GhostWhite" x:Name="caBtn" Content="Cancel" Margin="0,0,0,0"/>
+            <Button Width="100" Height="40" Click="removeBtn" Background="GhostWhite" x:Name="rBtn" Content="Remove Button" Margin="0,0,0,0" ToolTip="Click to Remove the corresponding button (CANNOT BE UNDONE)"/>
+            <Button Width="100" Height="40" Click="changeBtn" Background="GhostWhite" x:Name="chBtn" Content="Change Hotkey" Margin="0,0,0,0" ToolTip="Click to Edit the corresponding button's hotkey"/>
+            <Button Width="100" Height="40" Click="cancelBtn" Background="GhostWhite" x:Name="caBtn" Content="Cancel" Margin="0,0,0,0" ToolTip="Click to get rid of the menu and do nothing"/>
         </StackPanel>
         
         <!-- Added the help, clear, and add buttons to the bottom -->
