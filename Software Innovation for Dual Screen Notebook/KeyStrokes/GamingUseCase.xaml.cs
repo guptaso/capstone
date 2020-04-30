@@ -45,8 +45,8 @@ namespace KeyStrokes
         //Also store list of hotkeys (in Key) used atm
         private List<Key> hotKeyList = new List<Key>();
 
-        //Also store list of locations (mainly used for the dynamic button portion)
-        private List<string> locations = new List<string>();
+        //Also store list of appLocationsList (mainly used for the dynamic button portion)
+        private List<string> appLocationsList = new List<string>();
 
         //Also store list of images
         private List<string> imageList = new List<string>();
@@ -122,7 +122,7 @@ namespace KeyStrokes
             //Your boy did it, he managed to KEKW the capstone project
             this.Icon = BitmapFrame.Create(new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\Images\kekw.jpg", UriKind.RelativeOrAbsolute));
 
-            //Store the initial set of hotkeys (1 initially)
+            // Store the initial set of hotkeys (1 initially)
             hotkeyCharList.Add('+');
             hotKeyList.Add(Key.OemPlus);
 
@@ -134,7 +134,7 @@ namespace KeyStrokes
                 if(!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt"))
                 {
                     MessageBox.Show("Error, something happened with the file.  Layouts cannot be loaded", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\");
+                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\");                                           // creates the folder in Desktop (does nothing if already created)
                     using (StreamWriter writer = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt")); // only going to create the file
                 }
                 else
@@ -144,7 +144,7 @@ namespace KeyStrokes
             Background = MenuControl.currentBrush;
         }
 
-        //Add the locations via a file
+        //Add the appLocationsList via a file
         public void LoadApplicationsFromFile(string file)
         {
             using (StreamReader reader = new StreamReader(file))
@@ -155,58 +155,31 @@ namespace KeyStrokes
                 string application;
                 while ((application = reader.ReadLine()) != null)
                 {
-                    //4 lines per application:
+                    //3 lines per application:
                     /*
-                     *  1. Application name
-                     *  2. Button height, width, and margins 
-                     *  3. Image height, width, transformation origins, and location (unless n)
-                     *  4. Text margins
+                     *  1. Application Location
+                     *  2. Image Location (unless n)
+                     *  3. Hotkey
                      */
 
                     //If we encounter an empty string, stop
                     if (application == "")
                         break;
 
-                    // For steps 2-4, we need a tokenizer
-                    char[] separator = { ' ' };
-
-                    // Step 2 (requires tokenizing)
-                    string[] buttonInfo = reader.ReadLine().Split(separator);
-                    int buttonHeight = Int32.Parse(buttonInfo[0]);
-                    int buttonWidth = Int32.Parse(buttonInfo[1]);
-                    int buttonMarginOne = Int32.Parse(buttonInfo[2]);
-                    int buttonMarginTwo = Int32.Parse(buttonInfo[3]);
-
-                    // Step 3 (requires tokenizing)
-                    string[] imageInfo = reader.ReadLine().Split(separator);
-                    int imageHeight = Int32.Parse(imageInfo[0]);
-                    int imageWidth = Int32.Parse(imageInfo[1]);
-                    double originOne = Double.Parse(imageInfo[2]);
-                    double originTwo = Double.Parse(imageInfo[3]);
-                    string imageLocation = "";
-                    for(int i = 0; i < imageInfo[4].Length; i++)
-                    {
-                        if (imageInfo[4][i] == '$')
-                            imageLocation += ' ';
-                        else
-                            imageLocation += imageInfo[4][i];
-                    }
+                    // Step 2
+                    string imageLocation = reader.ReadLine();
                     if (imageLocation == "n")
                         imageLocation = "";
 
-                    // Step 4 (requires parsing)
-                    string[] textInfo = reader.ReadLine().Split(separator);
-                    int textMarginOne = Int32.Parse(textInfo[0]);
-                    int textMarginTwo = Int32.Parse(textInfo[1]);
-                    int textMarginThree = Int32.Parse(textInfo[2]);
-                    int textMarginFour = Int32.Parse(textInfo[3]);
-                    char hotkey = textInfo[4][0];
+                    // Step 3
+                    string key = reader.ReadLine();
+                    char hotkey = Char.ToUpper(key[0]);
 
                     // Then load that button dynamically
                     if (!AddApplication(application,
-                                    buttonHeight, buttonWidth, buttonMarginOne, buttonMarginTwo,
-                                        imageLocation, imageHeight, imageWidth, originOne, originTwo,
-                                            textMarginOne, textMarginTwo, textMarginThree, textMarginFour, hotkey))
+                                    75, 90, 11, 10,
+                                        imageLocation, 72, 75, 0.455, -0.263,
+                                            -80, 0, -5, -20, hotkey))
                         break;
                 }
             }
@@ -220,14 +193,22 @@ namespace KeyStrokes
         {
 
             // Before moving on, check two things: 
-            // 1. The file location exists (unless discord was provided)
+            // 1. The file location exists (unless discord or any other preset URL was provided)
             // 2. The image location exists (if provided)
-            if(appLocation != "https://discordapp.com" && appLocation != "https://discord.gg")
+            if(!appLocation.Contains("https://")/*appLocation != "https://discordapp.com" && appLocation != "https://discord.gg"*/)
             {
                 // Outer if statement is not Discord, thus check if the file path exists
                 if (!File.Exists(appLocation) || (!File.Exists(imageLocation) && imageLocation != ""))
                 {
                     MessageBox.Show("Error, you have an invalid path in the file, we will no longer read other loaded layouts!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+            }
+            else
+            {
+                if(imageLocation == "" || (!File.Exists(imageLocation) && imageLocation != ""))
+                {
+                    MessageBox.Show("Error, Pre-loaded URLS must have a local image", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
             }
@@ -240,7 +221,7 @@ namespace KeyStrokes
             Thickness buttonMargin = new Thickness(buttonMarginOne, 0, buttonMarginTwo, 0);
             Thickness textMargin = new Thickness(textMarginOne, textMarginTwo, textMarginThree, textMarginFour);
 
-            //Adds an image to the button (WIP)
+            //Adds an image to the button
             //If no specified image was provided, then use the exe's icon instead.
             //Otherwise, use that specific image link
             System.Windows.Controls.Image image = new System.Windows.Controls.Image();
@@ -256,8 +237,6 @@ namespace KeyStrokes
                 sourceEmpty = GetIcon(appLocation);
                 image.Source = sourceEmpty;
             }
-            //BitmapSource source = new BitmapImage(new Uri(appImage, UriKind.RelativeOrAbsolute));
-            //image.Source = source;
             image.Height = imageHeight;
             image.Width = imageWidth;
             System.Windows.Point point = new System.Windows.Point(originOne, originTwo);
@@ -276,8 +255,6 @@ namespace KeyStrokes
             DockPanel dock = new DockPanel();
             dock.Children.Add(image);
             dock.Children.Add(text);
-
-
 
             //Create a new button and give it keydown and click events
             Button newButton = new Button()
@@ -390,7 +367,7 @@ namespace KeyStrokes
             //Before finishing up, add the hotkey to the list
             //and the location and the image
             hotkeyCharList.Add(hotkey);
-            locations.Add(appLocation);
+            appLocationsList.Add(appLocation);
             imageList.Add(imageLocation);
             buttonList.Add(newButton);
 
@@ -438,16 +415,13 @@ namespace KeyStrokes
         {
             using (StreamWriter writer = new StreamWriter(file))
             {
-                // Total # of apps is based on the # of locations
-                for (int i = 0; i < locations.Count; i++)
+                // Total # of apps is based on the # of appLocationsList
+                for (int i = 0; i < appLocationsList.Count; i++)
                 {
                     // First line: app location
-                    writer.WriteLine(locations[i]);
+                    writer.WriteLine(appLocationsList[i]);
 
-                    // Second line: button details
-                    writer.WriteLine("75 90 11 10");
-
-                    // Third line: image detail
+                    // Second line: image location
                     string imageLocation = "";
                     for(int j = 0; j < imageList[i].Length; j++)
                     {
@@ -458,17 +432,17 @@ namespace KeyStrokes
                     }
                     if (imageLocation == "")
                         imageLocation = "n";
-                    writer.WriteLine("72 75 0.455 -0.263 " + imageLocation);
+                    writer.WriteLine(imageLocation);
 
-                    // Fourth line: text details (offset by 1 since first hotkey is +)
-                    writer.WriteLine("-80 0 -5 -20 " + hotkeyCharList[i + 1]);
+                    // Third line: text details (offset by 1 since first hotkey is +)
+                    writer.WriteLine(hotkeyCharList[i + 1]);
                 }
             }
 
             //Clear the lists before quitting
             hotkeyCharList.Clear();
             hotKeyList.Clear();
-            locations.Clear();
+            appLocationsList.Clear();
             imageList.Clear();
             buttonList.Clear();
         }
@@ -484,26 +458,29 @@ namespace KeyStrokes
         // this clears all applications on the window, but only if they so choose
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult confirm = MessageBox.Show("Are you sure you want to clear all applications?  This action cannot be undone", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (confirm == MessageBoxResult.Yes)
+            if (MyStack.Children.Count > 0)
             {
-                //Clear the lists
-                hotkeyCharList.Clear();
-                hotKeyList.Clear();
-                locations.Clear();
-                imageList.Clear();
-                buttonList.Clear();
+                MessageBoxResult confirm = MessageBox.Show("Are you sure you want to clear all applications?  This action cannot be undone", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (confirm == MessageBoxResult.Yes)
+                {
+                    //Clear the lists
+                    hotkeyCharList.Clear();
+                    hotKeyList.Clear();
+                    appLocationsList.Clear();
+                    imageList.Clear();
+                    buttonList.Clear();
 
-                //And contents inside the ScrollViewer
-                MyStack.Children.Clear();
-                ButtonViewholder.Content = MyStack;
+                    //And contents inside the ScrollViewer
+                    MyStack.Children.Clear();
+                    ButtonViewholder.Content = MyStack;
 
-                //Finally, add the + button again
-                hotkeyCharList.Add('+');
-                hotKeyList.Add(Key.OemPlus);
+                    //Finally, add the + button again
+                    hotkeyCharList.Add('+');
+                    hotKeyList.Add(Key.OemPlus);
 
-                //Redisplay the empty applications message since contents of the scrollviewer are cleared
-                EmptyApplications.Visibility = Visibility.Visible;
+                    //Redisplay the empty applications message since contents of the scrollviewer are cleared
+                    EmptyApplications.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -578,12 +555,10 @@ namespace KeyStrokes
             MessageBox.Show("Your application was successfully added!", "Button successfully created!");
 
             //Dynamically add button details
-            AddApplication(appLocation,
+            return AddApplication(appLocation,
                                 75, 90, 11, 10,
                                     appImage, 72, 75, 0.455, -0.263,
                                         -80, 0, -5, -20, appHotKey[0]);
-
-            return true;
 
 
         }
@@ -597,7 +572,7 @@ namespace KeyStrokes
                 if (hotKeyList[i] == e.Key)
                 {
                     //Start the application at the 1st offset index and then stop searching
-                    Process.Start(locations[i - 1]);
+                    Process.Start(appLocationsList[i - 1]);
 
 
                     //Move the button so that it's at the front
@@ -611,8 +586,8 @@ namespace KeyStrokes
                     // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
                     Button tempButton = buttonList[buttonIndex];
                     buttonList.RemoveAt(buttonIndex);
-                    string tempLocation = locations[buttonIndex];
-                    locations.RemoveAt(buttonIndex);
+                    string tempLocation = appLocationsList[buttonIndex];
+                    appLocationsList.RemoveAt(buttonIndex);
                     string tempImage = imageList[buttonIndex];
                     imageList.RemoveAt(buttonIndex);
                     char tempCharKey = hotkeyCharList[buttonIndex + 1];
@@ -628,7 +603,7 @@ namespace KeyStrokes
 
                     // Then, restore the contents
                     buttonList.Insert(0, tempButton);
-                    locations.Insert(0, tempLocation);
+                    appLocationsList.Insert(0, tempLocation);
                     imageList.Insert(0, tempImage);
                     hotkeyCharList.Insert(1, tempCharKey);
                     hotKeyList.Insert(1, tempKey);
@@ -650,15 +625,15 @@ namespace KeyStrokes
             //Two steps: remove the button and then restore it to the front
 
             // Find the button
-            int buttonIndex = locations.FindIndex(x => x == location);
+            int buttonIndex = appLocationsList.FindIndex(x => x == location);
 
             // Remove elements with that buttonIndex
             // Just make sure to offset the two hotkeyLists by adding 1
             // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
             Button tempButton = buttonList[buttonIndex];
             buttonList.RemoveAt(buttonIndex);
-            string tempLocation = locations[buttonIndex];
-            locations.RemoveAt(buttonIndex);
+            string tempLocation = appLocationsList[buttonIndex];
+            appLocationsList.RemoveAt(buttonIndex);
             string tempImage = imageList[buttonIndex];
             imageList.RemoveAt(buttonIndex);
             char tempCharKey = hotkeyCharList[buttonIndex + 1];
@@ -674,7 +649,7 @@ namespace KeyStrokes
 
             // Then, restore the contents
             buttonList.Insert(0, tempButton);
-            locations.Insert(0, tempLocation);
+            appLocationsList.Insert(0, tempLocation);
             imageList.Insert(0, tempImage);
             hotkeyCharList.Insert(1, tempCharKey);
             hotKeyList.Insert(1, tempKey);
@@ -870,7 +845,7 @@ namespace KeyStrokes
             // Remove elements with that buttonIndex
             // Just make sure to offset the two hotkeyLists by adding 1
             buttonList.RemoveAt(buttonIndex);
-            locations.RemoveAt(buttonIndex);
+            appLocationsList.RemoveAt(buttonIndex);
             imageList.RemoveAt(buttonIndex);
             hotkeyCharList.RemoveAt(buttonIndex + 1);
             hotKeyList.RemoveAt(buttonIndex + 1);
@@ -911,6 +886,13 @@ namespace KeyStrokes
                 if (currentScreen != null)
                     this.Top = currentScreen.WorkingArea.Height;
             }
+        }
+
+        // Upon clicking anywhere on the form, give the window focus
+        private void FocusOnWindow(object sender, MouseEventArgs e)
+        {
+            this.Focus();
+            this.Activate();
         }
     }
 }
