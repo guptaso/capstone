@@ -34,13 +34,15 @@
 - To get to this, open the navigation drawer on the main window located on the top left
 - Click on the 5th item - Open Application Lists
 - Whether or not you want to load previous layouts, press Yes or No (if you're a first time user, don't expect any loaded layouts)
-- To add an application, either press the = Key or touch/click the + button.  This will open up a new form.
+- To add an application, either press the = Key or touch/click the ADD button.  This will open up a new form.
 - The form contains 3 entries, two of which are required, as denoted by a *
-- The 3 entries in order: the application location (required), the image location (optional), and the hotkey (required, alphanumeric, no differentiation between uppercase and lowercase)
+- The 3 entries in order: the application location (required), the image location (optional), and the hotkey (required, alphanumeric, no differentiation between uppercase and lowercase, and ONLY 1 character)
 - In addition, only the third textbox can be inputted by the user (the other two textboxes are read-only). 
 - Fill out the two required textbox fields, and press the Submit button to see your new application on the window.
-- To run the newly added application, simply Left Click on its corresponding button, touch it if computer is touch-compatible, or tap on the assigned key.
+- To run the newly added application(s), simply Left Click on its corresponding button, touch it if your computer is touch-compatible, or tap on the assigned key (the tap option requires the window to be in focus).
 - To delete the button, right click on it and then press the Remove option
 - To edit the hotkey on the button, right click on it and then press the Edit Hotkey option
 - If you change your mind about removing or editing the button, simply press Cancel or anywhere on the window that isn't the remove nor the edit button.
-- Each button will also have tool tips!
+- Each button will also have tool tips
+- You can also touch/click and hold the MOVE button to drag the Window and still not have the window be in focus
+- To force focus onto the Window, simply tap anywhere within the window except for the buttons
