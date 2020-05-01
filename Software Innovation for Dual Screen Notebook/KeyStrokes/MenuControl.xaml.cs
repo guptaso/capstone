@@ -154,5 +154,49 @@ namespace KeyStrokes
             }
         }
 
+        private void add_existingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MyPopup.IsOpen = true;
+        }
+
+        private void hide_popup(object sender, RoutedEventArgs e)
+        {
+            MyPopup.IsOpen = false;
+        }
+
+        private void addPreBtn(object sender, RoutedEventArgs e)
+        {
+            String[] spearator = { ":" };
+            String[] selectedList = buttonOptions.SelectedItem.ToString().Split(spearator, 200, StringSplitOptions.RemoveEmptyEntries);
+            string selected = selectedList[1];
+            
+            List<VirtualKeyShort.Key> shortcut = new List<VirtualKeyShort.Key>();
+            List<VirtualKeyShort.Key> holder = null;
+            if (selected != "  ")
+            {
+                Action<object, RoutedEventArgs> newClick = null;
+
+                if (selected.Contains("Copy"))
+                {
+                    shortcut.Add(VirtualKeyShort.Key.CONTROL);
+                    shortcut.Add(VirtualKeyShort.Key.KEY_C);
+                    holder = new List<VirtualKeyShort.Key>(shortcut); 
+                }
+
+                else if (selected.Contains("Paste")){
+                    shortcut.Add(VirtualKeyShort.Key.CONTROL);
+                    shortcut.Add(VirtualKeyShort.Key.KEY_V);
+                    holder = new List<VirtualKeyShort.Key>(shortcut);
+                }
+
+                newClick += (se, ev) =>
+                {
+                    Shortcut.send(holder.ToArray());
+                };
+                main.grid.addButton(selected, newClick);
+                hide_popup(sender, e);
+                main.menu_control.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }

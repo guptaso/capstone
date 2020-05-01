@@ -45,6 +45,24 @@
             <Grid Height="45"  Margin="20,0,20,0">
                 <Button Width="auto" Cursor="Hand" Click="add_button_Click"  x:Name="add_button" Content="Add Button" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Add a Button to the grid"/>
             </Grid>
+            
+            <Grid Height="45"  Margin="20,0,20,0">
+                <Button Width="auto" Cursor="Hand" Click="add_existingBtn_Click"  Content="Add a Pre-Built Button" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Already configured buttons, ready for you to use"/>
+                <Popup Name="MyPopup" Placement="Center"  >
+                    <Grid Background="#FF75AABB" Width="250" Height="150">
+                        <TextBlock Text="Choose a button: " FontSize="14" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+                        <ComboBox Style="{StaticResource MaterialDesignComboBox}" Background="#FFD4D4E4" Cursor="Hand" x:Name="buttonOptions" Width="200" Height="30" IsEditable="True" BorderBrush="#FFABADB3" VerticalAlignment="Center" >
+                            <ComboBoxItem IsSelected="True" Content=" " Cursor="Hand" FontSize="12"/>
+                            <ComboBoxItem IsSelected="False" Content="Copy" Cursor="Hand" FontSize="12" />
+                            <ComboBoxItem IsSelected="False" Content="Paste" Cursor="Hand" FontSize="12" />
+                        </ComboBox>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Cursor="Hand" FontSize="12" Click="hide_popup" Background="PaleVioletRed" Margin="0,0,0,20" VerticalAlignment="Bottom" Width="65" Height="25" HorizontalAlignment="Left" Style="{StaticResource ButtonRevealStyle}">Cancel</Button>
+                            <Button Cursor="Hand" FontSize="12" Click="addPreBtn" Background="LightBlue" Margin="30,0,0,20" VerticalAlignment="Bottom" Width="65" Height="25" HorizontalAlignment="Right" Style="{StaticResource ButtonRevealStyle}">Add</Button>
+                        </StackPanel>
+                    </Grid>
+                </Popup>            
+            </Grid>            
 
             <Grid Height="45"  Margin="20,0,20,0">
                 <Button Width="auto" x:Name="gaming_use_case" Content="Open Application Lists" Background="#FFD4D4E4" Padding="12,1,1,1" HorizontalContentAlignment="Left" Margin="0" Click="open_gaming_case" FontSize="14" BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Open other use cases: Gaming Case" />
