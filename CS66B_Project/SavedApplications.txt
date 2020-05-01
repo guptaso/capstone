@@ -1,12 +1,15 @@
-https://discordapp.com
-C:\Users\Intel-VCSE-7\Desktop\CS66B_Project\Images\discord.png
-D
-C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
-n
-G
 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
 n
 C
+C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
+n
+V
+C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
+n
+G
+C:\Users\Intel-VCSE-7\Desktop\Dolphin Emulator\Dolphin\Dolphin.exe
+n
+D
 C:\Riot Games\League of Legends\LeagueClient.exe
 n
 L

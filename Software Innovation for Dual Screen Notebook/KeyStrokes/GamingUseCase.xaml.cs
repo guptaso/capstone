@@ -17,6 +17,15 @@ namespace KeyStrokes
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
+    // Used in tandem with CTRL Z AND CTRL Y
+    // Will maintain two lists: one to undo and one to redo
+    class ApplicationStates
+    {
+        
+    }
+
     public sealed partial class GamingUseCase: Window
     {
         public static Boolean finished;
@@ -60,6 +69,13 @@ namespace KeyStrokes
         //Either display on the main screen if there is only one or display on the bottom screen if there are 2
         System.Windows.Forms.Screen currentScreen;
 
+        //Detect whether or not we have saved our layout (false for no, true for yes)
+        private Boolean saveState = false;
+
+
+        // Detect whether move button was clicked (if true, don't bring focus to the window)
+        private Boolean moveClick = false;  
+
         /*
         [DllImport("user32.dll")]
         static extern short VkKeyScan(char ch);
@@ -78,7 +94,6 @@ namespace KeyStrokes
                         new Int32Rect(0, 0, icon.Width, icon.Height),
                         BitmapSizeOptions.FromEmptyOptions());
         }
-
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -113,7 +128,6 @@ namespace KeyStrokes
             return IntPtr.Zero;
         }
 
-
         public GamingUseCase()
         {
 
@@ -142,6 +156,7 @@ namespace KeyStrokes
             }
 
             Background = MenuControl.currentBrush;
+            saveState = true;                               // initially, we did not make changes to the window
         }
 
         //Add the appLocationsList via a file
@@ -176,20 +191,14 @@ namespace KeyStrokes
                     char hotkey = Char.ToUpper(key[0]);
 
                     // Then load that button dynamically
-                    if (!AddApplication(application,
-                                    75, 90, 11, 10,
-                                        imageLocation, 72, 75, 0.455, -0.263,
-                                            -80, 0, -5, -20, hotkey))
+                    if (!AddApplication(application, imageLocation, hotkey))
                         break;
                 }
             }
         }
 
         // Actually add the application
-        private Boolean AddApplication(string appLocation,
-                                        int buttonHeight, int buttonWidth, int buttonMarginOne, int buttonMarginTwo,
-                                            string imageLocation, int imageHeight, int imageWidth, double originOne, double originTwo,
-                                                int textMarginOne, int textMarginTwo, int textMarginThree, int textMarginFour, char hotkey)
+        private Boolean AddApplication(string appLocation, string imageLocation, char hotkey)
         {
 
             // Before moving on, check two things: 
@@ -218,8 +227,8 @@ namespace KeyStrokes
                 EmptyApplications.Visibility = Visibility.Hidden;
 
             //Adds the margin (Left, Top, Right, Bottom)
-            Thickness buttonMargin = new Thickness(buttonMarginOne, 0, buttonMarginTwo, 0);
-            Thickness textMargin = new Thickness(textMarginOne, textMarginTwo, textMarginThree, textMarginFour);
+            Thickness buttonMargin = new Thickness(11, -75, 10, 0);
+            Thickness textMargin = new Thickness(-80, 0, -5, -20);
 
             //Adds an image to the button
             //If no specified image was provided, then use the exe's icon instead.
@@ -237,9 +246,9 @@ namespace KeyStrokes
                 sourceEmpty = GetIcon(appLocation);
                 image.Source = sourceEmpty;
             }
-            image.Height = imageHeight;
-            image.Width = imageWidth;
-            System.Windows.Point point = new System.Windows.Point(originOne, originTwo);
+            image.Height = 72;
+            image.Width = 75;
+            System.Windows.Point point = new System.Windows.Point(0.455, -0.263);
             image.RenderTransformOrigin = point;
 
             //Add a text block
@@ -259,11 +268,12 @@ namespace KeyStrokes
             //Create a new button and give it keydown and click events
             Button newButton = new Button()
             {
-                Height = buttonHeight,
-                Width = buttonWidth,
+                Height = 75,
+                Width = 90,
                 Margin = buttonMargin,
                 Background = System.Windows.Media.Brushes.LightGray,
-                ToolTip = "Right Click me in order to remove me or change my hotkey"
+                ToolTip = "Right Click me in order to remove me or change my hotkey",
+                Name = "DynamicButton"
             };
             newButton.KeyUp += DynamicButton_KeyUp;
             newButton.Click += (sender, e) => DynamicButton_Click(sender, e, appLocation);
@@ -371,6 +381,9 @@ namespace KeyStrokes
             imageList.Add(imageLocation);
             buttonList.Add(newButton);
 
+            // Our application was successfully added.  Now change the saveState to false, as we have altered the form
+            saveState = false;
+
             return true;
         }
 
@@ -383,6 +396,19 @@ namespace KeyStrokes
             {
                 e.Handled = true; //prevent the action from happening twice.
                 Add_KeyUp(sender, e);
+            }
+            // triggering ctrl + s
+            else if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                Save_Click(sender, e);
+            }
+            // triggering alt + f4 or ctrl + qfz
+            else if (e.Key == Key.Q && Keyboard.Modifiers == ModifierKeys.Control/* || (Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.F4) || Keyboard.IsKeyDown(Key.RightAlt) && Keyboard.IsKeyDown(Key.F4))*/)
+            {
+                // We can't call CloseWindow function because this function's events does not include Cancel.  
+                // To work around this issue, manually close the application ourselves.
+                // Because we overloaded an OnClosingEvent called CloseWindow, the function, CloseWindow will then be called upon calling this.Close()
+                this.Close();
             }
             // any other key
             else
@@ -403,10 +429,24 @@ namespace KeyStrokes
             // Otherwise, ask the user one more time if they want to save all applications onto a text file before leaving
             else
             {
+                // If we didn't save before choosing to quit, now is the time to ask if the user wants to save their layouts before quitting
+                if (!saveState)
+                {
+                    MenuControl.currentInstance = false;
+                    MessageBoxResult save = MessageBox.Show("Do you want to save these layouts for future use?", "Save Applications?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (save == MessageBoxResult.Yes)
+                        SaveApplications(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
+                }
+
+                //Clear the lists before quitting
+                hotkeyCharList.Clear();
+                hotKeyList.Clear();
+                appLocationsList.Clear();
+                imageList.Clear();
+                buttonList.Clear();
+
+                //Send back the flag to MenuControl to indicate that we are finished with this window
                 MenuControl.currentInstance = false;
-                MessageBoxResult save = MessageBox.Show("Do you want to save these layouts for future use?", "Save Applications?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if(save == MessageBoxResult.Yes)
-                    SaveApplications(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
             }
         }
 
@@ -439,12 +479,7 @@ namespace KeyStrokes
                 }
             }
 
-            //Clear the lists before quitting
-            hotkeyCharList.Clear();
-            hotKeyList.Clear();
-            appLocationsList.Clear();
-            imageList.Clear();
-            buttonList.Clear();
+            saveState = true;   // every time we save, this becomes True
         }
 
 
@@ -480,6 +515,9 @@ namespace KeyStrokes
 
                     //Redisplay the empty applications message since contents of the scrollviewer are cleared
                     EmptyApplications.Visibility = Visibility.Visible;
+
+                    //Finally (for real this time), because the form was altered, change the saveState flag to false
+                    saveState = false;
                 }
             }
         }
@@ -499,6 +537,14 @@ namespace KeyStrokes
             finished = true;
             AddApplication form1 = new AddApplication(this);
             form1.Show();
+        }
+
+        // this saves the layouts currently on the application
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            // Save the layouts by calling the Save_Applications function
+            MessageBox.Show("Applications successfully saved!", "SAVE SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+            SaveApplications(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
         }
 
         // Press the + button (shift =) to call via keydown
@@ -523,20 +569,6 @@ namespace KeyStrokes
         //Takes in the form inputs from Form1.cs and dynamically adds a new button by appending it to the ScrollViewer
         public bool processFormInputs(string appLocation, string appImage, string appHotKey)
         {
-
-            /*
-            //First go through the current list of hotkeys. 
-            //If at least one hotkey matches, then return false
-            for (int i = 0; i < hotkeyCharList.Count; i++)
-            {
-                if (Char.ToUpper(appHotKey[0]) == hotkeyCharList[i])
-                {
-                    MessageBox.Show("Please use a different hotkey, it needs to be unique", "NonUnique Hotkey");
-                    return false;
-                }
-            }
-            */
-
             // Altered based on feedback: now allow for non-unique hotkeys
             // However, now we restrict buttons having more than 1 application
             for (int i = 0; i < appLocationsList.Count; i++)
@@ -555,10 +587,7 @@ namespace KeyStrokes
             MessageBox.Show("Your application was successfully added!", "Button successfully created!");
 
             //Dynamically add button details
-            return AddApplication(appLocation,
-                                75, 90, 11, 10,
-                                    appImage, 72, 75, 0.455, -0.263,
-                                        -80, 0, -5, -20, appHotKey[0]);
+            return AddApplication(appLocation, appImage, appHotKey[0]);
 
 
         }
@@ -582,8 +611,10 @@ namespace KeyStrokes
                         //Move the button so that it's at the front
                         //Two steps: remove the button and then restore it to the front
 
+
                         // Find the button
                         int buttonIndex = i - 1;
+
 
                         // Remove elements with that buttonIndex
                         // Just make sure to offset the two hotkeyLists by adding 1
@@ -614,6 +645,9 @@ namespace KeyStrokes
 
                         // Finally, update the scrollviewer with changes made to the stack
                         ButtonViewholder.Content = MyStack;
+
+                        // And because our window content was changed, change save state to false
+                        saveState = false;
                     }
                     catch (Exception)
                     {
@@ -624,6 +658,9 @@ namespace KeyStrokes
 
                         // Now remove it
                         removeBtn(current, e);
+
+                        // Because an app was forcibly removed, make save state be false
+                        saveState = false;
                     }
 
                 }
@@ -674,6 +711,9 @@ namespace KeyStrokes
 
                 // Finally, update the scrollviewer with changes made to the stack
                 ButtonViewholder.Content = MyStack;
+
+                // And because our window content was changed, change save state to false
+                saveState = false;
             }
             catch (Exception)
             {
@@ -684,6 +724,9 @@ namespace KeyStrokes
 
                 // Now remove it
                 removeBtn(current, e);
+
+                // Because an app was forcibly removed, make save state be false
+                saveState = false;
             }
         }
 
@@ -727,7 +770,7 @@ namespace KeyStrokes
         {
 
             // Open the input box
-            string prompt = Microsoft.VisualBasic.Interaction.InputBox("What hotkey would you like to change to?", "Change Hotkey");
+            string prompt = Microsoft.VisualBasic.Interaction.InputBox("What alphanumeric hotkey would you like to change to?", "Change Hotkey");
 
             // Cancel button means the prompt is empty
             if (prompt == "")
@@ -760,6 +803,13 @@ namespace KeyStrokes
 
             // First, find the button from the Stackpanel 
             int buttonIndex = buttonList.FindIndex(x => x == current);
+
+            // If the new hotkey is the same as the previous, then don't bother changing (but still close the button menu)
+            if (upperPrompt == hotkeyCharList[buttonIndex + 1])
+            {
+                btnMenu.Visibility = Visibility.Hidden;
+                return;
+            }
 
             // Change the hotkeys lists (remember to offset by 1 because + is also a recognized command)
             hotkeyCharList[buttonIndex + 1] = upperPrompt;
@@ -853,6 +903,9 @@ namespace KeyStrokes
 
             // Finally, close the button menu
             btnMenu.Visibility = Visibility.Hidden;
+
+            // And change the save state to false, since we altered the form
+            saveState = false;
         }
 
         // Remove button from the application window
@@ -869,7 +922,7 @@ namespace KeyStrokes
             hotkeyCharList.RemoveAt(buttonIndex + 1);
             hotKeyList.RemoveAt(buttonIndex + 1);
 
-            // Finally, remove from the actual scrollviewer
+            // Remove from the actual scrollviewer
             MyStack.Children.RemoveAt(buttonIndex);
             ButtonViewholder.Content = MyStack;
 
@@ -880,6 +933,9 @@ namespace KeyStrokes
             // After removing the button completely, hide the menu
             btnMenu.Visibility = Visibility.Hidden;
 
+            // Finally, because our layouts were altered, change the save state to false
+            saveState = false;
+
         }
 
         // Another way to close the btn menu is to click anywhere else
@@ -887,10 +943,17 @@ namespace KeyStrokes
         {
             // If we clicked on the remove button, then we'll have to hide it anyways, 
             // but we want to keep it visible so that the application will actually be removed
-            // Same thing for the change hotkey button
+            // Same thing for the change hotkey button to edit hotkeys before hiding the menu
             if(e.Source != rBtn && e.Source != chBtn)
                 btnMenu.Visibility = Visibility.Hidden;
         }
+
+
+        /*
+         * Utility Functions that are obscure and not as obvious when interacting with the application
+         * Deals with events that happen upon loading the window, force focus on the window when clicked on
+         * Also have the ability to manually move the window w/o using the Title Bar, albeit must be done by holding onto a button
+         */
 
         private void OnLoad(object sender, RoutedEventArgs e)
         {
@@ -903,15 +966,36 @@ namespace KeyStrokes
                 // If the second screen exists, then set the application to the top.
                 currentScreen = System.Windows.Forms.Screen.AllScreens[1];
                 if (currentScreen != null)
-                    this.Top = currentScreen.WorkingArea.Height;
+                    this.Top = currentScreen.WorkingArea.Height - 20;
             }
         }
 
-        // Upon clicking anywhere on the form, give the window focus
-        private void FocusOnWindow(object sender, MouseEventArgs e)
+        // Touch/click anywhere on the Window (but not on any of the buttons) to focus on the window
+        private void ForceFocusOnWindow(object sender, MouseEventArgs e)
         {
-            this.Focus();
-            this.Activate();
+            // If we tap anywhere outside the move button, restore focus
+            if (!moveClick)
+                this.Activate();
+            moveClick = false;
+        }
+
+        // Click and hold anywhere on the MOVE button to move the window
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            // Don't bring the window to focus when clicking/dragging the move button
+            moveClick = true;
+
+            // If we're holding onto the MOVE button, then we can now move the window wrt the move button's position on the computer
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        // Touch and hold anywhere on the MOVE button to move the window
+        private void MoveWindowTouch(object sender, TouchEventArgs e)
+        {
+            this.CaptureTouch(e.TouchDevice);
         }
     }
 }
