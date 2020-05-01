@@ -18,7 +18,7 @@ namespace KeyStrokes
     public partial class MenuControl : UserControl
     {
 
-        private readonly MainWindow main;
+        private MainWindow main;
         public static Boolean currentInstance = false;
         public static SolidColorBrush currentBrush;
         public static SolidColorBrush transparentBrush;
@@ -59,7 +59,7 @@ namespace KeyStrokes
             }
             currentInstance = true;
             GamingUseCase game = new GamingUseCase();
-            game.Show();
+            game.Show();    
             
 
         }
