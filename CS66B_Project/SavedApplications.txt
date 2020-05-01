@@ -1,15 +1,21 @@
-C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
-n
-C
-C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
-n
-V
 C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
 n
 G
+C:\Users\Intel-VCSE-7\Desktop\has space\file with space.txt
+n
+F
 C:\Users\Intel-VCSE-7\Desktop\Dolphin Emulator\Dolphin\Dolphin.exe
 n
 D
+C:\Users\Intel-VCSE-7\Desktop\gaming-improvements\Software Innovation for Dual Screen Notebook\Software_Innovation_For_Dual_Screen_Notebook.sln
+n
+6
+C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
+n
+V
+C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+n
+C
 C:\Riot Games\League of Legends\LeagueClient.exe
 n
 L
