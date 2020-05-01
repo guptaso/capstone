@@ -46,3 +46,5 @@
 - Each button will also have tool tips
 - You can also touch/click and hold the MOVE button to drag the Window and still not have the window be in focus
 - To force focus onto the Window, simply tap anywhere within the window except for the buttons
+- If you want to save your layouts w/o quitting, then simply use Ctrl S
+- Another way to quit the application, besides clicking on the X button or using the Alt F4 keystroke, is to use the keystroke Ctrl Q.  This implementation is made to help MAC users, since their method of quitting applications is via COMMAND Q.
