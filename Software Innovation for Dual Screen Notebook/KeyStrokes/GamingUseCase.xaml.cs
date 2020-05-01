@@ -645,6 +645,9 @@ namespace KeyStrokes
 
                         // Finally, update the scrollviewer with changes made to the stack
                         ButtonViewholder.Content = MyStack;
+
+                        // And because our window content was changed, change save state to false
+                        saveState = false;
                     }
                     catch (Exception)
                     {
@@ -655,6 +658,9 @@ namespace KeyStrokes
 
                         // Now remove it
                         removeBtn(current, e);
+
+                        // Because an app was forcibly removed, make save state be false
+                        saveState = false;
                     }
 
                 }
@@ -705,6 +711,9 @@ namespace KeyStrokes
 
                 // Finally, update the scrollviewer with changes made to the stack
                 ButtonViewholder.Content = MyStack;
+
+                // And because our window content was changed, change save state to false
+                saveState = false;
             }
             catch (Exception)
             {
@@ -715,6 +724,9 @@ namespace KeyStrokes
 
                 // Now remove it
                 removeBtn(current, e);
+
+                // Because an app was forcibly removed, make save state be false
+                saveState = false;
             }
         }
 
