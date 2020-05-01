@@ -179,19 +179,20 @@ namespace KeyStrokes
                     String[] strlist = hold.Split(spear, StringSplitOptions.RemoveEmptyEntries);
                     foreach (String st in strlist)
                     {
-                        Console.WriteLine("st: ", st);
-                        if (st.Length>1)
-                        {
-                            if (str.Length > 1)
-                            {
-                                str += " & ";
-                            }
-                            str += " start \"\" \"";
-                            str += st;
-                            str += "\"";
-                            Console.WriteLine("str: ");
-                            Console.WriteLine(str);
-                        }
+                        if (str.Length > 1)
+                            str += " & ";
+                        string stTrim = st.Trim();
+                        // harvest shortcuts from the start menu folder
+                        String[] shortcut = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), stTrim + ".lnk", SearchOption.AllDirectories);
+
+                        // start command: start "" "<program>"
+                        str = "";
+                        str += "start \"\" \"";
+                        // If we found a shortcut, we can add it to the start command 
+                        if (shortcut.Length != 0) { str += shortcut[0]; }
+                        else { str += stTrim; }
+                        str += "\"";
+
 
                     }
                     if (str.Length > 1)
