@@ -43,9 +43,17 @@
         
         <!-- Added the help, clear, and add buttons to the bottom -->
 
+<<<<<<< Updated upstream
         <Button Content="HELP" x:Name="helpButton" Height="75" Width="90" Margin="0,0,200,-200" Opacity="5.5" Click="Help_Click" BorderThickness="2" ClipToBounds="True" ToolTip="Click to Get Help from GitHub"/>
         <Button Content="CLEAR" x:Name="clearButton" Height="75" Width="90" Margin="0,0,0,-200" Opacity="5.5"  Click="Clear_Click" BorderThickness="2" ClipToBounds="True" ToolTip="Click to Clear All Applications"/>
         <Button Content="+" x:Name="addButton" Height="75" Width="90" Margin="0,0,-200,-200"  Opacity="5.5" KeyUp="Add_KeyUp" Click="Add_Click" BorderThickness="2" ClipToBounds="True" ToolTip="Click To Add an Application"/>
+=======
+        <Button Content="HELP" x:Name="helpButton" Height="75" Width="90" Margin="0,0,200,-200" Opacity="5.5" Click="Help_Click" BorderThickness="1" ClipToBounds="True" ToolTip="Click to Get Help from GitHub"/>
+        <Button Content="CLEAR" x:Name="clearButton" Height="75" Width="90" Margin="0,0,0,-200" Opacity="5.5"  Click="Clear_Click" BorderThickness="1" ClipToBounds="True" ToolTip="Click to Clear All Applications"/>
+        <Button Content="ADD" x:Name="addButton" Height="75" Width="90" Margin="0,0,-200,-200"  Opacity="5.5" KeyUp="Add_KeyUp" Click="Add_Click" BorderThickness="1" ClipToBounds="True" ToolTip="Click to Add an Application"/>
+        <Button Content="SAVE" x:Name="saveButton" Height="30" Width="90" Margin="70,-75,400,200" Opacity="5.5" Click="Save_Click" BorderThickness="1" HorizontalAlignment="Left" ClipToBounds="True" ToolTip="Click to Save Layouts (Or Ctrl S)"/>
+        <Button Content="MOVE" x:Name="moveButton" Height="70" Width="70" Margin="0,0,30,-200" Opacity="5.5" PreviewMouseLeftButtonDown="MoveWindow" BorderThickness="1" HorizontalAlignment="Right" PreviewTouchUp="MoveWindowTouch" ClipToBounds="True" ToolTip="Touch/Click and hold to drag Window"/>
+>>>>>>> Stashed changes
 
     </Grid>
 

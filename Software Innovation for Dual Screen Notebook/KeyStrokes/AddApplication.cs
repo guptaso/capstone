@@ -221,8 +221,11 @@ namespace KeyStrokes
 
                     // Winforms and wpf interpret dimensions differently.  
                     // In the case of putting the add form on the second screen, we have to multiply the working area's height by 2
+                    // Console.WriteLine("Height: " + currentScreen.WorkingArea.Height);
+                    // Console.WriteLine("Width: " + currentScreen.WorkingArea.Width);
                     this.Top = currentScreen.WorkingArea.Height *2;
                     this.Left = currentScreen.WorkingArea.Width - this.Width;    //basically, offset to the left by the width of the form
+                    Console.WriteLine("Top: " + this.Top);
 
                 }
             }

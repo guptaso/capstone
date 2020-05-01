@@ -131,20 +131,67 @@ namespace KeyStrokes
             // Output all screens that the computer has
             // For the asus zenbook pro duo, there will be 2 screens, where the companion screen is index 1 and main screen is index 0
             // To determine dimensions of the second screen, all the screens on the user laptop will be outputted
+
+            /*
+             *  DPI for primary screen: sqrt(3840^2+2160^2) / 15.6" = 282.423996 pixels/inch
+             *  Scale by the standard 96 pixels/inch 
+             * 
+             */
+
+
             for (int i = 0; i < System.Windows.Forms.Screen.AllScreens.Length; i++)
                 Console.WriteLine("Screen: " + System.Windows.Forms.Screen.AllScreens[i]);
+
+            // Get the system's DPI.  Determined based on scaling
+            /*
+             * 100% = 96
+             * 125% = 120
+             * 150% = 144
+             * 175% = 168
+             * 200% = 192
+             * 225% = 216
+             * 250% = 240
+             * 300% = 288
+             * 350% = 336
+             */
+            PresentationSource source = PresentationSource.FromVisual(this);
+            double dpiX = 0, dpiY = 0;
+            if (source != null)
+            {
+                dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
+                dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
+            }
+
+            Console.WriteLine("(" + dpiX + ", " + dpiY + ")");
 
             // If there is only one screen, place it on the main screen
             // Otherwise, load it on the companion screen
             if (System.Windows.Forms.Screen.AllScreens.Length == 1)
+            {
                 currentScreen = System.Windows.Forms.Screen.AllScreens[0];
+                this.Top = 40 * (192.0f / dpiX);                     
+            }
             else
             {
                 currentScreen = System.Windows.Forms.Screen.AllScreens[1];
+
                 if (currentScreen != null)
                 {
                     // Position this to the top of the second screen.  See the output logs for more info
+<<<<<<< Updated upstream
                     this.Top = currentScreen.WorkingArea.Height;
+=======
+
+                    // Positon top of window near the top of the ScreenPad Plus
+                    // The scaling is basically the working height multiplied by the base scaling divided by the given DPI (base 192 with 200%)
+                    this.Top = Math.Round(currentScreen.WorkingArea.Height * (192.0f/dpiX));
+
+                    // Position left so that it's near the center of the ScreenPad Plus
+                    // The scaling is similar to Top's but we also have to subtract 240 because 1/4 of the width is aligned too far to the right
+                    this.Left = (currentScreen.WorkingArea.Width-960)/4 * (192.0f / dpiX) - (960/4);
+
+
+>>>>>>> Stashed changes
                 }
             }
         }
