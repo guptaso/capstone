@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Collections.Generic;
 using Microsoft.Win32;
+using System.IO;
 
 namespace KeyStrokes
 {

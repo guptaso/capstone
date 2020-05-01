@@ -957,16 +957,83 @@ namespace KeyStrokes
 
         private void OnLoad(object sender, RoutedEventArgs e)
         {
+            // Output all screens that the computer has
+            // For the asus zenbook pro duo, there will be 2 screens, where the companion screen is index 1 and main screen is index 0
+            // To determine dimensions of the second screen, all the screens on the user laptop will be outputted
+
+            /*
+             *  DPI for primary screen: sqrt(3840^2+2160^2) / 15.6" = 282.423996 pixels/inch
+             *  Scale by the standard 96 pixels/inch 
+             * 
+             */
+
+
+            for (int i = 0; i < System.Windows.Forms.Screen.AllScreens.Length; i++)
+                Console.WriteLine("Screen: " + System.Windows.Forms.Screen.AllScreens[i]);
+
+            // Get the system's DPI.  Determined based on scaling
+            /*
+             * 100% = 96
+             * 125% = 120
+             * 150% = 144
+             * 175% = 168
+             * 200% = 192
+             * 225% = 216
+             * 250% = 240
+             * 300% = 288
+             * 350% = 336
+             */
+
+            PresentationSource source = PresentationSource.FromVisual(this);
+            double dpiX = 0, dpiY = 0;
+            if (source != null)
+            {
+                dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
+                dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
+            }
+
+            Console.WriteLine("(" + dpiX + ", " + dpiY + ")");
+
             // If there is only one screen, place it on the main screen
             // Otherwise, load it on the companion screen
             if (System.Windows.Forms.Screen.AllScreens.Length == 1)
+            {
                 currentScreen = System.Windows.Forms.Screen.AllScreens[0];
+                this.Top = 40 * (192.0f / dpiX);
+            }
             else
             {
-                // If the second screen exists, then set the application to the top.
                 currentScreen = System.Windows.Forms.Screen.AllScreens[1];
+
                 if (currentScreen != null)
-                    this.Top = currentScreen.WorkingArea.Height - 20;
+                {
+
+                    // Positon top of window near the top of the ScreenPad Plus
+                    // The scaling is basically the working height multiplied by the base scaling divided by the given DPI (base 192 with 200%)
+                    if (dpiX >= 168)
+                        this.Top = Math.Round(currentScreen.WorkingArea.Height * (192.0f / dpiX));
+                    else
+                    {
+                        // 100%, 125%, and 150% scaling seem to not work too well.
+                        // Some arbitrary factors to help fix this issue 
+                        double factor;
+                        if (dpiX == 96)
+                            factor = 5;
+                        else if (dpiX == 120)
+                            factor = 2.5;
+                        else
+                            factor = 1;
+                        this.Top = Math.Round(currentScreen.WorkingArea.Height * (192.0f / dpiX)) + (192 * factor);
+                    }
+
+                    // Position left so that it's near the center of the ScreenPad Plus
+                    // The scaling is similar to Top's but we also have to subtract 240 because 1/4 of the width is aligned too far to the right
+                    this.Left = (currentScreen.WorkingArea.Width - 960) / 4 * (192.0f / dpiX) - (960 / 4);
+
+                    Console.WriteLine("Top: " + this.Top);
+
+
+                }
             }
         }
 
@@ -983,7 +1050,8 @@ namespace KeyStrokes
         private void MoveWindow(object sender, MouseButtonEventArgs e)
         {
             // Don't bring the window to focus when clicking/dragging the move button
-            moveClick = true;
+            moveClick = true;                               // set to true to indicate that it was used already
+                                                            // will call ForceFocusOnWindow afterwards
 
             // If we're holding onto the MOVE button, then we can now move the window wrt the move button's position on the computer
             if (e.ChangedButton == MouseButton.Left)
@@ -995,6 +1063,7 @@ namespace KeyStrokes
         // Touch and hold anywhere on the MOVE button to move the window
         private void MoveWindowTouch(object sender, TouchEventArgs e)
         {
+            moveClick = false;                              // basically, this is set to false because it doesn't call ForceFocusOnWindow implicitly afterwards
             this.CaptureTouch(e.TouchDevice);
         }
     }
