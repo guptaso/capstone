@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Application Files\KeyStrokes_1_0_0_2\KeyStrokes.exe.manifest" size="5437">
+    <dependentAssembly dependencyType="install" codebase="Application Files\KeyStrokes_1_0_0_2\KeyStrokes.exe.manifest" size="6547">
       <assemblyIdentity name="KeyStrokes.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>P/HswooQE9U+QWBG9+px3cP+8oUdRJFke2/pYEhvHBw=</dsig:DigestValue>
+        <dsig:DigestValue>z7J9+LqZhJGPT/BeKNVYe27s6646cEr8PD0npuZEqUc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
