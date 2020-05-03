@@ -42,12 +42,30 @@ namespace KeyStrokes
         [DllImport("user32.dll")]
         public static extern IntPtr SendMessage(IntPtr hwnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
         public MainWindow()
         {
             InitializeComponent();
 
+            // Output all processes currently running
+            // Some processes' titles are "" for w/e reason, so those processes are excluded
+
+            /*
+            Console.WriteLine("\nViewing all current processes");
+            var processes = Process.GetProcesses().Where(pr => (pr.MainWindowHandle != IntPtr.Zero && pr.MainWindowTitle != ""));
+            IntPtr hWnd;
+            foreach (var proc in processes)
+            {
+                Console.WriteLine(proc.MainWindowTitle);
+                hWnd = FindWindow(null, proc.MainWindowTitle);
+            }
+            Console.WriteLine();
+            */
         }
 
+        // Initializes the window to not steal focus by default
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -138,9 +156,10 @@ namespace KeyStrokes
              * 
              */
 
-
+            /*
             for (int i = 0; i < System.Windows.Forms.Screen.AllScreens.Length; i++)
                 Console.WriteLine("Screen: " + System.Windows.Forms.Screen.AllScreens[i]);
+            */
 
             // Get the system's DPI.  Determined based on scaling
             /*
@@ -163,7 +182,7 @@ namespace KeyStrokes
                 dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
             }
 
-            Console.WriteLine("(" + dpiX + ", " + dpiY + ")");
+            // Console.WriteLine("(" + dpiX + ", " + dpiY + ")");
 
             // If there is only one screen, place it on the main screen
             // Otherwise, load it on the companion screen
@@ -201,7 +220,7 @@ namespace KeyStrokes
                     // The scaling is similar to Top's but we also have to subtract 240 because 1/4 of the width is aligned too far to the right
                     this.Left = (currentScreen.WorkingArea.Width-960)/4 * (192.0f / dpiX) - (960/4);
 
-                    Console.WriteLine("Top: " + this.Top);
+                    // Console.WriteLine("Top: " + this.Top);
 
 
                 }
