@@ -496,8 +496,8 @@ namespace KeyStrokes
         // this opens a help window
         private void Help_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("You will now be navigated to the GitHub repo where this was implemented.  Please see README.md for more details", "Navigating to GitHub");
-            Process.Start("https://www.github.com/guptaso/capstone");
+            MessageBox.Show("You will now be navigated to the GitHub repo where this was implemented.", "Navigating to GitHub");
+            Process.Start("https://github.com/guptaso/capstone/wiki/Open-Applications-List-Menu-HELP");
         }
 
         // this clears all applications on the window, but only if they so choose
