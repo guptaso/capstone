@@ -15,6 +15,7 @@
         AllowsTransparency="True"
         Loaded="OnLoad"
         WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
         
         >
 

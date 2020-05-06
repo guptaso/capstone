@@ -59,8 +59,7 @@ namespace KeyStrokes
             }
             currentInstance = true;
             GamingUseCase game = new GamingUseCase();
-            game.Show();    
-            
+            game.Show();
 
         }
 

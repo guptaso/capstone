@@ -24,7 +24,6 @@ namespace KeyStrokes
 
     public sealed partial class GamingUseCase: Window
     {
-        public static Boolean finished;
         private const int WM_MOUSEACTIVATE = 0x0021;
         private const int MA_NOACTIVATE = 3;
         private const int WS_EX_NOACTIVE = 0x08000000;
@@ -56,6 +55,12 @@ namespace KeyStrokes
         [DllImport("user32.dll")]
         public static extern bool SetWindowPos(IntPtr before, IntPtr after, int X, int Y, int cx, int cy, uint flags);
 
+        [DllImport("user32.dll")]
+        public static extern bool LockSetForegroundWindow(uint uLockCode);
+
+        [DllImport("user32.dll")]
+        public static extern void DisableProcessWindowsGhosting();
+
         //Store list of hotkeys (in char) used atm (Cannot use the same hotkey in more than one button)
         private List<char> hotkeyCharList = new List<char>();
 
@@ -75,11 +80,10 @@ namespace KeyStrokes
         private Button current;
 
         //Either display on the main screen if there is only one or display on the bottom screen if there are 2
-        System.Windows.Forms.Screen currentScreen;
+        private System.Windows.Forms.Screen currentScreen;
 
         //Detect whether or not we have saved our layout (false for no, true for yes)
         private Boolean saveState = false;
-
 
         // Detect whether move button was clicked (if true, don't bring focus to the window)
         private Boolean moveClick = false;
@@ -87,16 +91,9 @@ namespace KeyStrokes
         // Get the window handler of the started application
         private IntPtr hWnd;
 
-        /*
-        [DllImport("user32.dll")]
-        static extern short VkKeyScan(char ch);
 
-        static public Key ResolveKey(char charToResolve)
-        {
-            return KeyInterop.KeyFromVirtualKey(VkKeyScan(charToResolve));
-        }*/
 
-        // Retrieve an icon
+        // Retrieve the file's icon
         public static ImageSource GetIcon(string fileName)
         {
             Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(fileName);
@@ -143,22 +140,6 @@ namespace KeyStrokes
         {
 
             InitializeComponent();
-
-            // Output all processes currently running
-            // Some processes' titles are "" for w/e reason, so those processes are excluded
-
-            /*
-            Console.WriteLine("\nViewing all current processes");
-            var processes = Process.GetProcesses().Where(pr => (pr.MainWindowHandle != IntPtr.Zero && pr.MainWindowTitle != ""));
-            //IntPtr hWnd_local;
-            foreach (var proc in processes)
-            {
-                Console.WriteLine(proc.MainWindowTitle);
-                //hWnd = FindWindow(null, proc.MainWindowTitle);
-            }
-            Console.WriteLine();
-            */
-
 
             // Your boy did it, he managed to KEKW the capstone project
             // (only if it exists tho :) )
@@ -417,7 +398,7 @@ namespace KeyStrokes
         }
 
 
-        //Keys register on window.
+        //Keys register on window in focus.
         private void KeyInteractor(object sender, KeyEventArgs e)
         {
             // triggering the +/= key
@@ -555,17 +536,9 @@ namespace KeyStrokes
         // this opens the new window for adding new buttons
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            // If we already have an instance of the application running, then don't run another instance
-            if (finished)
-            {
-                MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
-                return;
-            }
-
             // Otherwise, open the form
-            finished = true;
             AddApplication form1 = new AddApplication(this);
-            form1.Show();
+            form1.ShowDialog();
         }
 
         // this saves the layouts currently on the application
@@ -581,17 +554,9 @@ namespace KeyStrokes
         {
             if (e.Key == Key.OemPlus)
             {
-                // If we already have an instance of the application running, then don't run another instance
-                if (finished)
-                {
-                    MessageBox.Show("What are you doing?  You have an instance of this window open already!", "Already opened");
-                    return;
-                }
-
-                // Otherwise, open the form
-                finished = true;
+                // Open the form
                 AddApplication form1 = new AddApplication(this);
-                form1.Show();
+                form1.ShowDialog();
             }
         }
 
@@ -621,7 +586,117 @@ namespace KeyStrokes
 
         }
 
-        //Dynamic button's KeyDown event
+        private void StartProcess(string appLocation, RoutedEventArgs e)
+        {
+
+            string processName = "";
+            int processId = 0;
+
+            // After opening the app, reset the scrollviewer to the top
+            ButtonViewholder.ScrollToLeftEnd();
+
+
+            // Now actually create a new process: will require a try block to catch a few exceptions
+            try
+            {
+                //Start the application at the 1st offset index and then stop searching
+                Console.WriteLine("\nNumber of screens: " + System.Windows.Forms.Screen.AllScreens.Length);
+
+                // Only PuTTY is causing issues: hard code it so PuTTY will always open at the top (not ideal but can't figure this out rn) 
+                if (System.Windows.Forms.Screen.AllScreens.Length > 1 && OpenScreenPad.IsChecked == true/* && !appLocation.Contains("PuTTY")*/)
+                {
+                    Process openApplication = new Process();
+                    openApplication.StartInfo.FileName = appLocation;
+                    openApplication.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                    openApplication.StartInfo.CreateNoWindow = true;
+                    openApplication.Start();
+                    Console.WriteLine("The id: " + openApplication.Id);
+                    Console.WriteLine("Opened app: " + openApplication.ProcessName);
+                    processName = openApplication.ProcessName;
+                    processId = openApplication.Id;
+
+                    //Thread.Sleep(2000);
+                    openApplication.WaitForInputIdle();                         // If an opened application doesn't have GUI, then InvalidOperationException will be thrown.  Catch this and run it anyways
+                    Console.WriteLine("\nViewing all current processes");
+                    var processes = Process.GetProcesses().Where(pr => (pr.MainWindowHandle != IntPtr.Zero && pr.ProcessName == openApplication.ProcessName));
+
+                    foreach (var proc in processes)
+                    {
+                        Console.WriteLine("Process: " + proc.MainWindowTitle + ", Id: " + proc.Id);
+                        hWnd = FindWindow(null, proc.MainWindowTitle);
+                        if (proc.Id == openApplication.Id)
+                            break;
+                    }
+
+                    
+                    if (SetWindowPos(hWnd, IntPtr.Zero, currentScreen.WorkingArea.Width - (int)this.Width * 2, currentScreen.WorkingArea.Height * 2, 900, 900, 0x0020 | 0x0040)) // 3rd-6th parameters are left, top, width, height
+                        Console.WriteLine("succeeded");
+                    if (SetForegroundWindow(hWnd))
+                        Console.WriteLine("another one succeeded");
+                    if (ShowWindow(hWnd, 3))
+                        Console.WriteLine("everything succeeded");
+                    //DisableProcessWindowsGhosting();
+                }
+
+                else
+                    Process.Start(appLocation);
+
+                this.Activate();    // bring to foreground
+            }
+            // Some apps don't have GUI, thus this exception will occur.  However, we still want the app to be displayed
+            catch (InvalidOperationException)
+            {
+                if (System.Windows.Forms.Screen.AllScreens.Length > 1 && OpenScreenPad.IsChecked == true)
+                {
+                    Thread.Sleep(1500);     // alternative to WaitForInputIdle() is to sleep for 1.5 seconds
+                    Console.WriteLine("\nViewing all current processes");
+                    var processes = Process.GetProcesses().Where(pr => (pr.MainWindowHandle != IntPtr.Zero && pr.ProcessName == processName));
+
+                    foreach (var proc in processes)
+                    {
+                        Console.WriteLine("Process: " + proc.MainWindowTitle + ", Id: " + proc.Id);
+                        hWnd = FindWindow(null, proc.MainWindowTitle);
+                        if (proc.Id == processId)
+                        {
+                            hWnd = FindWindow(null, proc.MainWindowTitle);
+                            break;
+                        }
+                    }
+
+                    if (SetForegroundWindow(hWnd))
+                        Console.WriteLine("another one succeeded");
+                    if (SetWindowPos(hWnd, IntPtr.Zero, currentScreen.WorkingArea.Width - (int)this.Width * 2, currentScreen.WorkingArea.Height * 2, 900, 900, 0x0020)) // 3rd-6th parameters are left, top, width, height
+                        Console.WriteLine("succeeded");
+                    if (ShowWindow(hWnd, 3))
+                        Console.WriteLine("everything succeeded");
+                    //DisableProcessWindowsGhosting();
+
+
+                }
+
+                else
+                    Process.Start(appLocation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error, something happened with the application.  It cannot be loaded, thus it will be removed", "App location changed or removed", MessageBoxButton.OK, MessageBoxImage.Error);
+                Console.WriteLine("Exception: " + ex.Message);
+
+                // Before removing the button, update our current button to be the invalid one
+                current = buttonList[appLocationsList.FindIndex(x => x == appLocation)];
+
+                // Now remove it
+                removeBtn(current, e);
+
+                // Because an app was forcibly removed, make save state be false
+                saveState = false;
+            }
+
+            
+        }
+
+        //Dynamic button's KeyUp event
+        // Requires our window to be in focus!
         private void DynamicButton_KeyUp(object sender, KeyEventArgs e)
         {
             //Search for which hotkey was pressed (not including + since there's already an event for it)
@@ -631,99 +706,48 @@ namespace KeyStrokes
                 {
                     // If the application cannot be opened for some reason, throw an exception
                     // Otherwise, open as normal
-                    try
-                    {
 
-                        // Find the button
-                        int buttonIndex = i - 1;
+                    // Find the button
+                    int buttonIndex = i - 1;
 
-                        //Move the button so that it's at the front
-                        //Two steps: remove the button and then restore it to the front
+                    //Move the button so that it's at the front
+                    //Two steps: remove the button and then restore it to the front
 
-                        // Remove elements with that buttonIndex
-                        // Just make sure to offset the two hotkeyLists by adding 1
-                        // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
-                        Button tempButton = buttonList[buttonIndex];
-                        buttonList.RemoveAt(buttonIndex);
-                        string tempLocation = appLocationsList[buttonIndex];
-                        appLocationsList.RemoveAt(buttonIndex);
-                        string tempImage = imageList[buttonIndex];
-                        imageList.RemoveAt(buttonIndex);
-                        char tempCharKey = hotkeyCharList[buttonIndex + 1];
-                        hotkeyCharList.RemoveAt(buttonIndex + 1);
-                        Key tempKey = hotKeyList[buttonIndex + 1];
-                        hotKeyList.RemoveAt(buttonIndex + 1);
+                    // Remove elements with that buttonIndex
+                    // Just make sure to offset the two hotkeyLists by adding 1
+                    // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
+                    Button tempButton = buttonList[buttonIndex];
+                    buttonList.RemoveAt(buttonIndex);
+                    string tempLocation = appLocationsList[buttonIndex];
+                    appLocationsList.RemoveAt(buttonIndex);
+                    string tempImage = imageList[buttonIndex];
+                    imageList.RemoveAt(buttonIndex);
+                    char tempCharKey = hotkeyCharList[buttonIndex + 1];
+                    hotkeyCharList.RemoveAt(buttonIndex + 1);
+                    Key tempKey = hotKeyList[buttonIndex + 1];
+                    hotKeyList.RemoveAt(buttonIndex + 1);
 
-                        // Then, remove from the stack
-                        MyStack.Children.RemoveAt(buttonIndex);
+                    // Then, remove from the stack
+                    MyStack.Children.RemoveAt(buttonIndex);
 
-                        // Add it back to the stack in the very front
-                        MyStack.Children.Insert(0, tempButton);
+                    // Add it back to the stack in the very front
+                    MyStack.Children.Insert(0, tempButton);
 
-                        // Then, restore the contents
-                        buttonList.Insert(0, tempButton);
-                        appLocationsList.Insert(0, tempLocation);
-                        imageList.Insert(0, tempImage);
-                        hotkeyCharList.Insert(1, tempCharKey);
-                        hotKeyList.Insert(1, tempKey);
+                    // Then, restore the contents
+                    buttonList.Insert(0, tempButton);
+                    appLocationsList.Insert(0, tempLocation);
+                    imageList.Insert(0, tempImage);
+                    hotkeyCharList.Insert(1, tempCharKey);
+                    hotKeyList.Insert(1, tempKey);
 
-                        // Finally, update the scrollviewer with changes made to the stack
-                        ButtonViewholder.Content = MyStack;
+                    // Finally, update the scrollviewer with changes made to the stack
+                    ButtonViewholder.Content = MyStack;
 
-                        // And because our window content was changed, change save state to false
-                        saveState = false;
+                    // And because our window content was changed, change save state to false
+                    saveState = false;
 
-                        //Start the application at the 1st offset index and then stop searching
-                        if (System.Windows.Forms.Screen.AllScreens.Length > 1)
-                        {
-                            Process openApplication = new Process();
-                            openApplication.StartInfo.FileName = appLocationsList[0];
-                            openApplication.StartInfo.UseShellExecute = false;
-                            openApplication.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                            openApplication.Start();
-                            Console.WriteLine("The id: " + openApplication.Id);
-                            Console.WriteLine("Opened app: " + openApplication.ProcessName);
-
-                            Thread.Sleep(1000);
-                            Console.WriteLine("\nViewing all current processes");
-                            var processes = Process.GetProcesses().Where(pr => (pr.MainWindowHandle != IntPtr.Zero && pr.ProcessName == openApplication.ProcessName));
-                            foreach (var proc in processes)
-                            {
-                                Console.WriteLine("Process: " + proc.MainWindowTitle + ", Id: " + proc.Id);
-                                hWnd = FindWindow(null, proc.MainWindowTitle);
-                            }
-
-                            if (SetWindowPos(hWnd, IntPtr.Zero, (int)this.Left, 2200, 450, 450, 0x0200)) // 3rd-6th parameters are left, top, width, height
-                                Console.WriteLine("succeeded");
-                            if (SetForegroundWindow(hWnd))
-                                Console.WriteLine("another one succeeded");
-                            if (ShowWindow(hWnd, 3))
-                                Console.WriteLine("everything succeeded");
-
-
-                        }
-
-                        else
-                            Process.Start(appLocationsList[0]);
-
-                        
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error, something happened with the application.  It cannot be loaded, thus it will be removed", "App location changed or removed", MessageBoxButton.OK, MessageBoxImage.Error);
-                        Console.WriteLine("Exception: " + ex.Message);
-
-                        // Before removing the button, update our current button to be the invalid one
-                        current = buttonList[0];
-
-                        // Now remove it
-                        removeBtn(current, e);
-
-                        // Because an app was forcibly removed, make save state be false
-                        saveState = false;
-                    }
-
+                    // Finally start the process
+                    StartProcess(appLocationsList[0], e);
                 }
             }
 
@@ -735,106 +759,50 @@ namespace KeyStrokes
         {
             // If the application cannot be opened for some reason, throw an exception
             // Otherwise, open as normal
-            try
-            {
 
-                //Move the button so that it's at the front
-                //Two steps: remove the button and then restore it to the front
+            //Move the button so that it's at the front
+            //Two steps: remove the button and then restore it to the front
+            // Find the button
+            int buttonIndex = appLocationsList.FindIndex(x => x == location);
 
+            // Remove elements with that buttonIndex
+            // Just make sure to offset the two hotkeyLists by adding 1
+            // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
+            Button tempButton = buttonList[buttonIndex];
+            buttonList.RemoveAt(buttonIndex);
+            string tempLocation = appLocationsList[buttonIndex];
+            appLocationsList.RemoveAt(buttonIndex);
+            string tempImage = imageList[buttonIndex];
+            imageList.RemoveAt(buttonIndex);
+            char tempCharKey = hotkeyCharList[buttonIndex + 1];
+            hotkeyCharList.RemoveAt(buttonIndex + 1);
+            Key tempKey = hotKeyList[buttonIndex + 1];
+            hotKeyList.RemoveAt(buttonIndex + 1);
 
-                //Move the button so that it's at the front
-                //Two steps: remove the button and then restore it to the front
+            // Then, remove from the stack
+            MyStack.Children.RemoveAt(buttonIndex);
 
-                // Find the button
-                int buttonIndex = appLocationsList.FindIndex(x => x == location);
+            // Add it back to the stack in the very front
+            MyStack.Children.Insert(0, tempButton);
 
-                // Remove elements with that buttonIndex
-                // Just make sure to offset the two hotkeyLists by adding 1
-                // Since we're going to eventually add this back to the lists, create variables to store the removed values before restoring
-                Button tempButton = buttonList[buttonIndex];
-                buttonList.RemoveAt(buttonIndex);
-                string tempLocation = appLocationsList[buttonIndex];
-                appLocationsList.RemoveAt(buttonIndex);
-                string tempImage = imageList[buttonIndex];
-                imageList.RemoveAt(buttonIndex);
-                char tempCharKey = hotkeyCharList[buttonIndex + 1];
-                hotkeyCharList.RemoveAt(buttonIndex + 1);
-                Key tempKey = hotKeyList[buttonIndex + 1];
-                hotKeyList.RemoveAt(buttonIndex + 1);
+            // Then, restore the contents
+            buttonList.Insert(0, tempButton);
+            appLocationsList.Insert(0, tempLocation);
+            imageList.Insert(0, tempImage);
+            hotkeyCharList.Insert(1, tempCharKey);
+            hotKeyList.Insert(1, tempKey);
 
-                // Then, remove from the stack
-                MyStack.Children.RemoveAt(buttonIndex);
+            // Finally, update the scrollviewer with changes made to the stack
+            ButtonViewholder.Content = MyStack;
 
-                // Add it back to the stack in the very front
-                MyStack.Children.Insert(0, tempButton);
+            // And because our window content was changed, change save state to false
+            saveState = false;
 
-                // Then, restore the contents
-                buttonList.Insert(0, tempButton);
-                appLocationsList.Insert(0, tempLocation);
-                imageList.Insert(0, tempImage);
-                hotkeyCharList.Insert(1, tempCharKey);
-                hotKeyList.Insert(1, tempKey);
-
-                // Finally, update the scrollviewer with changes made to the stack
-                ButtonViewholder.Content = MyStack;
-
-                // And because our window content was changed, change save state to false
-                saveState = false;
-
-
-                //Start the application at the 1st offset index and then stop searching
-                if (System.Windows.Forms.Screen.AllScreens.Length > 1)
-                {
-                    Process openApplication = new Process();
-                    openApplication.StartInfo.FileName = location;
-                    openApplication.StartInfo.UseShellExecute = false;
-                    openApplication.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                    openApplication.Start();
-                    Console.WriteLine("The id: " + openApplication.Id);
-                    Console.WriteLine("Opened app: " + openApplication.ProcessName);
-
-                    Thread.Sleep(1000);
-                    Console.WriteLine("\nViewing all current processes");
-                    var processes = Process.GetProcesses().Where(pr => (pr.MainWindowHandle != IntPtr.Zero && pr.ProcessName == openApplication.ProcessName));
-                    
-                    foreach (var proc in processes)
-                    {
-                        Console.WriteLine("Process: " + proc.MainWindowTitle + ", Id: " + proc.Id);
-                        hWnd = FindWindow(null, proc.MainWindowTitle);
-                    }
-
-                    
-                    if (SetWindowPos(hWnd, IntPtr.Zero, 0, 2200, 450, 450, 0x0200)) // 3rd-6th parameters are left, top, width, height
-                        Console.WriteLine("succeeded");
-                    if (SetForegroundWindow(hWnd))
-                        Console.WriteLine("another one succeeded");
-                    if (ShowWindow(hWnd, 3))
-                        Console.WriteLine("everything succeeded");
-
-
-                }
-
-                else
-                    Process.Start(location);
-
-                this.Activate();    // bring to foreground
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error, something happened with the application.  It cannot be loaded, thus it will be removed", "App location changed or removed", MessageBoxButton.OK, MessageBoxImage.Error);
-                Console.WriteLine("Exception: " + ex.Message);
-
-                // Before removing the button, update our current button to be the invalid one
-                current = buttonList[appLocationsList.FindIndex(x => x == location)];
-
-                // Now remove it
-                removeBtn(current, e);
-
-                // Because an app was forcibly removed, make save state be false
-                saveState = false;
-            }
+            // Finally start the process
+            StartProcess(location, e);
         }
 
+        // Right click an added application to view the menu of removing or changing hotkeys
         private void DynamicButton_RightClick(object sender, MouseButtonEventArgs e, Button currentButton)
         {
             // Record the current instance of the button once it's been clicked
@@ -853,6 +821,7 @@ namespace KeyStrokes
             btnMenu.Visibility = Visibility.Visible;
         }
 
+        // Allows us to scroll using the mouse wheel (thanks Stack Overflow)
         private void ScrollHorizontally(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scrollMe = sender as ScrollViewer;
@@ -992,7 +961,7 @@ namespace KeyStrokes
                 hotKeyList[buttonIndex + 1] = Key.D0;
 
             // Change the button display
-            // The content of the button is the Dockpanel
+            // First, the content of the button (called current) is the Dockpanel
             DockPanel changeDock = (DockPanel)current.Content;
 
             // Second, the 2nd child of the dockpanel is the text (see AddApplication to see the Child order)
@@ -1004,7 +973,6 @@ namespace KeyStrokes
             // Third, replace the stack's child and update scrollviewer
             MyStack.Children[buttonIndex] = current;
             ButtonViewholder.Content = MyStack;
-
 
             // Finally, close the button menu
             btnMenu.Visibility = Visibility.Hidden;
@@ -1072,7 +1040,6 @@ namespace KeyStrokes
              * 
              */
 
-
             for (int i = 0; i < System.Windows.Forms.Screen.AllScreens.Length; i++)
                 Console.WriteLine("Screen: " + System.Windows.Forms.Screen.AllScreens[i]);
 
@@ -1096,8 +1063,6 @@ namespace KeyStrokes
                 dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
                 dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
             }
-
-            Console.WriteLine("(" + dpiX + ", " + dpiY + ")");
 
             // If there is only one screen, place it on the main screen
             // Otherwise, load it on the companion screen
@@ -1135,7 +1100,6 @@ namespace KeyStrokes
                     // The scaling is similar to Top's but we also have to subtract 240 because 1/4 of the width is aligned too far to the right
                     this.Left = (currentScreen.WorkingArea.Width - 960) / 4 * (192.0f / dpiX) - (960 / 4);
 
-
                 }
             }
         }
@@ -1152,15 +1116,13 @@ namespace KeyStrokes
         // Click and hold anywhere on the MOVE button to move the window
         private void MoveWindow(object sender, MouseButtonEventArgs e)
         {
-            // Don't bring the window to focus when clicking/dragging the move button
-            moveClick = true;                               // set to true to indicate that it was used already
-                                                            // will call ForceFocusOnWindow afterwards
+            moveClick = true;                                                // Don't bring the window to focus when clicking/dragging the move button
+                                                                             // set to true to indicate that it was used already
+                                                                             // will call ForceFocusOnWindow afterwards
 
             // If we're holding onto the MOVE button, then we can now move the window wrt the move button's position on the computer
             if (e.ChangedButton == MouseButton.Left)
-            {
                 this.DragMove();
-            }
         }
 
         // Touch and hold anywhere on the MOVE button to move the window
