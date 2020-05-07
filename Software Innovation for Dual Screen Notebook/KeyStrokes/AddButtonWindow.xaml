@@ -4,30 +4,73 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeyStrokes"
-        mc:Ignorable="d"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
         
         Height="428.249" Width="399.127"
         Background="White">
 
-    <StackPanel x:Name="content" Background="#00F8F8FF" Margin="26,30,21,10">
-             
-        <TextBlock Text="Shortcut Name: "/>
-        <TextBox x:Name="nameInput"
+    <StackPanel x:Name="content" Background="#00F8F8FF" Margin="26,16,21,0">
+
+        <TextBlock Text="Shortcut Name: " FontSize="14"/>
+        <TextBox x:Name="nameInput" ToolTip="This name will be displayed on the button"
                     Width="338"
                     Height="36"
                     HorizontalAlignment="Left"
                  Style="{StaticResource TextBoxRevealStyle}" TextChanged="nameInput_TextChanged">
         </TextBox>
-        <TextBlock Text="Application(s) to open (seperated by a comma):" Margin="0,10,0,0"/>
+        <TextBlock Text="Application(s) to open (seperated by a comma):" FontSize="14" Margin="0,20,0,0"/>
         <Grid>
-            <TextBox x:Name="appInput"
+
+            <StackPanel Orientation="Vertical" Panel.ZIndex="0">
+                <StackPanel Panel.ZIndex="0" Orientation="Horizontal" Margin="0,10,0,0">
+                    <TextBox x:Name="appInput" ToolTip="Click on Choose File to select Apps to launch with your button"
                     Width="250"
-                    Height="34"
+                    Height="36"
                     HorizontalAlignment="Left"
                     Style="{StaticResource TextBoxRevealStyle}">
-        </TextBox>
-            <Button x:Name="m" Content="File Open" Height="25" Click="file_open" Width="60" HorizontalAlignment="Right" Margin="0,0,20,0" Style="{StaticResource ButtonRevealStyle}" Background="Transparent"/>
+                    </TextBox>
+                    <Button x:Name="mainFileBrowser" Content="Choose File" Height="35" Width="80" Click="revealFileUploadOptions"  HorizontalAlignment="Right" Margin="10,0,10,0" Style="{StaticResource ButtonRevealStyle}" Background="Transparent"/>
+                </StackPanel>
+                <TextBlock Text="Add a keyboard shortcut:" FontSize="14" Margin="0,20,0,0"/>
+
+
+                <StackPanel Orientation="Horizontal" Cursor="Hand">
+                    <ComboBox Style="{StaticResource MaterialDesignComboBox}"  Cursor="Hand" Margin="0,10,0,0" x:Name="keyEnum" ItemsSource="{Binding Source={StaticResource enmKey}}" Width="299" Height="25" SelectionChanged="keyEnum_SelectionChanged" IsEditable="True" Background="#FFD4D4E4" BorderBrush="#FFABADB3" ToolTip="Select a sequences of keys to bind to your button"/>
+                    <Button x:Name="addKey" Content="{materialDesign:PackIcon Kind=Add}" VerticalAlignment="Bottom" Background="Transparent" Click="Click_Addkey" Width="29" Height="30" Margin="10,0,0,0" Style="{StaticResource ButtonRevealStyle}"/>
+                </StackPanel>
+                <WrapPanel x:Name="hotkeyDisplay" Orientation="Horizontal" MinHeight="40" Height="auto" Width="353">
+
+                </WrapPanel>
+                <Grid HorizontalAlignment="Center" Margin="10,-5,10,0" Width="332" Height="89">
+                    <Button Cursor="Hand" FontSize="14" x:Name="cancel_btn" Content="Cancel" Click="Click_Cancel" Background="PaleVioletRed" HorizontalAlignment="Left" Margin="10,23,0,20" Width="141" VerticalAlignment="Center" Height="46"  Style="{StaticResource ButtonRevealStyle}"/>
+                    <Button Cursor="Hand" FontSize="14" ToolTip="Tip: Right Click on your new button to make edits"  x:Name="confirm_btn" Content="Add Button" Click="Click_Confirm" Background="LightBlue" HorizontalAlignment="Right" Margin="0,23,10,20" Width="141" VerticalAlignment="Center" Height="46"  Style="{StaticResource ButtonRevealStyle}"/>
+                </Grid>
+            </StackPanel>
+
+
+
+            <StackPanel Visibility="Hidden" x:Name="mainFileBrowserSP" Panel.ZIndex="1" Margin="51,4.5,58.43,91.255" RenderTransformOrigin="0.959,0.931" UseLayoutRounding="False" Background="#FFFDFDFD" Opacity="0.9">
+                <StackPanel >
+                    <TextBlock x:Name="FileDrop" Text="Drag File Here" FontWeight="Bold" Height="25" Width="80" HorizontalAlignment="Center" Margin="0,10,5,0"  Background="Transparent" VerticalAlignment="Top"/>
+                    <Border>
+                        
+                        <Grid Width="200">
+                            <Button Content="{materialDesign:PackIcon Kind=UploadOutline}" Background="Transparent" BorderBrush="Transparent"/>
+                            <Rectangle StrokeDashArray="2.0 2.0" Stroke="Black" RadiusX="6" RadiusY="6" />
+                            <TextBox BorderBrush="Transparent" Width="200" Height="70" Drop="FileDropper" PreviewDragOver="FileDropper_PreviewDO" AllowDrop="True" x:Name="fileNames" Text=""  TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" ToolTip="Drag a file or application here" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="m" BorderBrush="Gray" Background="Transparent"  ToolTip="Browse for a file through a file explorer" Content="Browse" Height="30" Click="file_open"  />
+                    <Button x:Name="fileBrowserButton" Content="Cancel" Background="Transparent" BorderBrush="Gray" Height="30" Click="closeFileBrowser"></Button>
+                </StackPanel>
+            </StackPanel>
+
+
         </Grid>
+
 
         <!-- This is now pre-loaded?
         <TextBlock Text="Add an Image to shortcut: " Margin="0,10,0,0"/>
@@ -38,20 +81,6 @@
                     >
         </TextBox> -->
 
-
-        <TextBlock Text="Add a keyboard shortcut:" Margin="0,10,0,0"/>
-
-        <StackPanel Orientation="Horizontal">
-            <ComboBox x:Name="keyEnum" ItemsSource="{Binding Source={StaticResource enmKey}}" Width="299" Height="25" SelectionChanged="keyEnum_SelectionChanged" IsEditable="True" Background="White" BorderBrush="#FFABADB3"></ComboBox>
-            <Button x:Name="addKey" Content="+" Background="Transparent" Click="Click_Addkey" Width="29" Height="22" Margin="10,0,0,0" Style="{StaticResource ButtonRevealStyle}"/>
-        </StackPanel>
-        <WrapPanel x:Name="hotkeyDisplay" Orientation="Horizontal" MinHeight="40" Height="auto" Width="353">
-            
-        </WrapPanel>
-        <Grid HorizontalAlignment="Center" Margin="10,10,10,0" Width="332" Height="89">
-            <Button x:Name="cancel_btn" Content="Cancel" Click="Click_Cancel" Background="PaleVioletRed" HorizontalAlignment="Left" Margin="10,23,0,20" Width="141" VerticalAlignment="Center" Height="46"  Style="{StaticResource ButtonRevealStyle}"/>
-            <Button x:Name="confirm_btn" Content="Add Button" Click="Click_Confirm" Background="LightBlue" HorizontalAlignment="Right" Margin="0,23,10,20" Width="141" VerticalAlignment="Center" Height="46"  Style="{StaticResource ButtonRevealStyle}"/>
-        </Grid>
 
 
     </StackPanel>

@@ -15,8 +15,18 @@
         AllowsTransparency="True"
         Loaded="OnLoad"
         WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        
         >
 
+    <Window.Resources>
+        <!--
+        <DataTemplate x:Name="mainTemplate" DataType="{x:Type viewmodels:GamingUseCase}">
+            <views:GamingUsecase DataContext="{Binding}"/>
+        </DataTemplate>
+        -->
+    </Window.Resources>
+    
     <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >
         <Grid x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Height="540" VerticalAlignment="Top" Width="auto">
             <Grid.ColumnDefinitions>
@@ -24,12 +34,14 @@
                 <ColumnDefinition Width="131*"/>
             </Grid.ColumnDefinitions>
 
+
             <local:TitleBar x:Name="titleBar" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
             <local:MenuControl Panel.ZIndex="3" x:Name="menu_control" Visibility="Collapsed" HorizontalAlignment="Left" Width="338" Margin="0,35,0,50" />
             <local:ButtonGridControl x:Name="grid" Margin="10,0,9,50" Height="414" VerticalAlignment="Bottom" Loaded="grid_Loaded" />
 
 
             <StackPanel x:Name="bottomBar" Visibility="Hidden" Canvas.Bottom="0" Orientation="Horizontal" VerticalAlignment="Bottom" Height="65" Background="Gainsboro" HorizontalAlignment="Right" Width="962" Canvas.Left="3" Canvas.Top="367" Margin="0,0,1,-15">
+
                 <Button x:Name="media_back" Content="{materialDesign:PackIcon Kind=FastRewind, Size=20}" Width="51" Background="Gainsboro" Click="media_back_Click" BorderThickness="0"/>
                 <Button x:Name="media_play_pause" Content="{materialDesign:PackIcon Kind=PlayPause, Size=20}" Width="67" Background="Gainsboro" Click="media_play_pause_Click" BorderThickness="0"/>
                 <Button x:Name="media_forward" Content="{materialDesign:PackIcon Kind=FastForward, Size=20}" Width="51" Background="Gainsboro" Click="media_forward_Click" BorderThickness="0"/>
@@ -37,17 +49,13 @@
                 <Button x:Name="undo" Content="{materialDesign:PackIcon Kind=UndoVariant, Size=20}" Width="51" Background="Gainsboro" Click="undo_Click" BorderThickness="0"/>
                 <Button x:Name="redo" Content="{materialDesign:PackIcon Kind=RedoVariant, Size=20}" Width="51" Background="Gainsboro" Click="redo_Click" BorderThickness="0"/>
 
-                <!-- <Button x:Name="gaming_use_case" Width="150" Background="BlanchedAlmond" BorderThickness="0" Margin="-950, 0, 0, 0" Click="open_gaming_case">
-                    <TextBlock Text="Gaming Use Case"/>
-                </Button> -->
-                <!--<Slider Name="VolumeSlider" Margin="-950, 0, 0, 0" Width="300" Height="20"
-                    Maximum="100" Minimum="0" ValueChanged="VolumeSlider_ValueChanged">
-                </Slider> -->
 
             </StackPanel>
 
+            <ContentControl Content="{Binding}"/>
+
         </Grid>
 
-
+        
     </ScrollViewer>
 </Window>

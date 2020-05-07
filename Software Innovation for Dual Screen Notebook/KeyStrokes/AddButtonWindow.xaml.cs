@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Collections.Generic;
 using Microsoft.Win32;
+using System.IO;
 
 namespace KeyStrokes
 {
@@ -40,8 +41,35 @@ namespace KeyStrokes
             nameInput.Text = "";
             appInput.Text = "";
             //pngInput.Text = "";
+            fileNames.Text = "";
             shortcut.Clear();
             redrawHotkeys();
+        }
+
+        private void FileDropper(object sender, DragEventArgs e)
+        {
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+
+                appInput.Text += files[0];
+                appInput.Text += ",";
+                string x = appInput.Text;
+                Console.WriteLine("TEST: ", files[0]);
+                String[] spearator = { "\\" };
+                String[] toaddList = files[0].Split(spearator, 200, StringSplitOptions.RemoveEmptyEntries);
+
+                ((TextBox)sender).Text += toaddList[toaddList.Length - 1];
+                ((TextBox)sender).Text += ",\n";
+                mainFileBrowserSP.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void FileDropper_PreviewDO(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
         }
 
         private void redrawHotkeys() {
@@ -114,6 +142,16 @@ namespace KeyStrokes
             this.Visibility = Visibility.Hidden;
         }
 
+        private void revealFileUploadOptions(object sender, RoutedEventArgs e)
+        {
+            mainFileBrowserSP.Visibility = Visibility.Visible;
+        }
+
+        private void closeFileBrowser(object sender, RoutedEventArgs e)
+        {
+            mainFileBrowserSP.Visibility = Visibility.Hidden;
+        }
+
         private void Click_Confirm(object sender, RoutedEventArgs e)
         {
             // assigns the app name
@@ -139,9 +177,25 @@ namespace KeyStrokes
                     String[] strlist = hold.Split(spear, StringSplitOptions.RemoveEmptyEntries);
                     foreach (String st in strlist)
                     {
+                        if (str.Length > 1)
+                            str += " & ";
+                        string stTrim = st.Trim();
+                        // harvest shortcuts from the start menu folder
+                        String[] shortcut = null;
+                        if (!stTrim.Contains(":\\")) {
+                            shortcut = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), stTrim + ".lnk", SearchOption.AllDirectories);
+                        }
+                        
+                        // start command: start "" "<program>"
                         str = "";
-                        str += "start ";
-                        str += st;
+                        str += "start \"\" \"";
+                        // If we found a shortcut, we can add it to the start command 
+                        if (shortcut != null && shortcut.Length != 0) { str += shortcut[0]; }
+                        else { str += stTrim; }
+                        str += "\"";
+                    }
+                    if (str.Length > 1)
+                    {
                         Process cmd = new Process();
                         cmd.StartInfo.FileName = "cmd.exe";
                         cmd.StartInfo.RedirectStandardInput = true;
@@ -153,9 +207,9 @@ namespace KeyStrokes
                         cmd.StandardInput.Flush();
                         cmd.StandardInput.Close();
                         cmd.WaitForExit();
-                        Console.WriteLine(cmd.StandardOutput.ReadToEnd());
                     }
                 };
+                
             }
 
             // assigns the keyboard shortcuts to launch
@@ -193,7 +247,11 @@ namespace KeyStrokes
             if (openFileDialog.ShowDialog() == true)
             {
                 appInput.Text += openFileDialog.FileName;
-                Console.WriteLine(openFileDialog.FileName);
+                String[] spearator = { "\\" };
+                String[] toaddList = openFileDialog.FileName.Split(spearator, 200, StringSplitOptions.RemoveEmptyEntries);
+                ((TextBox)fileNames).Text += toaddList[toaddList.Length - 1];
+                ((TextBox)fileNames).Text += ",\n";
+                mainFileBrowserSP.Visibility = Visibility.Hidden;
             }
         }
 
@@ -243,3 +301,4 @@ namespace KeyStrokes
         }
     }
 }
+

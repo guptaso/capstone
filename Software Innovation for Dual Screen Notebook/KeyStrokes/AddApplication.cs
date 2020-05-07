@@ -44,7 +44,12 @@ namespace KeyStrokes
             button1.KeyDown += button1_KeyDown;
             button2.KeyDown += button2_KeyDown;
 
+            this.Click += Form_OnClick;
+
             GamingWindow = game;
+
+            // Bring focus
+            this.Activate();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -97,7 +102,6 @@ namespace KeyStrokes
                 //If the hotkey was not unique, restore focus to that textbox
                 if (GamingWindow.processFormInputs(textBox1.Text, textBox2.Text, textBox3.Text))
                 {
-                    GamingUseCase.finished = false;
                     this.Close();
                 }
                 else
@@ -129,7 +133,6 @@ namespace KeyStrokes
         //Simply close the form
         private void button2_Click(object sender, EventArgs e)
         {
-            GamingUseCase.finished = false;
             this.Close();
         }
 
@@ -141,7 +144,6 @@ namespace KeyStrokes
                 button1.Select();
             else if (e.KeyData == Keys.Enter)
             {
-                GamingUseCase.finished = false;
                 this.Close();
             }
         }
@@ -201,7 +203,6 @@ namespace KeyStrokes
         // When the form is closed using the x button on the top right
         private void Application_Closing(object sender, CancelEventArgs e)
         {
-            GamingUseCase.finished = false;
             GamingWindow.Activate();
             // this.Close();                    // because this event closes the app already, it would actually cause issues if this.Close() was called
         }
@@ -226,6 +227,12 @@ namespace KeyStrokes
 
                 }
             }
+        }
+
+        private void Form_OnClick(object sender, EventArgs e)
+        {
+            this.Activate();
+
         }
     }
 }

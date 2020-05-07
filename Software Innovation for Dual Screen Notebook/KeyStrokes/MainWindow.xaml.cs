@@ -42,12 +42,30 @@ namespace KeyStrokes
         [DllImport("user32.dll")]
         public static extern IntPtr SendMessage(IntPtr hwnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
         public MainWindow()
         {
             InitializeComponent();
 
+            // Output all processes currently running
+            // Some processes' titles are "" for w/e reason, so those processes are excluded
+
+            /*
+            Console.WriteLine("\nViewing all current processes");
+            var processes = Process.GetProcesses().Where(pr => (pr.MainWindowHandle != IntPtr.Zero && pr.MainWindowTitle != ""));
+            IntPtr hWnd;
+            foreach (var proc in processes)
+            {
+                Console.WriteLine(proc.MainWindowTitle);
+                hWnd = FindWindow(null, proc.MainWindowTitle);
+            }
+            Console.WriteLine();
+            */
         }
 
+        // Initializes the window to not steal focus by default
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -131,28 +149,82 @@ namespace KeyStrokes
             // Output all screens that the computer has
             // For the asus zenbook pro duo, there will be 2 screens, where the companion screen is index 1 and main screen is index 0
             // To determine dimensions of the second screen, all the screens on the user laptop will be outputted
+
+            /*
+             *  DPI for primary screen: sqrt(3840^2+2160^2) / 15.6" = 282.423996 pixels/inch
+             *  Scale by the standard 96 pixels/inch 
+             * 
+             */
+
+            /*
             for (int i = 0; i < System.Windows.Forms.Screen.AllScreens.Length; i++)
                 Console.WriteLine("Screen: " + System.Windows.Forms.Screen.AllScreens[i]);
+            */
+
+            // Get the system's DPI.  Determined based on scaling
+            /*
+             * 100% = 96
+             * 125% = 120
+             * 150% = 144
+             * 175% = 168
+             * 200% = 192
+             * 225% = 216
+             * 250% = 240
+             * 300% = 288
+             * 350% = 336
+             */
+
+            PresentationSource source = PresentationSource.FromVisual(this);
+            double dpiX = 0, dpiY = 0;
+            if (source != null)
+            {
+                dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
+                dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
+            }
+
+            // Console.WriteLine("(" + dpiX + ", " + dpiY + ")");
 
             // If there is only one screen, place it on the main screen
             // Otherwise, load it on the companion screen
             if (System.Windows.Forms.Screen.AllScreens.Length == 1)
+            {
                 currentScreen = System.Windows.Forms.Screen.AllScreens[0];
+                this.Top = 40 * (192.0f / dpiX);
+            }
             else
             {
                 currentScreen = System.Windows.Forms.Screen.AllScreens[1];
+
                 if (currentScreen != null)
                 {
-                    // Position this to the top of the second screen.  See the output logs for more info
-                    this.Top = currentScreen.WorkingArea.Height;
+
+                    // Positon top of window near the top of the ScreenPad Plus
+                    // The scaling is basically the working height multiplied by the base scaling divided by the given DPI (base 192 with 200%)
+                    if (dpiX >= 168)
+                        this.Top = Math.Round(currentScreen.WorkingArea.Height * (192.0f / dpiX));
+                    else
+                    {
+                        // 100%, 125%, and 150% scaling seem to not work too well.
+                        // Some arbitrary factors to help fix this issue 
+                        double factor;
+                        if (dpiX == 96)
+                            factor = 5;
+                        else if (dpiX == 120)
+                            factor = 2.5;
+                        else
+                            factor = 1;
+                        this.Top = Math.Round(currentScreen.WorkingArea.Height * (192.0f / dpiX)) + (192 * factor);
+                    }
+
+                    // Position left so that it's near the center of the ScreenPad Plus
+                    // The scaling is similar to Top's but we also have to subtract 240 because 1/4 of the width is aligned too far to the right
+                    this.Left = (currentScreen.WorkingArea.Width-960)/4 * (192.0f / dpiX) - (960/4);
+
+                    // Console.WriteLine("Top: " + this.Top);
+
+
                 }
             }
-
-        }
-
-        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            
         }
     }
 }
