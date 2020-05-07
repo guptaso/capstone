@@ -63,11 +63,7 @@ namespace KeyStrokes
 
                 ((TextBox)sender).Text += toaddList[toaddList.Length - 1];
                 ((TextBox)sender).Text += ",\n";
-                Console.WriteLine("TEST: ", appInput.Text);
-                   
-
-                
-
+                mainFileBrowserSP.Visibility = Visibility.Hidden;
             }
         }
 
@@ -184,17 +180,18 @@ namespace KeyStrokes
                             str += " & ";
                         string stTrim = st.Trim();
                         // harvest shortcuts from the start menu folder
-                        String[] shortcut = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), stTrim + ".lnk", SearchOption.AllDirectories);
-
+                        String[] shortcut = null;
+                        if (!stTrim.Contains(":\\")) {
+                            shortcut = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), stTrim + ".lnk", SearchOption.AllDirectories);
+                        }
+                        
                         // start command: start "" "<program>"
                         str = "";
                         str += "start \"\" \"";
                         // If we found a shortcut, we can add it to the start command 
-                        if (shortcut.Length != 0) { str += shortcut[0]; }
+                        if (shortcut != null && shortcut.Length != 0) { str += shortcut[0]; }
                         else { str += stTrim; }
                         str += "\"";
-
-
                     }
                     if (str.Length > 1)
                     {
@@ -209,9 +206,9 @@ namespace KeyStrokes
                         cmd.StandardInput.Flush();
                         cmd.StandardInput.Close();
                         cmd.WaitForExit();
-                        Console.WriteLine(cmd.StandardOutput.ReadToEnd());
                     }
                 };
+                
             }
 
             // assigns the keyboard shortcuts to launch
@@ -253,7 +250,7 @@ namespace KeyStrokes
                 String[] toaddList = openFileDialog.FileName.Split(spearator, 200, StringSplitOptions.RemoveEmptyEntries);
                 ((TextBox)fileNames).Text += toaddList[toaddList.Length - 1];
                 ((TextBox)fileNames).Text += ",\n";
-                Console.WriteLine(openFileDialog.FileName);
+                mainFileBrowserSP.Visibility = Visibility.Hidden;
             }
         }
 

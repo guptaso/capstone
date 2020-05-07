@@ -11,7 +11,7 @@
         Background="White">
 
     <StackPanel x:Name="content" Background="#00F8F8FF" Margin="26,16,21,0">
-             
+
         <TextBlock Text="Shortcut Name: " FontSize="14"/>
         <TextBox x:Name="nameInput" ToolTip="This name will be displayed on the button"
                     Width="338"
@@ -49,15 +49,22 @@
             </StackPanel>
 
 
-          
-            <StackPanel Visibility="Hidden" x:Name="mainFileBrowserSP" Panel.ZIndex="1" Margin="51,4.5,58.43,91.255" RenderTransformOrigin="0.959,0.931" Background="#FFEAEAEA" OpacityMask="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" UseLayoutRounding="False" >
+
+            <StackPanel Visibility="Hidden" x:Name="mainFileBrowserSP" Panel.ZIndex="1" Margin="51,4.5,58.43,91.255" RenderTransformOrigin="0.959,0.931" UseLayoutRounding="False" Background="#FFFDFDFD" Opacity="0.9">
                 <StackPanel >
                     <TextBlock x:Name="FileDrop" Text="Drag File Here" FontWeight="Bold" Height="25" Width="80" HorizontalAlignment="Center" Margin="0,10,5,0"  Background="Transparent" VerticalAlignment="Top"/>
-                    <TextBox BorderBrush="Black" Width="200" Height="70" Drop="FileDropper" PreviewDragOver="FileDropper_PreviewDO" AllowDrop="True" x:Name="fileNames" Text=""  TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" ToolTip="Drag a file or application here" />
+                    <Border>
+                        
+                        <Grid Width="200">
+                            <Button Content="{materialDesign:PackIcon Kind=UploadOutline}" Background="Transparent" BorderBrush="Transparent"/>
+                            <Rectangle StrokeDashArray="2.0 2.0" Stroke="Black" RadiusX="6" RadiusY="6" />
+                            <TextBox BorderBrush="Transparent" Width="200" Height="70" Drop="FileDropper" PreviewDragOver="FileDropper_PreviewDO" AllowDrop="True" x:Name="fileNames" Text=""  TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" ToolTip="Drag a file or application here" />
+                        </Grid>
+                    </Border>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="m" ToolTip="Browse for a file through a file explorer" Content="Choose File" Height="25" Click="file_open" Width="70" HorizontalAlignment="Center" Margin="0,10,0,14" Style="{StaticResource ButtonAccentRevealStyle}" Background="Transparent" VerticalAlignment="Bottom"/>
-                    <Button x:Name="submitFiles" Content="Done" Height="25" Click="closeFileBrowser" Width="70" HorizontalAlignment="Center" Margin="0,10,0,14" Style="{StaticResource ButtonAccentRevealStyle}" Background="Transparent" VerticalAlignment="Bottom"/>
+                    <Button x:Name="m" BorderBrush="Gray" Background="Transparent"  ToolTip="Browse for a file through a file explorer" Content="Browse" Height="30" Click="file_open"  />
+                    <Button x:Name="fileBrowserButton" Content="Cancel" Background="Transparent" BorderBrush="Gray" Height="30" Click="closeFileBrowser"></Button>
                 </StackPanel>
             </StackPanel>
 
