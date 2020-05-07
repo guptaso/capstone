@@ -15,11 +15,13 @@ namespace KeyStrokes
 {
     public partial class ButtonGridControl : UserControl
     {
+
         private List<UIElement> buttonList;
         private int col = 0;
         private int row = 0;
+
         private Button hold;
-        private Point startPoint;
+        //private Point startPoint;
         private DateTime click_started;
 
         public ButtonGridControl()
@@ -49,12 +51,12 @@ namespace KeyStrokes
 
             // option to remove the button
             //newButton.RightTapped += async (s, en) =>
-            b.MouseDown += async (s, en) =>
+            b.MouseDown += (s, en) =>
             {
                 click_started = DateTime.Now;
             };
 
-            b.MouseUp += async (s, en) =>
+            b.MouseUp += (s, en) =>
             {
                 if ((DateTime.Now - click_started).TotalSeconds > 1)
                 {
@@ -71,7 +73,7 @@ namespace KeyStrokes
             };
 
 
-            b.MouseRightButtonDown += async (s, en) =>
+            b.MouseRightButtonDown += (s, en) =>
             {
                 if (btnMenu.Visibility == Visibility.Hidden)
                 {
@@ -150,8 +152,6 @@ namespace KeyStrokes
             }
 
             btnMenu.Visibility = Visibility.Hidden;
-
-
         }
 
         /*
@@ -292,5 +292,37 @@ namespace KeyStrokes
         {
 
         }
+        private void changeNBtn(object sender, RoutedEventArgs e)
+        {
+
+
+            if (!String.IsNullOrEmpty(nameInput.Text))
+            {
+
+                buttonList.Clear();
+                foreach (Button buttonItem in grid.Children)
+                {
+                    if (buttonItem == hold)
+                    {
+
+                        buttonItem.Content = this.nameInput.Text;
+                        buttonList.Add(buttonItem);
+                    }
+                    else
+                    {
+                        buttonList.Add(buttonItem);
+                    }
+                }
+                grid.Children.Clear();
+
+                foreach (Button buttonItem in buttonList)
+                {
+                    grid.Children.Add(buttonItem);
+                }
+            }
+            nameInput.Text = "";
+            btnMenu.Visibility = Visibility.Hidden;
+        }
+
     }
 }
