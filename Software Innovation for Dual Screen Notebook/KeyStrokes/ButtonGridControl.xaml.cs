@@ -12,7 +12,7 @@ namespace KeyStrokes
         private List<Button> buttonList;
         //private int col = 0;
         //private int row = 0;
-        private Button hold;
+        public Button hold;
         //private Point startPoint;
         private DateTime click_started;
 
@@ -39,7 +39,8 @@ namespace KeyStrokes
             //b.MaxWidth = auto;
 
             // set the click handler
-            b.Click += click.Invoke;
+            // b.Click += click.Invoke;
+            b.Click += new System.Windows.RoutedEventHandler(click.Invoke);
 
             // option to remove the button
             //newButton.RightTapped += async (s, en) =>
