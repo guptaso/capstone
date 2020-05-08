@@ -79,7 +79,7 @@ namespace KeyStrokes
         private Button current;
 
         //Either display on the main screen if there is only one or display on the bottom screen if there are 2
-        private System.Windows.Forms.Screen currentScreen;
+        private System.Windows.Forms.Screen launchScreen;
 
         //Detect whether or not we have saved our layout (false for no, true for yes)
         private Boolean saveState = false;
@@ -628,7 +628,7 @@ namespace KeyStrokes
                     }
 
 
-                    if (SetWindowPos(hWnd, IntPtr.Zero, currentScreen.WorkingArea.Width - (int)this.Width * 2, currentScreen.WorkingArea.Height * 2, 900, 900, 0x0020 | 0x0040)) // 3rd-6th parameters are left, top, width, height
+                    if (SetWindowPos(hWnd, IntPtr.Zero, launchScreen.WorkingArea.Width - (int)this.Width * 2, launchScreen.WorkingArea.Height * 2, 900, 900, 0x0020 | 0x0040)) // 3rd-6th parameters are left, top, width, height
                         Console.WriteLine("succeeded");
                     if (SetForegroundWindow(hWnd))
                         Console.WriteLine("another one succeeded");
@@ -664,7 +664,7 @@ namespace KeyStrokes
 
                     if (SetForegroundWindow(hWnd))
                         Console.WriteLine("another one succeeded");
-                    if (SetWindowPos(hWnd, IntPtr.Zero, currentScreen.WorkingArea.Width - (int)this.Width * 2, currentScreen.WorkingArea.Height * 2, 900, 900, 0x0020)) // 3rd-6th parameters are left, top, width, height
+                    if (SetWindowPos(hWnd, IntPtr.Zero, launchScreen.WorkingArea.Width - (int)this.Width * 2, launchScreen.WorkingArea.Height * 2, 900, 900, 0x0020)) // 3rd-6th parameters are left, top, width, height
                         Console.WriteLine("succeeded");
                     if (ShowWindow(hWnd, 3))
                         Console.WriteLine("everything succeeded");
@@ -1065,22 +1065,24 @@ namespace KeyStrokes
 
             // If there is only one screen, place it on the main screen
             // Otherwise, load it on the companion screen
+            //var workingArea = launchScreen.WorkingArea;
             if (System.Windows.Forms.Screen.AllScreens.Length == 1)
             {
-                currentScreen = System.Windows.Forms.Screen.AllScreens[0];
+                launchScreen = System.Windows.Forms.Screen.AllScreens[0];
+                this.Left = launchScreen.WorkingArea.Left;
                 this.Top = 40 * (192.0f / dpiX);
             }
             else
             {
-                currentScreen = System.Windows.Forms.Screen.AllScreens[1];
+                launchScreen = System.Windows.Forms.Screen.AllScreens[1];
 
-                if (currentScreen != null)
+                if (launchScreen != null)
                 {
 
                     // Positon top of window near the top of the ScreenPad Plus
                     // The scaling is basically the working height multiplied by the base scaling divided by the given DPI (base 192 with 200%)
                     if (dpiX >= 168)
-                        this.Top = Math.Round(currentScreen.WorkingArea.Height * (192.0f / dpiX));
+                        this.Top = Math.Round(launchScreen.WorkingArea.Height * (192.0f / dpiX));
                     else
                     {
                         // 100%, 125%, and 150% scaling seem to not work too well.
@@ -1092,13 +1094,13 @@ namespace KeyStrokes
                             factor = 2.5;
                         else
                             factor = 1;
-                        this.Top = Math.Round(currentScreen.WorkingArea.Height * (192.0f / dpiX)) + (192 * factor);
+                        this.Top = Math.Round(launchScreen.WorkingArea.Height * (192.0f / dpiX)) + (192 * factor);
                     }
 
                     // Position left so that it's near the center of the ScreenPad Plus
                     // The scaling is similar to Top's but we also have to subtract 240 because 1/4 of the width is aligned too far to the right
-                    this.Left = (currentScreen.WorkingArea.Width - 960) / 4 * (192.0f / dpiX) - (960 / 4);
-
+                    //this.Left = (launchScreen.WorkingArea.Width - 960) / 4 * (192.0f / dpiX) - (960 / 4);
+                    this.Left = launchScreen.WorkingArea.Left;
                 }
             }
         }

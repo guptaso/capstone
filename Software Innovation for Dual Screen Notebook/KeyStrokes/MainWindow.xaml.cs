@@ -184,7 +184,7 @@ namespace KeyStrokes
                 launchScreen = System.Windows.Forms.Screen.AllScreens[0];
                 var workingArea = launchScreen.WorkingArea;
                 //this.Top = 40 * (192.0f / dpiX);
-                this.Top = (workingArea.Top + (workingArea.Height / 8)) * (192.0f / dpiX);
+                this.Top = (workingArea.Top + (workingArea.Height / 8))/dpiX;
 
             }
             else
@@ -198,30 +198,15 @@ namespace KeyStrokes
 
                     // Positon top of window near the top of the ScreenPad Plus
                     //// The scaling is basically the working height multiplied by the base scaling divided by the given DPI (base 192 with 200%)
-                    //if (dpiX >= 168)
-                    //    this.Top = Math.Round(launchScreen.WorkingArea.Height * (192.0f / dpiX));
-                    //else
-                    //{
-                    //    // 100%, 125%, and 150% scaling seem to not work too well.
-                    //    // Some arbitrary factors to help fix this issue 
-                    //    double factor;
-                    //    if (dpiX == 96)
-                    //        factor = 5;
-                    //    else if (dpiX == 120)
-                    //        factor = 2.5;
-                    //    else
-                    //        factor = 1;
-                    //    this.Top = Math.Round(launchScreen.WorkingArea.Height * (192.0f / dpiX)) + (192 * factor);
-                    //}
 
                     // Position left so that it's near the center of the ScreenPad Plus
                     // The scaling is similar to Top's but we also have to subtract 240 because 1/4 of the width is aligned too far to the right
-                    //this.Left = (launchScreen.WorkingArea.Width - 960) / 4 * (192.0f / dpiX) - (960 / 4);
-                    //this.Top = ((workingArea.Top + workingArea.Height) / 8) * (192.0f / dpiX);
+
+                    // THIS WAS ADDED BACK
+                    //Console.WriteLine(launchScreen.Bounds.Width + ", " + launchScreen.Bounds.Height);
                     var workingArea = launchScreen.WorkingArea;
                     this.Left = workingArea.Left/dpiX;
                     this.Top = workingArea.Top/dpiY;
-
                 }
             }
         }
