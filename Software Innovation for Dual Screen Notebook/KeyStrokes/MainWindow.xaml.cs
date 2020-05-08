@@ -221,6 +221,8 @@ namespace KeyStrokes
                     var workingArea = launchScreen.WorkingArea;
                     this.Left = workingArea.Left;
                     this.Top = workingArea.Top;
+                    //this.Height = workingArea.Height;
+                    //this.Width = workingArea.Width/2;
 
                 }
             }
