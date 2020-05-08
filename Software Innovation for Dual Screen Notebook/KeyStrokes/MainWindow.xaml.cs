@@ -171,8 +171,8 @@ namespace KeyStrokes
             double dpiX = 0, dpiY = 0;
             if (source != null)
             {
-                dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
-                dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
+                dpiX = source.CompositionTarget.TransformToDevice.M11;
+                dpiY = source.CompositionTarget.TransformToDevice.M22;
             }
 
             // Console.WriteLine("(" + dpiX + ", " + dpiY + ")");
@@ -219,10 +219,8 @@ namespace KeyStrokes
                     //this.Left = (launchScreen.WorkingArea.Width - 960) / 4 * (192.0f / dpiX) - (960 / 4);
                     //this.Top = ((workingArea.Top + workingArea.Height) / 8) * (192.0f / dpiX);
                     var workingArea = launchScreen.WorkingArea;
-                    this.Left = workingArea.Left;
-                    this.Top = workingArea.Top;
-                    //this.Height = workingArea.Height;
-                    //this.Width = workingArea.Width/2;
+                    this.Left = workingArea.Left/dpiX;
+                    this.Top = workingArea.Top/dpiY;
 
                 }
             }
