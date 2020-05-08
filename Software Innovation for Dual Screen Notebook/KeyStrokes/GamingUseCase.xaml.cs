@@ -1,19 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Threading;
-using System.Threading;
 
 namespace KeyStrokes
 {
@@ -22,7 +21,7 @@ namespace KeyStrokes
     /// </summary>
     /// 
 
-    public sealed partial class GamingUseCase: Window
+    public sealed partial class GamingUseCase : Window
     {
         private const int WM_MOUSEACTIVATE = 0x0021;
         private const int MA_NOACTIVATE = 3;
@@ -143,7 +142,7 @@ namespace KeyStrokes
 
             // Your boy did it, he managed to KEKW the capstone project
             // (only if it exists tho :) )
-            if(File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\Images\kekw.jpg"))
+            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\Images\kekw.jpg"))
                 this.Icon = BitmapFrame.Create(new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\Images\kekw.jpg", UriKind.RelativeOrAbsolute));
 
             // Store the initial set of hotkeys (1 initially)
@@ -155,11 +154,11 @@ namespace KeyStrokes
             MessageBoxResult loadFile = MessageBox.Show("Would you like to load previously saved layouts?", "Load Applications", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (loadFile == MessageBoxResult.Yes)
             {
-                if(!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt"))
+                if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt"))
                 {
                     MessageBox.Show("Error, something happened with the file.  Layouts cannot be loaded", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\");                                           // creates the folder in Desktop (does nothing if already created)
-                    using (StreamWriter writer = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt")); // only going to create the file
+                    using (StreamWriter writer = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt")) ; // only going to create the file
                 }
                 else
                     LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
@@ -214,7 +213,7 @@ namespace KeyStrokes
             // Before moving on, check two things: 
             // 1. The file location exists (unless discord or any other preset URL was provided)
             // 2. The image location exists (if provided)
-            if(!appLocation.Contains("https://")/*appLocation != "https://discordapp.com" && appLocation != "https://discord.gg"*/)
+            if (!appLocation.Contains("https://")/*appLocation != "https://discordapp.com" && appLocation != "https://discord.gg"*/)
             {
                 // Outer if statement is not Discord, thus check if the file path exists
                 if (!File.Exists(appLocation) || (!File.Exists(imageLocation) && imageLocation != ""))
@@ -225,7 +224,7 @@ namespace KeyStrokes
             }
             else
             {
-                if(imageLocation == "" || (!File.Exists(imageLocation) && imageLocation != ""))
+                if (imageLocation == "" || (!File.Exists(imageLocation) && imageLocation != ""))
                 {
                     MessageBox.Show("Error, Pre-loaded URLS must have a local image", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
@@ -473,7 +472,7 @@ namespace KeyStrokes
 
                     // Second line: image location
                     string imageLocation = "";
-                    for(int j = 0; j < imageList[i].Length; j++)
+                    for (int j = 0; j < imageList[i].Length; j++)
                     {
                         if (imageList[i][j] == ' ')
                             imageLocation += '$';
@@ -628,7 +627,7 @@ namespace KeyStrokes
                             break;
                     }
 
-                    
+
                     if (SetWindowPos(hWnd, IntPtr.Zero, currentScreen.WorkingArea.Width - (int)this.Width * 2, currentScreen.WorkingArea.Height * 2, 900, 900, 0x0020 | 0x0040)) // 3rd-6th parameters are left, top, width, height
                         Console.WriteLine("succeeded");
                     if (SetForegroundWindow(hWnd))
@@ -692,7 +691,7 @@ namespace KeyStrokes
                 saveState = false;
             }
 
-            
+
         }
 
         //Dynamic button's KeyUp event
@@ -1000,7 +999,7 @@ namespace KeyStrokes
             ButtonViewholder.Content = MyStack;
 
             // If the stack is empty, then redisplay that empty text
-            if(MyStack.Children.Count == 0)
+            if (MyStack.Children.Count == 0)
                 EmptyApplications.Visibility = Visibility.Visible;
 
             // After removing the button completely, hide the menu
@@ -1017,7 +1016,7 @@ namespace KeyStrokes
             // If we clicked on the remove button, then we'll have to hide it anyways, 
             // but we want to keep it visible so that the application will actually be removed
             // Same thing for the change hotkey button to edit hotkeys before hiding the menu
-            if(e.Source != rBtn && e.Source != chBtn)
+            if (e.Source != rBtn && e.Source != chBtn)
                 btnMenu.Visibility = Visibility.Hidden;
         }
 

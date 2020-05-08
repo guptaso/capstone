@@ -1,17 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using System.Collections.Generic;
-using Microsoft.Win32;
-using System.IO;
 
 namespace KeyStrokes
 {
@@ -72,20 +66,21 @@ namespace KeyStrokes
             e.Handled = true;
         }
 
-        private void redrawHotkeys() {
-                hotkeyDisplay.Children.Clear();
-                for (int i = 0; i < shortcut.Count; i++)
+        private void redrawHotkeys()
+        {
+            hotkeyDisplay.Children.Clear();
+            for (int i = 0; i < shortcut.Count; i++)
+            {
+                var newKey = new StackPanel
                 {
-                    var newKey = new StackPanel
-                    {
-                        Orientation = Orientation.Horizontal,
-                        Margin = new Thickness(0)
-                    };
-                    var newKeyText = new TextBlock
-                    {
-                        Name = shortcut[i].ToString(),
-                        Text = shortcut[i].ToString(),
-                    };
+                    Orientation = Orientation.Horizontal,
+                    Margin = new Thickness(0)
+                };
+                var newKeyText = new TextBlock
+                {
+                    Name = shortcut[i].ToString(),
+                    Text = shortcut[i].ToString(),
+                };
 
                 var newKeyClose = new Button
                 {
@@ -94,40 +89,40 @@ namespace KeyStrokes
                     Content = "x",
                     Background = Brushes.LightGray,
                     Name = shortcut[i].ToString()
-                    };
+                };
 
-                    // this needs a lot of work...
-                    newKeyClose.Click += (se, ev) =>
+                // this needs a lot of work...
+                newKeyClose.Click += (se, ev) =>
+                {
+                    for (int j = 0; j < shortcut.Count; j++)
                     {
-                        for (int j = 0; j < shortcut.Count; j++)
+                        Button close = (Button)se;
+                        if (shortcut[j].ToString() == close.Name)
                         {
-                            Button close = (Button)se;
-                            if (shortcut[j].ToString() == close.Name)
-                            {
-                                shortcut.RemoveAt(j);
-                            }
+                            shortcut.RemoveAt(j);
                         }
-                        redrawHotkeys();
-                    };
-
-                    newKey.Children.Add(newKeyText);
-                    newKey.Children.Add(newKeyClose);
-
-                    var newKeyHolder = new Border
-                    {
-                        Background = Brushes.GhostWhite,
-                        BorderBrush = Brushes.Silver,
-                        BorderThickness = new Thickness(1),
-                        CornerRadius = new CornerRadius(3),
-                        Child = newKey
-                    };
-                    hotkeyDisplay.Children.Add(newKeyHolder);
-                    if (i != shortcut.Count - 1)
-                    {
-                        hotkeyDisplay.Children.Add(new TextBlock { Text = " + " });
                     }
+                    redrawHotkeys();
+                };
+
+                newKey.Children.Add(newKeyText);
+                newKey.Children.Add(newKeyClose);
+
+                var newKeyHolder = new Border
+                {
+                    Background = Brushes.GhostWhite,
+                    BorderBrush = Brushes.Silver,
+                    BorderThickness = new Thickness(1),
+                    CornerRadius = new CornerRadius(3),
+                    Child = newKey
+                };
+                hotkeyDisplay.Children.Add(newKeyHolder);
+                if (i != shortcut.Count - 1)
+                {
+                    hotkeyDisplay.Children.Add(new TextBlock { Text = " + " });
                 }
             }
+        }
 
         private void Click_Addkey(object sender, RoutedEventArgs e)
         {
@@ -181,10 +176,11 @@ namespace KeyStrokes
                         string stTrim = st.Trim();
                         // harvest shortcuts from the start menu folder
                         String[] shortcut = null;
-                        if (!stTrim.Contains(":\\")) {
+                        if (!stTrim.Contains(":\\"))
+                        {
                             shortcut = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), stTrim + ".lnk", SearchOption.AllDirectories);
                         }
-                        
+
                         // start command: start "" "<program>"
                         str = "";
                         str += "start \"\" \"";
@@ -208,7 +204,7 @@ namespace KeyStrokes
                         cmd.WaitForExit();
                     }
                 };
-                
+
             }
 
             // assigns the keyboard shortcuts to launch

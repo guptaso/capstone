@@ -1,16 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using System.Collections.Generic;
-using System.Drawing;
 
 
 namespace KeyStrokes
@@ -25,7 +19,7 @@ namespace KeyStrokes
 
         public MenuControl()
         {
-            InitializeComponent();    
+            InitializeComponent();
             main = ((MainWindow)App.Current.MainWindow);
             currentBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFD4D4E4"));
             transparentBrush = currentBrush;
@@ -33,11 +27,12 @@ namespace KeyStrokes
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
-        {   
+        {
             if (addButton.Visibility == Visibility.Visible)
             {
                 addButton.Visibility = Visibility.Hidden;
-            } else
+            }
+            else
             {
                 menu.Visibility = Visibility.Hidden;
             }
@@ -168,7 +163,7 @@ namespace KeyStrokes
             String[] spearator = { ":" };
             String[] selectedList = buttonOptions.SelectedItem.ToString().Split(spearator, 200, StringSplitOptions.RemoveEmptyEntries);
             string selected = selectedList[1];
-            
+
             List<VirtualKeyShort.Key> shortcut = new List<VirtualKeyShort.Key>();
             List<VirtualKeyShort.Key> holder = null;
             if (selected != "  ")
@@ -179,10 +174,11 @@ namespace KeyStrokes
                 {
                     shortcut.Add(VirtualKeyShort.Key.CONTROL);
                     shortcut.Add(VirtualKeyShort.Key.KEY_C);
-                    holder = new List<VirtualKeyShort.Key>(shortcut); 
+                    holder = new List<VirtualKeyShort.Key>(shortcut);
                 }
 
-                else if (selected.Contains("Paste")){
+                else if (selected.Contains("Paste"))
+                {
                     shortcut.Add(VirtualKeyShort.Key.CONTROL);
                     shortcut.Add(VirtualKeyShort.Key.KEY_V);
                     holder = new List<VirtualKeyShort.Key>(shortcut);

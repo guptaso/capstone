@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using System.Collections.Generic;
 
 namespace KeyStrokes
 {
@@ -37,7 +31,7 @@ namespace KeyStrokes
             var template = (ControlTemplate)buttonGrid.FindResource("button");
             Button b = new Button { Template = template };
 
-            
+
 
             b.Content = content;
             b.Width = Double.NaN;
@@ -76,7 +70,8 @@ namespace KeyStrokes
                 if (btnMenu.Visibility == Visibility.Hidden)
                 {
                     btnMenu.Visibility = Visibility.Visible;
-                } else
+                }
+                else
                 {
                     btnMenu.Visibility = Visibility.Hidden;
                 }
@@ -137,8 +132,8 @@ namespace KeyStrokes
             myG.Visibility = Visibility.Visible;
 
 
-            myG.Rows = grid.Rows+1;
-            myG.Columns = 2*grid.Columns;
+            myG.Rows = grid.Rows + 1;
+            myG.Columns = 2 * grid.Columns;
 
             buttonList.Clear();
             foreach (Button buttonItem in grid.Children)
@@ -174,14 +169,14 @@ namespace KeyStrokes
 
 
         }
- 
+
         public void cancelBtn(object sender, RoutedEventArgs e)
         {
             if (myG.Visibility == Visibility.Visible)
             {
                 myG.Children.Clear();
 
-                foreach(Button bI in buttonList)
+                foreach (Button bI in buttonList)
                 {
                     grid.Children.Add(bI);
                 }
@@ -201,7 +196,7 @@ namespace KeyStrokes
 
             // go through grid moving elements to list 
             buttonList.Clear();
-            foreach(Button buttonItem in myG.Children)
+            foreach (Button buttonItem in myG.Children)
             {
                 // if button.Content == "clicked", make that the hold
                 if (buttonItem == targetButton)

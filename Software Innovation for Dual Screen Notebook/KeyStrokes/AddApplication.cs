@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KeyStrokes
@@ -82,9 +76,9 @@ namespace KeyStrokes
 
             // DISCORD SPECIAL CONDITION: if any part of the automatically filled out fields were altered, then do not accept it
             else if (((textBox1.Text == "https://discordapp.com" || textBox1.Text == "https://discord.gg") && !textBox2.Text.Contains(@"\Images\discord.png"))
-                        || ((textBox1.Text != "https://discordapp.com" && textBox1.Text != "https://discord.gg") && textBox2.Text.Contains(@"\Images\discord.png"))) 
+                        || ((textBox1.Text != "https://discordapp.com" && textBox1.Text != "https://discord.gg") && textBox2.Text.Contains(@"\Images\discord.png")))
             {
-                
+
                 MessageBox.Show("I see you want to load Discord.  However, please DO NOT change the automatically loaded fields...", "Discord Forms Altered");
 
                 // Reload the fields
@@ -166,7 +160,7 @@ namespace KeyStrokes
             openFile.Filter = "All files (*.*)|*.*";
             openFile.DefaultExt = "(*.*)";
             openFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            
+
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 textBox1.Text = openFile.FileName;
@@ -222,7 +216,7 @@ namespace KeyStrokes
 
                     // Winforms and wpf interpret dimensions differently.  
                     // In the case of putting the add form on the second screen, we have to multiply the working area's height by 2
-                    this.Top = currentScreen.WorkingArea.Height *2;
+                    this.Top = currentScreen.WorkingArea.Height * 2;
                     this.Left = currentScreen.WorkingArea.Width - this.Width;    //basically, offset to the left by the width of the form
 
                 }

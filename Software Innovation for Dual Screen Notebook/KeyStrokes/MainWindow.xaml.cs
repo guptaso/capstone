@@ -1,17 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MaterialDesignThemes.Wpf;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
 
 namespace KeyStrokes
 {
@@ -193,7 +186,9 @@ namespace KeyStrokes
             }
             else
             {
-                currentScreen = System.Windows.Forms.Screen.AllScreens[1];
+                // gets a list of all screens that are not primary and then
+                // choses the first in that list to launch the app
+                currentScreen = System.Windows.Forms.Screen.AllScreens.Where(screen => screen.Primary == false).ToList()[0];
 
                 if (currentScreen != null)
                 {
@@ -218,9 +213,7 @@ namespace KeyStrokes
 
                     // Position left so that it's near the center of the ScreenPad Plus
                     // The scaling is similar to Top's but we also have to subtract 240 because 1/4 of the width is aligned too far to the right
-                    this.Left = (currentScreen.WorkingArea.Width-960)/4 * (192.0f / dpiX) - (960/4);
-
-                    // Console.WriteLine("Top: " + this.Top);
+                    this.Left = (currentScreen.WorkingArea.Width - 960) / 4 * (192.0f / dpiX) - (960 / 4);
 
 
                 }
