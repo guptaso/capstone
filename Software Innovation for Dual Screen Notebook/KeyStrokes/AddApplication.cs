@@ -9,7 +9,6 @@ namespace KeyStrokes
         private readonly GamingUseCase GamingWindow;        // readonly because we do not want to change contents of the window
         private Screen currentScreen;
 
-
         public AddApplication(GamingUseCase game)
         {
 
@@ -74,6 +73,9 @@ namespace KeyStrokes
                 textBox3.Select();      // reassign the hotkey so give it control
             }
 
+
+            // NO LONGER NEEDED BECAUSE DRAG AND DROP WAS IMPLEMENTED
+            /*
             // DISCORD SPECIAL CONDITION: if any part of the automatically filled out fields were altered, then do not accept it
             else if (((textBox1.Text == "https://discordapp.com" || textBox1.Text == "https://discord.gg") && !textBox2.Text.Contains(@"\Images\discord.png"))
                         || ((textBox1.Text != "https://discordapp.com" && textBox1.Text != "https://discord.gg") && textBox2.Text.Contains(@"\Images\discord.png")))
@@ -87,6 +89,7 @@ namespace KeyStrokes
                 textBox3.Select();
 
             }
+            */
 
             //Otherwise, we chilling
             else
@@ -96,6 +99,7 @@ namespace KeyStrokes
                 //If the hotkey was not unique, restore focus to that textbox
                 if (GamingWindow.processFormInputs(textBox1.Text, textBox2.Text, textBox3.Text))
                 {
+                    GamingWindow.finishedAddApplicationForm();  // before closing, reset the flag to be false
                     this.Close();
                 }
                 else
@@ -165,6 +169,8 @@ namespace KeyStrokes
             {
                 textBox1.Text = openFile.FileName;
 
+                // NO LONGER NEEDED BECAUSE DRAG AND DROP WAS IMPLEMENTED
+                /*
                 // only discord has problems with Process.Start(), so with ONLY discord, we automatically fill in 2 textbox fields
                 if (textBox1.Text.Contains(@"Discord\Update.exe"))
                 {
@@ -174,7 +180,8 @@ namespace KeyStrokes
                     textBox3.Select();
                 }
                 else
-                    textBox2.Select();
+                */
+                textBox2.Select();
             }
         }
 
@@ -197,8 +204,9 @@ namespace KeyStrokes
         // When the form is closed using the x button on the top right
         private void Application_Closing(object sender, CancelEventArgs e)
         {
-            GamingWindow.Activate();
-            // this.Close();                    // because this event closes the app already, it would actually cause issues if this.Close() was called
+            GamingWindow.finishedAddApplicationForm();      // reset the flag to false so that we can open it next time
+            GamingWindow.Focus();                           // restore focus to the window
+            // this.Close();                                // because this event closes the app already, it would actually cause issues if this.Close() was called
         }
 
         // When the form is opened, determine if there's a second screen

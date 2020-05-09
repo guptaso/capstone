@@ -60,6 +60,11 @@ namespace KeyStrokes
         [DllImport("user32.dll")]
         public static extern void DisableProcessWindowsGhosting();
 
+        // Below are the private members of this function to store various pieces of data
+
+        // Flag to determine if the add application form exists yet
+        private Boolean isOpenedAddApplicationInstance = false;
+
         //Store list of hotkeys (in char) used atm (Cannot use the same hotkey in more than one button)
         private List<char> hotkeyCharList = new List<char>();
 
@@ -531,15 +536,6 @@ namespace KeyStrokes
             }
         }
 
-
-        // this opens the new window for adding new buttons
-        private void Add_Click(object sender, RoutedEventArgs e)
-        {
-            // Otherwise, open the form
-            AddApplication form1 = new AddApplication(this);
-            form1.ShowDialog();
-        }
-
         // this saves the layouts currently on the application
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -548,15 +544,48 @@ namespace KeyStrokes
             SaveApplications(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
         }
 
+
+        // this opens the new window for adding new buttons
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+
+            // If there already exists an instance, then output an error message box
+            if (isOpenedAddApplicationInstance)
+            {
+                MessageBox.Show("What are you doing?  You already have this form opened", "Add Form Already Opened", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Otherwise, open the form
+            isOpenedAddApplicationInstance = true;
+            AddApplication form1 = new AddApplication(this);
+            form1.Show();
+        }
+
+
         // Press the + button (shift =) to call via keydown
         private void Add_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.OemPlus)
             {
-                // Open the form
+                // If there already exists an instance, then output an error message box
+                if (isOpenedAddApplicationInstance)
+                {
+                    MessageBox.Show("What are you doing?  You already have this form opened", "Add Form Already Opened", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Otherwise, open the form
+                isOpenedAddApplicationInstance = true;
                 AddApplication form1 = new AddApplication(this);
-                form1.ShowDialog();
+                form1.Show();
             }
+        }
+
+        // Once the add form is closed, the add application instance flag will be reset to false
+        public void finishedAddApplicationForm()
+        {
+            isOpenedAddApplicationInstance = false;
         }
 
         //Takes in the form inputs from Form1.cs and dynamically adds a new button by appending it to the ScrollViewer
@@ -749,8 +778,6 @@ namespace KeyStrokes
                     StartProcess(appLocationsList[0], e);
                 }
             }
-
-            this.Activate();    // bring to foreground
         }
 
         //Dynamic button's Click event

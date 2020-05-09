@@ -1,27 +1,36 @@
-C:\Program Files (x86)\WinSCP\WinSCP.exe
+C:\Users\Intel-VCSE-7\Desktop\Discord.lnk
 n
-W
-C:\Program Files\PuTTY\putty.exe
+0
+C:\Users\Intel-VCSE-7\Desktop\Steam.lnk
 n
-P
+S
+C:\Users\Intel-VCSE-7\Desktop\Dolphin Emulator\Dolphin\Dolphin.exe
+n
+1
+C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
+n
+G
 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
 n
 C
+C:\Users\Intel-VCSE-7\Desktop\Yu-Gi-Oh! Duel Links.url
+n
+Y
+C:\Users\Public\Desktop\VALORANT.lnk
+n
+H
+C:\Program Files\PuTTY\putty.exe
+n
+P
 C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
 n
 V
 C:\Riot Games\LoR\live\Game\LoR.exe
 n
 R
-C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
+C:\Program Files (x86)\WinSCP\WinSCP.exe
 n
-G
-C:\Users\Intel-VCSE-7\Desktop\Dolphin Emulator\Dolphin\Dolphin.exe
-n
-D
-C:\Users\Intel-VCSE-7\AppData\Roaming\Zoom\bin\Zoom.exe
-n
-Z
+W
 C:\Riot Games\League of Legends\LeagueClient.exe
 n
 L
