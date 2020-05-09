@@ -30,3 +30,7 @@
 - Run setup.exe within CS66B_Project  
 - Click Install when Prompted  
 - NOTE: you may need to uninstall the executable and then reinstall it to see new running application if you had a previous version downloaded.
+
+### Getting Help
+- If you want to see more details on how to run each part of our application, then please refer to the wiki page
+- https://github.com/guptaso/capstone/wiki
