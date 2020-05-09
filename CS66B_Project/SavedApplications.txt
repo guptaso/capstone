@@ -1,3 +1,9 @@
+C:\Program Files (x86)\WinSCP\WinSCP.exe
+n
+W
+C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
+n
+G
 C:\Users\Intel-VCSE-7\Desktop\Discord.lnk
 n
 0
@@ -7,9 +13,6 @@ S
 C:\Users\Intel-VCSE-7\Desktop\Dolphin Emulator\Dolphin\Dolphin.exe
 n
 1
-C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
-n
-G
 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
 n
 C
@@ -28,9 +31,6 @@ V
 C:\Riot Games\LoR\live\Game\LoR.exe
 n
 R
-C:\Program Files (x86)\WinSCP\WinSCP.exe
-n
-W
 C:\Riot Games\League of Legends\LeagueClient.exe
 n
 L
