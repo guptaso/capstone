@@ -6,6 +6,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Markup;
+using System.Linq;
 
 namespace KeyStrokes
 {
@@ -148,6 +150,7 @@ namespace KeyStrokes
 
         private void Click_Confirm(object sender, RoutedEventArgs e)
         {
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             // assigns the app name
             String ButtonText = "ShortCut";
             if (!String.IsNullOrEmpty(nameInput.Text))
@@ -156,17 +159,35 @@ namespace KeyStrokes
                 //newButton.Name = this.nameInput.Text; add this to addbutton thing
             }
 
+            // make it so that the buttons don't have the same name
+            List<string> buttonNames = new List<string>();
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveClicks.txt"), true))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    buttonNames.Add(line.Split('|')[0]);
+                }
+            }
+            string result = " ";
+            while (result != null) {
+                result = buttonNames.FirstOrDefault(x => x == ButtonText);
+                if (result != null)
+                {
+                    ButtonText += "_1";
+                }
+            }
+
+            string outStr = ButtonText;
+            outStr += "|";
             // will hold the click handler
             Action<object, RoutedEventArgs> click = null;
 
             // assigns the app to launch
             string hold = appInput.Text;
+            string str = "";
             if (!(String.IsNullOrEmpty(hold)))
             {
-                click = (se, ev) =>
-                {
-                    string str = "";
-
                     String[] spear = { "," };
                     String[] strlist = hold.Split(spear, StringSplitOptions.RemoveEmptyEntries);
                     foreach (String st in strlist)
@@ -191,6 +212,8 @@ namespace KeyStrokes
                     }
                     if (str.Length > 1)
                     {
+                    click = (se, ev) =>
+                    {
                         Process cmd = new Process();
                         cmd.StartInfo.FileName = "cmd.exe";
                         cmd.StartInfo.RedirectStandardInput = true;
@@ -202,8 +225,8 @@ namespace KeyStrokes
                         cmd.StandardInput.Flush();
                         cmd.StandardInput.Close();
                         cmd.WaitForExit();
-                    }
-                };
+                    };
+                }
 
             }
 
@@ -225,6 +248,31 @@ namespace KeyStrokes
                 main.grid.addButton(ButtonText, click);
                 Click_Cancel(sender, e);
                 main.menu_control.Visibility = Visibility.Collapsed;
+
+
+                // save it 
+                using (StreamWriter outputFile = new StreamWriter(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveClicks.txt"), true))
+                {
+                    if (str.Length > 0)
+                        outStr += str;
+                    else
+                        outStr += " ";
+                    outStr += "|";
+
+                    if (shortcut.Count != 0)
+                    {
+                        for (int i = 0; i < shortcut.Count; i++)
+                        {
+                            outStr += shortcut[i];
+                            outStr += " ";
+                        }
+                    }
+                    else
+                        outStr += " ";
+
+                    outputFile.WriteLine(outStr);
+                }
+
             }
 
             keyEnum.SelectedIndex = 0;

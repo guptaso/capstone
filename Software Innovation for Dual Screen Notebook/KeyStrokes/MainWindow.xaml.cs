@@ -5,6 +5,12 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.IO;
+using System.Xml;
+using System.Windows.Controls.Primitives;
+using System.Windows.Markup;
+using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace KeyStrokes
 {
@@ -13,7 +19,7 @@ namespace KeyStrokes
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-
+        private DateTime click_started;
         public static Boolean currentInstance = false;
         private System.Windows.Forms.Screen launchScreen;
         private const int WM_MOUSEACTIVATE = 0x0021;
@@ -41,7 +47,7 @@ namespace KeyStrokes
         public MainWindow()
         {
             InitializeComponent();
-
+            Application.Current.MainWindow = this;
             // Output all processes currently running
             // Some processes' titles are "" for w/e reason, so those processes are excluded
 
@@ -76,12 +82,108 @@ namespace KeyStrokes
             // this activates the window so that when we start it 
             // it does not jump to the back of all windows
             this.Activate();
+
+            // Starts the previous layout
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string gridXaml = " ";
+
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveLayout.txt"), true))
+            {
+                gridXaml = sr.ReadLine();
+            }
+
+
+            if (gridXaml != null)
+            {
+                StringReader stringReader = new StringReader(gridXaml);
+                XmlReader xmlReader = XmlReader.Create(stringReader);
+                UniformGrid uniformGrid = (UniformGrid)XamlReader.Load(xmlReader);
+                List<Button> buttonList = new List<Button>();
+                foreach (Button btn in uniformGrid.Children)
+                {
+                    Console.WriteLine(btn.Content);
+                    buttonList.Add(btn);
+                }
+                uniformGrid.Children.Clear();
+
+                // Goes through and adds the app items
+                List<string> buttonApps = new List<string>();
+                List<string> buttonSC = new List<string>();
+                List<string> buttonNames = new List<string>();
+                using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveClicks.txt"), true))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        buttonNames.Add(line.Split('|')[0]);
+                        buttonApps.Add(line.Split('|')[1]);
+                        buttonSC.Add(line.Split('|')[2]);
+                    }
+                }
+
+                foreach (Button btn in buttonList)
+                {
+                    int i = buttonNames.IndexOf(btn.Content.ToString());
+                    if (i != -1)
+                    {
+                        List<VirtualKeyShort.Key> shortcut = new List<VirtualKeyShort.Key>();
+
+                        Action<object, RoutedEventArgs> click = null;
+                        click = (se, ev) =>
+                        {
+                            // Add Application
+
+                            if (buttonApps[i].Length > 1)
+                            {
+                                Process cmd = new Process();
+                                cmd.StartInfo.FileName = "cmd.exe";
+                                cmd.StartInfo.RedirectStandardInput = true;
+                                cmd.StartInfo.RedirectStandardOutput = true;
+                                cmd.StartInfo.CreateNoWindow = true;   // true hides cmd prompt
+                                cmd.StartInfo.UseShellExecute = false;
+                                cmd.Start();
+                                cmd.StandardInput.WriteLine(buttonApps[i]);
+                                cmd.StandardInput.Flush();
+                                cmd.StandardInput.Close();
+                                cmd.WaitForExit();
+                            }
+                        };
+
+                        List<string> shortcutStr = new List<string>();
+
+                        for (int j = 0; j < buttonSC[i].Split(' ').Length - 1; j++)
+                        {
+                            shortcutStr.Add(buttonSC[i].Split(' ')[j]);
+                        }
+                        foreach (string sh in shortcutStr)
+                        {
+                            if (sh.Length > 1)
+                            {
+                                VirtualKeyShort.Key x = (VirtualKeyShort.Key)System.Enum.Parse(typeof(VirtualKeyShort.Key), sh);
+                                shortcut.Add((VirtualKeyShort.Key)x);
+                            }
+                        }
+
+                        if (shortcut.Count != 0)
+                        {
+                            List<VirtualKeyShort.Key> holder = new List<VirtualKeyShort.Key>(shortcut);
+                            click += (se, ev) =>
+                            {
+                                Shortcut.send(holder.ToArray());
+                            };
+                        }
+                        grid.addButton(btn.Content.ToString(), click);
+                    }
+                }
+            }
         }
 
-        // this gets the click message so that 
-        // it can still sends the click to the app
-        // even though it is out of focus
-        IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    
+
+    // this gets the click message so that 
+    // it can still sends the click to the app
+    // even though it is out of focus
+    IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             // Handle messages...
             switch (msg)
@@ -135,6 +237,18 @@ namespace KeyStrokes
         private void grid_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+        public void Loadgrid()
+        {
+            string gridXaml = XamlWriter.Save(grid.grid);
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            //File.WriteAllText(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveLayout.txt"), string.Empty);
+            File.Delete(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveLayout.txt"));
+            File.WriteAllText(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveLayout.txt"), string.Empty);
+            using (StreamWriter outputFile = new StreamWriter(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveLayout.txt"), true))
+            {
+                outputFile.WriteLine(gridXaml);
+            }
         }
 
         private void OnLoad(object sender, RoutedEventArgs e)
