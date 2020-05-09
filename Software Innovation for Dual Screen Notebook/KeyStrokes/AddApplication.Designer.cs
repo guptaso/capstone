@@ -172,6 +172,7 @@
             this.Text = "Create a new widget";
             this.Load += Application_Opening;
             this.FormClosing += Application_Closing;
+            this.MouseDown += Form1_MouseDown;
             this.ResumeLayout(false);
             this.PerformLayout();
 

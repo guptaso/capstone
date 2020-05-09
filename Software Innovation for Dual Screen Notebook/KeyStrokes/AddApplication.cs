@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+
 
 namespace KeyStrokes
 {
@@ -8,6 +10,25 @@ namespace KeyStrokes
     {
         private readonly GamingUseCase GamingWindow;        // readonly because we do not want to change contents of the window
         private Screen currentScreen;
+
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd,
+                 int Msg, int wParam, int lParam);
+
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
 
         public AddApplication(GamingUseCase game)
         {
@@ -72,24 +93,6 @@ namespace KeyStrokes
                 MessageBox.Show("The assigned hotkey should only be alphanumeric", "Invalid Hotkey");
                 textBox3.Select();      // reassign the hotkey so give it control
             }
-
-
-            // NO LONGER NEEDED BECAUSE DRAG AND DROP WAS IMPLEMENTED
-            /*
-            // DISCORD SPECIAL CONDITION: if any part of the automatically filled out fields were altered, then do not accept it
-            else if (((textBox1.Text == "https://discordapp.com" || textBox1.Text == "https://discord.gg") && !textBox2.Text.Contains(@"\Images\discord.png"))
-                        || ((textBox1.Text != "https://discordapp.com" && textBox1.Text != "https://discord.gg") && textBox2.Text.Contains(@"\Images\discord.png")))
-            {
-
-                MessageBox.Show("I see you want to load Discord.  However, please DO NOT change the automatically loaded fields...", "Discord Forms Altered");
-
-                // Reload the fields
-                textBox1.Text = "https://discordapp.com";   // or https://discord.gg
-                textBox2.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\Images\discord.png";
-                textBox3.Select();
-
-            }
-            */
 
             //Otherwise, we chilling
             else
@@ -168,19 +171,6 @@ namespace KeyStrokes
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 textBox1.Text = openFile.FileName;
-
-                // NO LONGER NEEDED BECAUSE DRAG AND DROP WAS IMPLEMENTED
-                /*
-                // only discord has problems with Process.Start(), so with ONLY discord, we automatically fill in 2 textbox fields
-                if (textBox1.Text.Contains(@"Discord\Update.exe"))
-                {
-                    MessageBox.Show("Discord must be loaded onto a website, so the first two fields will automatically be provided", "Discord Warning");
-                    textBox1.Text = "https://discordapp.com";               // or https://discord.gg
-                    textBox2.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\Images\discord.png";
-                    textBox3.Select();
-                }
-                else
-                */
                 textBox2.Select();
             }
         }
