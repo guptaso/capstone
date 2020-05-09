@@ -29,3 +29,4 @@
 - Copy the folder CS66B_Project to Desktop 
 - Run setup.exe within CS66B_Project  
 - Click Install when Prompted  
+- NOTE: you may need to uninstall the executable and then reinstall it to see new running application if you had a previous version downloaded.
