@@ -223,6 +223,20 @@ namespace KeyStrokes
             }
         }
 
+        private void textBox1_DragDropFile(object sender, DragEventArgs e)
+        {
+            string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            this.textBox1.Text = s[0];
+        }
+
+        private void textBox1_DragEnterFile(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.All;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
         private void Form_OnClick(object sender, EventArgs e)
         {
             this.Activate();

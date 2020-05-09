@@ -202,7 +202,6 @@ namespace KeyStrokes
                     // Position left so that it's near the center of the ScreenPad Plus
                     // The scaling is similar to Top's but we also have to subtract 240 because 1/4 of the width is aligned too far to the right
 
-                    // THIS WAS ADDED BACK
                     //Console.WriteLine(launchScreen.Bounds.Width + ", " + launchScreen.Bounds.Height);
                     var workingArea = launchScreen.WorkingArea;
                     this.Left = workingArea.Left/dpiX;

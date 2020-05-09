@@ -27,7 +27,7 @@
         -->
     </Window.Resources>
     
-    <ScrollViewer PanningMode="VerticalOnly" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,-8,0" >
+    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,-8,0" >
         <Grid x:Name="myGrid" RenderTransformOrigin="0.173,1.371" Height="540" VerticalAlignment="Top" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="190*"/>
