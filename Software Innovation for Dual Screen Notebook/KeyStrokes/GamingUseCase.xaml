@@ -53,7 +53,7 @@
 
         
         <!-- Add a checkbox to indicate if the user wants to start their application on the companion screen -->
-        <CheckBox Content="Open in ScreenPad Plus if applicable" x:Name="OpenScreenPad" FontSize="10" Margin="369,-280,0,0" FontWeight="Bold" Height="15" ToolTip="Check to Open on ScreenPad Plus (if app can be opened on ScreenPad Plus) or UnCheck to Open on Primary Screen"/>
+        <CheckBox Content="Open in ScreenPad Plus if applicable" x:Name="OpenScreenPad" FontSize="10" Margin="369,-280,0,0" IsChecked="True" FontWeight="Bold" Height="15" ToolTip="Check to Open on ScreenPad Plus (if app can be opened on ScreenPad Plus) or UnCheck to Open on Primary Screen"/>
 
     </Grid>
     

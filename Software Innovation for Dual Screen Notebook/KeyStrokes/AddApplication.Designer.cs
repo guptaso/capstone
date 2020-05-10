@@ -112,7 +112,7 @@
             this.textBox1.Location = new System.Drawing.Point(350, 98);
             this.textBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(398, 31);
+            this.textBox1.Size = new System.Drawing.Size(400, 50);
             this.textBox1.TabIndex = 0;
             this.textBox1.AllowDrop = true;
             this.textBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox1_DragDropFile);
@@ -153,6 +153,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.BackColor = System.Drawing.Color.FromArgb(0xffd4d4);
             this.ClientSize = new System.Drawing.Size(1166, 658);
             this.Controls.Add(this.button4);
@@ -167,9 +168,8 @@
             this.Controls.Add(this.textBox3);
             this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "AddApplication";
-            this.Text = "Create a new widget";
+            this.Text = "Add a new application";
             this.Load += Application_Opening;
             this.FormClosing += Application_Closing;
             this.MouseDown += Form1_MouseDown;
