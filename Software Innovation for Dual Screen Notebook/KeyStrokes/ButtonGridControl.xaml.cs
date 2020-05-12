@@ -115,6 +115,33 @@ namespace KeyStrokes
             }
 
             btnMenu.Visibility = Visibility.Hidden;
+            string line;
+            List<string> lines = new List<string>();
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            System.IO.StreamReader file = new System.IO.StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveClicks.txt"), true);
+            while ((line = file.ReadLine()) != null)
+            {
+                lines.Add(line);
+            }
+            file.Close();
+
+            foreach (string l in lines)
+            {
+                string x = l.Split('|')[0];
+                if (hold.Content.ToString() == x)
+                {
+                    lines.Remove(l);
+                    break;
+                }
+            }
+            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveClicks.txt"), true))
+            {
+                foreach(string l in lines)
+                {
+                    outputFile.WriteLine(l);
+                }
+            }
+
         }
 
         /*
