@@ -20,11 +20,7 @@ namespace KeyStrokes
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
-            var path = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true);
-            key.SetValue("MyApplication", System.Reflection.Assembly.GetExecutingAssembly().Location);
-
-
+                   
             // make sure file and directory exists
             string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             string folderPath = Path.Combine(docPath, "KeyStrokesApp");
@@ -35,6 +31,7 @@ namespace KeyStrokes
 
             string appPath = Path.Combine(docPath, "KeyStrokesApp\\saveClicks.txt");
             string layoutPath = Path.Combine(docPath, "KeyStrokesApp\\saveLayout.txt");
+            string autoStartPath = Path.Combine(docPath, "KeyStrokesApp\\autoStart.txt");
 
             if (!File.Exists(appPath))
             {
@@ -46,14 +43,69 @@ namespace KeyStrokes
                 File.Create(layoutPath);
             }
 
+            if (!File.Exists(autoStartPath))
+            {
+                File.Create(autoStartPath);
+            }
+
+            string start = "";
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\autoStart.txt"), true))
+            {
+                start = sr.ReadLine();
+            }
+            if (start == "" || start == "yes")
+            {
+                var path = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+                RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true);
+                key.SetValue("MyApplication", System.Reflection.Assembly.GetExecutingAssembly().Location);
+            }
+            else
+            {
+                string path = @"Software\Microsoft\Windows\CurrentVersion\Run";
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true))
+                {
+                    if (key != null)
+                    {
+                        key.DeleteValue("MyApplication", false);
+                    }
+                }
+            }
+
+
             // to get the main window
             main = new MainWindow();
+            main.menu_control.setAutoState();
+
             main.Show();
         }
 
         private void App_Exit(object sender, ExitEventArgs e)
         {
             main.Loadgrid();
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string start;
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\autoStart.txt"), true))
+            {
+                start = sr.ReadLine();
+            }
+            if (start == "" || start == "yes")
+            {
+                var path = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+                RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true);
+                key.SetValue("MyApplication", System.Reflection.Assembly.GetExecutingAssembly().Location);
+            }
+            else
+            {
+                string path = @"Software\Microsoft\Windows\CurrentVersion\Run";
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true))
+                {
+                    if (key != null)
+                    {
+                        key.DeleteValue("MyApplication", false);
+                    }
+                }
+            }
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -191,6 +192,44 @@ namespace KeyStrokes
                 main.grid.addButton(selected, newClick);
                 hide_popup(sender, e);
                 main.menu_control.Visibility = Visibility.Collapsed;
+            }
+        }
+        private void autoStateChanged(object sender, RoutedEventArgs e)
+        {
+            string state = "";
+            if (AutoStartEnabledState.IsChecked == true)
+            {
+                state = "yes"; 
+
+            }
+            else
+            {
+                state = "no";
+            }
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            File.Delete(System.IO.Path.Combine(docPath, "KeyStrokesApp\\autoStart.txt"));
+            File.WriteAllText(System.IO.Path.Combine(docPath, "KeyStrokesApp\\autoStart.txt"), string.Empty);
+            using (StreamWriter outputFile = new StreamWriter(System.IO.Path.Combine(docPath, "KeyStrokesApp\\autoStart.txt"), true))
+            {
+                outputFile.WriteLine(state);
+            }
+        }
+
+        public void setAutoState()
+        {
+            string start = "";
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\autoStart.txt"), true))
+            {
+                start = sr.ReadLine();
+            }
+            if (start == "" || start == "yes")
+            {
+                AutoStartEnabledState.IsChecked = true;
+            }
+            else
+            {
+                AutoStartEnabledState.IsChecked = false;
             }
         }
     }

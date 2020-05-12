@@ -68,9 +68,14 @@
                 <Button Width="auto" x:Name="gaming_use_case" Content="Open Application Lists" Background="#FFD4D4E4" Padding="12,1,1,1" HorizontalContentAlignment="Left" Margin="0" Click="open_gaming_case" FontSize="14" BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Open other use cases: Gaming Case" />
             </Grid>
             
+            <StackPanel Orientation="Horizontal">
             <Grid Height="45" Margin="20,0,20,0">
                 <CheckBox x:Name="EnabledState" Content="Show Tool Tips" IsChecked="True" Margin="10 0" Click="toolTipChanged" FontSize="14"/>
-            </Grid> 
+            </Grid>
+            <Grid Height="45" Margin="20,0,20,0">
+                <CheckBox x:Name="AutoStartEnabledState" Content="Start App on Boot" IsChecked="True" Margin="10 0" Click="autoStateChanged" FontSize="14"/>
+            </Grid>
+            </StackPanel>
         </StackPanel>
     </Grid>
 
