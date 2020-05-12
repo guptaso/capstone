@@ -103,6 +103,7 @@ namespace KeyStrokes
                 if (GamingWindow.processFormInputs(textBox1.Text, textBox2.Text, textBox3.Text))
                 {
                     GamingWindow.finishedAddApplicationForm();  // before closing, reset the flag to be false
+                    GamingWindow.Focus();
                     this.Close();
                 }
                 else
@@ -225,6 +226,7 @@ namespace KeyStrokes
         {
             string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             this.textBox1.Text = s[0];
+            textBox2.Select();
         }
 
         private void textBox1_DragEnterFile(object sender, DragEventArgs e)
