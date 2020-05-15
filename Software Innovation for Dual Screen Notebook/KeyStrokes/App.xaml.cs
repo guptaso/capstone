@@ -32,6 +32,7 @@ namespace KeyStrokes
             string appPath = Path.Combine(docPath, "KeyStrokesApp\\saveClicks.txt");
             string layoutPath = Path.Combine(docPath, "KeyStrokesApp\\saveLayout.txt");
             string autoStartPath = Path.Combine(docPath, "KeyStrokesApp\\autoStart.txt");
+            string bottomBar = Path.Combine(docPath, "KeyStrokesApp\\bottmBar.txt");
 
             if (!File.Exists(appPath))
             {
@@ -46,6 +47,11 @@ namespace KeyStrokes
             if (!File.Exists(autoStartPath))
             {
                 File.Create(autoStartPath);
+            }
+
+            if (!File.Exists(bottomBar))
+            {
+                File.Create(bottomBar);
             }
 
             string start = "";
@@ -72,8 +78,9 @@ namespace KeyStrokes
             }
 
 
-            // to get the main window
-            main = new MainWindow();
+
+                // to get the main window
+                main = new MainWindow();
             main.menu_control.setAutoState();
 
             main.Show();
@@ -106,6 +113,21 @@ namespace KeyStrokes
                 }
             }
 
+            File.Delete(System.IO.Path.Combine(docPath, "KeyStrokesApp\\bottmBar.txt"));
+            File.WriteAllText(System.IO.Path.Combine(docPath, "KeyStrokesApp\\bottmBar.txt"), string.Empty);
+            using (StreamWriter outputFile = new StreamWriter(System.IO.Path.Combine(docPath, "KeyStrokesApp\\bottmBar.txt"), true))
+            {
+                string outStr = "";
+                if (main.bottomBar.Visibility == Visibility.Hidden) 
+                {
+                    outStr = "no";
+                }
+                else
+                {
+                    outStr = "yes";
+                }
+                outputFile.WriteLine(outStr);
+            }
         }
     }
 }

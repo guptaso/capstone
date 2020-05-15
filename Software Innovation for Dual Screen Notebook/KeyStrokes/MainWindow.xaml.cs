@@ -83,8 +83,24 @@ namespace KeyStrokes
             // it does not jump to the back of all windows
             this.Activate();
 
-            // Starts the previous layout
+            // Starts the bottom bar
             string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string openBtmBar = "";
+             using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\bottmBar.txt"), true))
+             {
+                 openBtmBar = sr.ReadLine();
+             }
+             if (openBtmBar == "yes")
+             {
+                bottomBar.Visibility = Visibility.Visible;
+             }
+             else
+            {
+                bottomBar.Visibility = Visibility.Hidden;
+            }
+
+            // Starts the previous layout
+            //string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             string gridXaml = " ";
 
             using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveLayout.txt"), true))
