@@ -17,6 +17,7 @@ namespace KeyStrokes
         public static Boolean currentInstance = false;
         public static SolidColorBrush currentBrush;
         public static SolidColorBrush transparentBrush;
+        public static double opacity;
 
         public MenuControl()
         {
@@ -120,6 +121,19 @@ namespace KeyStrokes
                     currentBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD4D4E4");
                 main.Background = brush;
             }
+        }
+
+
+        private void background_opacity_change(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider opacitySlider = (Slider)background_opacity_slider;
+            opacity = opacitySlider.Value;
+            try
+            {
+                main.Background.Opacity = opacity / 100;
+            }
+            catch (InvalidOperationException) { } 
+            catch (NullReferenceException) { }
         }
 
         private void toolTipChanged(object sender, RoutedEventArgs e)

@@ -38,6 +38,18 @@
                     <ComboBoxItem IsSelected="False" Content="Silver" Cursor="Hand"/>
                 </ComboBox>
             </Grid>
+            <Grid Height="45"  Margin="20,0,20,0" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Changes the Grid Background Opacity">
+                <TextBlock Text="Background Opacity" Margin="10,13,0,13" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" />
+                <Slider Maximum="100" 
+                        Minimum="0" 
+                        TickPlacement="BottomRight" 
+                        TickFrequency="10" 
+                        Value="{Binding Maximum, RelativeSource={RelativeSource Self}, Mode=OneTime}"
+                        ValueChanged="background_opacity_change" 
+                        IsSnapToTickEnabled="True" 
+                        x:Name="background_opacity_slider" 
+                        Margin="246,0,0,10"/>
+            </Grid>
             <Grid Height="45" Margin="20,0,20,0">
                 <Button Width="auto" Cursor="Hand" Click="bottom_bar_Click" Content="Toggle Bottom Bar" Margin="0" HorizontalContentAlignment="Left" Background="#FFD4D4E4" x:Name="bottom_bar" Padding="12,1,1,1" FontSize="14"  BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Opens the Media Control Bar Below"/>
             </Grid>
