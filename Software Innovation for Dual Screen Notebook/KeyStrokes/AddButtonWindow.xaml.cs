@@ -128,9 +128,10 @@ namespace KeyStrokes
 
         private void Click_Addkey(object sender, RoutedEventArgs e)
         {
-            shortcut.Add((VirtualKeyShort.Key)keyEnum.SelectedItem);
-            redrawHotkeys();
-
+            if(keyEnum.SelectedIndex >= 0) { 
+                shortcut.Add((VirtualKeyShort.Key)keyEnum.SelectedItem);
+                redrawHotkeys();
+            }
         }
 
         private void Click_Cancel(object sender, RoutedEventArgs e)
