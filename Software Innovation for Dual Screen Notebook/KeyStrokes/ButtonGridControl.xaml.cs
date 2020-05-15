@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using System.Collections.Generic;
 
 namespace KeyStrokes
 {
     public partial class ButtonGridControl : UserControl
     {
         private List<Button> buttonList;
-        private int col = 0;
-        private int row = 0;
-        private Button hold;
-        private Point startPoint;
+        //private int col = 0;
+        //private int row = 0;
+        public Button hold;
+        //private Point startPoint;
         private DateTime click_started;
 
         public ButtonGridControl()
@@ -37,7 +31,7 @@ namespace KeyStrokes
             var template = (ControlTemplate)buttonGrid.FindResource("button");
             Button b = new Button { Template = template };
 
-            
+
 
             b.Content = content;
             b.Width = Double.NaN;
@@ -45,16 +39,17 @@ namespace KeyStrokes
             //b.MaxWidth = auto;
 
             // set the click handler
-            b.Click += click.Invoke;
+            // b.Click += click.Invoke;
+            b.Click += new System.Windows.RoutedEventHandler(click.Invoke);
 
             // option to remove the button
             //newButton.RightTapped += async (s, en) =>
-            b.MouseDown += async (s, en) =>
+            b.MouseDown += (s, en) =>
             {
                 click_started = DateTime.Now;
             };
 
-            b.MouseUp += async (s, en) =>
+            b.MouseUp += (s, en) =>
             {
                 if ((DateTime.Now - click_started).TotalSeconds > 1)
                 {
@@ -71,12 +66,13 @@ namespace KeyStrokes
             };
 
 
-            b.MouseRightButtonDown += async (s, en) =>
+            b.MouseRightButtonDown += (s, en) =>
             {
                 if (btnMenu.Visibility == Visibility.Hidden)
                 {
                     btnMenu.Visibility = Visibility.Visible;
-                } else
+                }
+                else
                 {
                     btnMenu.Visibility = Visibility.Hidden;
                 }
@@ -119,7 +115,32 @@ namespace KeyStrokes
             }
 
             btnMenu.Visibility = Visibility.Hidden;
+            string line;
+            List<string> lines = new List<string>();
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            System.IO.StreamReader file = new System.IO.StreamReader(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveClicks.txt"), true);
+            while ((line = file.ReadLine()) != null)
+            {
+                lines.Add(line);
+            }
+            file.Close();
 
+            foreach (string l in lines)
+            {
+                string x = l.Split('|')[0];
+                if (hold.Content.ToString() == x)
+                {
+                    lines.Remove(l);
+                    break;
+                }
+            }
+            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(System.IO.Path.Combine(docPath, "KeyStrokesApp\\saveClicks.txt"), true))
+            {
+                foreach(string l in lines)
+                {
+                    outputFile.WriteLine(l);
+                }
+            }
 
         }
 
@@ -139,8 +160,8 @@ namespace KeyStrokes
             myG.Visibility = Visibility.Visible;
 
 
-            myG.Rows = grid.Rows+1;
-            myG.Columns = 2*grid.Columns;
+            myG.Rows = grid.Rows + 1;
+            myG.Columns = 2 * grid.Columns;
 
             buttonList.Clear();
             foreach (Button buttonItem in grid.Children)
@@ -176,14 +197,14 @@ namespace KeyStrokes
 
 
         }
- 
+
         public void cancelBtn(object sender, RoutedEventArgs e)
         {
             if (myG.Visibility == Visibility.Visible)
             {
                 myG.Children.Clear();
 
-                foreach(Button bI in buttonList)
+                foreach (Button bI in buttonList)
                 {
                     grid.Children.Add(bI);
                 }
@@ -203,7 +224,7 @@ namespace KeyStrokes
 
             // go through grid moving elements to list 
             buttonList.Clear();
-            foreach(Button buttonItem in myG.Children)
+            foreach (Button buttonItem in myG.Children)
             {
                 // if button.Content == "clicked", make that the hold
                 if (buttonItem == targetButton)
@@ -261,5 +282,37 @@ namespace KeyStrokes
         {
 
         }
+        private void changeNBtn(object sender, RoutedEventArgs e)
+        {
+
+
+            if (!String.IsNullOrEmpty(nameInput.Text))
+            {
+
+                buttonList.Clear();
+                foreach (Button buttonItem in grid.Children)
+                {
+                    if (buttonItem == hold)
+                    {
+
+                        buttonItem.Content = this.nameInput.Text;
+                        buttonList.Add(buttonItem);
+                    }
+                    else
+                    {
+                        buttonList.Add(buttonItem);
+                    }
+                }
+                grid.Children.Clear();
+
+                foreach (Button buttonItem in buttonList)
+                {
+                    grid.Children.Add(buttonItem);
+                }
+            }
+            nameInput.Text = "";
+            btnMenu.Visibility = Visibility.Hidden;
+        }
+
     }
 }
