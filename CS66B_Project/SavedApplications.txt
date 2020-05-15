@@ -1,27 +1,12 @@
+C:\Users\Intel-VCSE-7\Desktop\Discord.lnk
+n
+D
 C:\Users\Intel-VCSE-7\Desktop\Steam.lnk
 n
 S
-C:\Users\Intel-VCSE-7\AppData\Local\GitHubDesktop\GitHubDesktop.exe
+C:\Users\Intel-VCSE-7\Desktop\GitHub Desktop.lnk
 n
 G
-C:\Program Files\PuTTY\putty.exe
-n
-P
-C:\Program Files (x86)\WinSCP\WinSCP.exe
-n
-W
-C:\Users\Intel-VCSE-7\Desktop\Discord.lnk
-n
-0
-C:\Users\Intel-VCSE-7\Desktop\Dolphin Emulator\Dolphin\Dolphin.exe
-n
-1
-C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
-n
-C
-C:\Users\Intel-VCSE-7\AppData\Local\Programs\Microsoft VS Code\Code.exe
-n
-V
-C:\Riot Games\League of Legends\LeagueClient.exe
+C:\Users\Public\Desktop\League of Legends.lnk
 n
 L

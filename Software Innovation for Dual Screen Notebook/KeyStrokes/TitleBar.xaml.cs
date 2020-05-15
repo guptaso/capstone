@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -16,8 +17,17 @@ namespace KeyStrokes
 
         private void titlebar_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            // Some reason, crashed when we right click on the title bar.  
+            // Surrounded via try/catch block to prevent this
             main.Activate();
-            main.DragMove();
+            try
+            {
+                main.DragMove();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
 
