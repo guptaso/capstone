@@ -45,7 +45,8 @@
             <Grid Height="45"  Margin="20,0,20,0">
                 <Button Width="auto" Cursor="Hand" Click="add_button_Click"  x:Name="add_button" Content="Add Button" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Add a Button to the grid"/>
             </Grid>
-            
+            <!--
+
             <Grid Height="45"  Margin="20,0,20,0">
                 <Button Width="auto" Cursor="Hand" Click="add_existingBtn_Click"  Content="Add a Pre-Built Button" Margin="0" HorizontalContentAlignment="Left" Padding="12,1,1,1" FontSize="14" Background="#FFD4D4E4" BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Already configured buttons, ready for you to use"/>
                 <Popup Name="MyPopup" Placement="Center"  >
@@ -63,7 +64,7 @@
                     </Grid>
                 </Popup>            
             </Grid>            
-
+-->
             <Grid Height="45"  Margin="20,0,20,0">
                 <Button Width="auto" x:Name="gaming_use_case" Content="Open Application Lists" Background="#FFD4D4E4" Padding="12,1,1,1" HorizontalContentAlignment="Left" Margin="0" Click="open_gaming_case" FontSize="14" BorderBrush="#FFD4D4E4" ToolTipService.IsEnabled ="{Binding ElementName=EnabledState, Path=IsChecked}" ToolTipService.ToolTip="Open other use cases: Gaming Case" />
             </Grid>

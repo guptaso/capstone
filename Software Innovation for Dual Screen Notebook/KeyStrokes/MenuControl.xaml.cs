@@ -148,22 +148,22 @@ namespace KeyStrokes
                 addButton.confirm_btn.ToolTip = null;
             }
         }
-
+        /*
         private void add_existingBtn_Click(object sender, RoutedEventArgs e)
         {
-            MyPopup.IsOpen = true;
+            //MyPopup.IsOpen = true;
         }
 
         private void hide_popup(object sender, RoutedEventArgs e)
         {
-            MyPopup.IsOpen = false;
+            //MyPopup.IsOpen = false;
         }
 
         private void addPreBtn(object sender, RoutedEventArgs e)
         {
             String[] spearator = { ":" };
-            String[] selectedList = buttonOptions.SelectedItem.ToString().Split(spearator, 200, StringSplitOptions.RemoveEmptyEntries);
-            string selected = selectedList[1];
+            //String[] selectedList = buttonOptions.SelectedItem.ToString().Split(spearator, 200, StringSplitOptions.RemoveEmptyEntries);
+            //string selected = selectedList[1];
 
             List<VirtualKeyShort.Key> shortcut = new List<VirtualKeyShort.Key>();
             List<VirtualKeyShort.Key> holder = null;
@@ -193,7 +193,7 @@ namespace KeyStrokes
                 hide_popup(sender, e);
                 main.menu_control.Visibility = Visibility.Collapsed;
             }
-        }
+        }*/
         private void autoStateChanged(object sender, RoutedEventArgs e)
         {
             string state = "";
