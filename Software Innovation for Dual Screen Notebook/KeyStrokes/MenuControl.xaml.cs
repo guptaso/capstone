@@ -93,7 +93,15 @@ namespace KeyStrokes
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            main.DragMove();
+            // Another case where right clicking caused an exception
+            try
+            {
+                main.DragMove();
+            }
+            catch (Exception)
+            {
+
+            }
         }
         private void background_design_change(object sender, SelectionChangedEventArgs e)
         {
