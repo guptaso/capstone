@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:KeyStrokes"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:enm="clr-namespace:KeyStrokes"
-             StartupUri="MainWindow.xaml">
+             Startup="App_Startup"
+             Exit="App_Exit">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
