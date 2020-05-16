@@ -15,16 +15,15 @@ namespace KeyStrokes
 
         private MainWindow main;
         public static Boolean currentInstance = false;
-        public static SolidColorBrush currentBrush;
-        public static SolidColorBrush transparentBrush;
-        public static double opacity;
+        public static SolidColorBrush currentBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD4D4E4");
+        public static double opacity = 1.0;
+        public static GamingUseCase game_window;
 
         public MenuControl()
         {
             InitializeComponent();
             main = ((MainWindow)App.Current.MainWindow);
             currentBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFD4D4E4"));
-            transparentBrush = currentBrush;
 
         }
 
@@ -55,9 +54,12 @@ namespace KeyStrokes
                 return;
             }
             currentInstance = true;
-            GamingUseCase game = new GamingUseCase();
-            game.Show();
+            game_window = new GamingUseCase();
+            game_window.Show();
 
+            // After showing the gaming use case window, the behavior will force both windows' opacities to be the same
+            // To prevent this behavior, manually change the main window's background brush and opacity
+            background_design_change_nosender();
         }
 
         private void layout_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,7 +67,6 @@ namespace KeyStrokes
             ComboBoxItem ComboItem = (ComboBoxItem)layout_box.SelectedItem;
             string name = layout_box.SelectedItem.ToString();
             Trace.WriteLine(name.ToString());
-            //Trace.WriteLine(name.ToString().Substring(35,38));
             string[] x = name.ToString().Split('x');
             string a = x[1];
             string b = "";
@@ -99,11 +100,9 @@ namespace KeyStrokes
             {
                 main.DragMove();
             }
-            catch (Exception)
-            {
-
-            }
+            catch (Exception) {}
         }
+
         private void background_design_change(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem ComboItem = (ComboBoxItem)background_design_box.SelectedItem;
@@ -121,18 +120,68 @@ namespace KeyStrokes
                     currentBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD4D4E4");
                 main.Background = brush;
             }
+
+            // This function is called before the main window is loaded
+            // Prevent an exception from happening by checking if main != null
+            // If so, keep the current opacity value while the background is changed
+            if (main != null)
+                main.Background.Opacity = opacity;
+
+            // For gaming window, also change the background and force opacity to be 1
+            if (game_window != null)
+            {
+                // Use a different brush to set gaming_window's background (same color, different brush)
+                var color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(selectedVal[1]);
+                SolidColorBrush brush = new SolidColorBrush(color);
+                if (selectedVal[1] != "Transparent")
+                    game_window.Background = brush;
+                else
+                    game_window.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD4D4E4");
+
+                // Opacity must be 1 since gaming_window does not allow transparency
+                game_window.Background.Opacity = 1;
+            }
         }
 
+        // This is a duplicate of background_design_change, except with no arguments.
+        // Have to resort to this because GamingUseCase doesn't have transparent background, thus the opacity MUST stay the same
+        // However, adjusting the opacity of it (or changing the background) resorts to both windows having the same opacity, which is NOT intended
+        // Thus, we have to change the brush assignment so that both windows' opacity levels don't affect each other
+        private void background_design_change_nosender()
+        {
+            ComboBoxItem ComboItem = (ComboBoxItem)background_design_box.SelectedItem;
+            string name = background_design_box.SelectedItem.ToString();
+            Trace.WriteLine(name.ToString());
+            string[] selectedVal = name.ToString().Split(' ');
+            if (selectedVal.Length > 1)
+            {
+                Trace.WriteLine("Result: " + selectedVal[1]);
+                var color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(selectedVal[1]);
+                SolidColorBrush brush = new SolidColorBrush(color);
+                if (selectedVal[1] != "Transparent")
+                    currentBrush = brush;
+                else
+                    currentBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD4D4E4");
+                main.Background = brush;
+            }
 
+            main.Background.Opacity = opacity;
+        }
+
+        // Upon moving the opacity slider, change the opacity (brightness level) of the main window
         private void background_opacity_change(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Slider opacitySlider = (Slider)background_opacity_slider;
-            opacity = opacitySlider.Value;
+            opacity = background_opacity_slider.Value / 100;
             try
             {
-                main.Background.Opacity = opacity / 100;
+                if (game_window != null)
+                    game_window.Background.Opacity = 1;                                 // gaming case's window doesn't allow transparency, so keep its opacity at 1 no matter what
+
+                background_design_change_nosender();                                    // keep the same background, but change the brush
+                                                                                        // or else it'll affect GamingUseCase's opacity
+                Console.WriteLine("Main window's opacity: " + main.Background.Opacity + "\n");
             }
-            catch (InvalidOperationException) { } 
+            catch (InvalidOperationException) { }
             catch (NullReferenceException) { }
         }
 
@@ -221,7 +270,7 @@ namespace KeyStrokes
             string state = "";
             if (AutoStartEnabledState.IsChecked == true)
             {
-                state = "yes"; 
+                state = "yes";
 
             }
             else

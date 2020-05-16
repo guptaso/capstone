@@ -169,7 +169,9 @@ namespace KeyStrokes
                     LoadApplicationsFromFile(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\CS66B_Project\SavedApplications.txt");
             }
 
-            Background = MenuControl.currentBrush;
+            this.Background = MenuControl.currentBrush;
+            this.Background.Opacity = 1.0;
+
             saveState = true;                               // initially, we did not make changes to the window
         }
 
@@ -416,7 +418,7 @@ namespace KeyStrokes
             {
                 Save_Click(sender, e);
             }
-            // triggering alt + f4 or ctrl + qfz
+            // triggering alt + f4 or ctrl + q
             else if (e.Key == Key.Q && Keyboard.Modifiers == ModifierKeys.Control/* || (Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.F4) || Keyboard.IsKeyDown(Key.RightAlt) && Keyboard.IsKeyDown(Key.F4))*/)
             {
                 // We can't call CloseWindow function because this function's events does not include Cancel.  
@@ -461,6 +463,9 @@ namespace KeyStrokes
 
                 //Send back the flag to MenuControl to indicate that we are finished with this window
                 MenuControl.currentInstance = false;
+
+                // Destory the window declared in MenuControl
+                MenuControl.game_window = null;
             }
         }
 

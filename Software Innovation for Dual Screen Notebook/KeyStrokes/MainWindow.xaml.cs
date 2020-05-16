@@ -48,20 +48,6 @@ namespace KeyStrokes
         {
             InitializeComponent();
             Application.Current.MainWindow = this;
-            // Output all processes currently running
-            // Some processes' titles are "" for w/e reason, so those processes are excluded
-
-            /*
-            Console.WriteLine("\nViewing all current processes");
-            var processes = Process.GetProcesses().Where(pr => (pr.MainWindowHandle != IntPtr.Zero && pr.MainWindowTitle != ""));
-            IntPtr hWnd;
-            foreach (var proc in processes)
-            {
-                Console.WriteLine(proc.MainWindowTitle);
-                hWnd = FindWindow(null, proc.MainWindowTitle);
-            }
-            Console.WriteLine();
-            */
         }
 
         // Initializes the window to not steal focus by default
