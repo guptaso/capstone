@@ -34,3 +34,6 @@
 ### Getting Help
 - If you want to see more details on how to run each part of our application, then please refer to the wiki page
 - https://github.com/guptaso/capstone/wiki
+
+### Changes Made Since Design Review
+View critiques and additional changes made here: https://github.com/guptaso/capstone/blob/master/Documentations/Design%20Review%20Critique.pdf
