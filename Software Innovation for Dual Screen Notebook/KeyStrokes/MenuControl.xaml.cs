@@ -162,10 +162,12 @@ namespace KeyStrokes
                     currentBrush = brush;
                 else
                     currentBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD4D4E4");
-                main.Background = brush;
+                if(main != null)
+                    main.Background = brush;
             }
 
-            main.Background.Opacity = opacity;
+            if(main != null)
+                main.Background.Opacity = opacity;
         }
 
         // Upon moving the opacity slider, change the opacity (brightness level) of the main window
@@ -179,7 +181,7 @@ namespace KeyStrokes
 
                 background_design_change_nosender();                                    // keep the same background, but change the brush
                                                                                         // or else it'll affect GamingUseCase's opacity
-                Console.WriteLine("Main window's opacity: " + main.Background.Opacity + "\n");
+                //Console.WriteLine("Main window's opacity: " + main.Background.Opacity + "\n");
             }
             catch (InvalidOperationException) { }
             catch (NullReferenceException) { }
